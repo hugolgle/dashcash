@@ -38,9 +38,9 @@ export default function Connexion() {
     console.log(values)
   }
   return <>
-    <h2 className="text-5xl font-black">Connexion</h2>
+    <h2 className="text-5xl font-thin">Connexion</h2>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-72 py-11">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-96 py-32">
         <FormField
           control={form.control}
           name="username"

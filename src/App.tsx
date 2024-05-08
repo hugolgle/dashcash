@@ -4,10 +4,12 @@ import Home from './pages/Home/home';
 import Navbar from './components/Navbar/navbar';
 import Recette from './pages/Recette/recette';
 import Depense from './pages/Depense/depense';
-import Statistique from './pages/Statistique/statistique';
+import Epargn from './pages/Epargn/epargn';
+import Invest from './pages/Invest/invest';
 import Connexion from './pages/Connexion/connexion';
 import Profil from './pages/Profil/profil';
 import TableauDeBord from './pages/TableauDeBord/tableaudebord';
+import PageAdd from './pages/PageAdd/pageAdd';
 
 
 function App() {
@@ -22,15 +24,26 @@ function App() {
         },
         {
           path: '/recette',
-          element: <Recette />
+          element: <Recette />,
+        }, {
+          path: '/recette/add',
+          element: <PageAdd page="recette" />,
         },
         {
           path: '/depense',
-          element: <Depense />
+          element: <Depense />,
         },
         {
-          path: '/statistique',
-          element: <Statistique />
+          path: '/depense/add',
+          element: <PageAdd page="dépense" />,
+        },
+        {
+          path: '/epargn',
+          element: <Epargn />
+        },
+        {
+          path: '/invest',
+          element: <Invest />
         },
         {
           path: '/connexion',

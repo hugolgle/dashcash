@@ -5,7 +5,7 @@ export default function Add() {
 
 
     return <>
-        <Link to="./add">
+        <Link to="add">
             <CirclePlus className="absolute top-4 cursor-pointer hover:scale-125 ease-in-out duration-300" />
         </Link>
     </>

@@ -10,7 +10,7 @@ import Add from "../../components/Add/add";
 
 export default function Depense() {
     return <>
-        <h2 className="text-5xl font-black mb-9">Dépenses</h2>
+        <h2 className="text-5xl font-thin mb-9">Dépenses</h2>
         <Add />
         <Table>
             <TableHeader>
