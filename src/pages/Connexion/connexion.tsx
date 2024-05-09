@@ -67,7 +67,7 @@ export default function Connexion() {
             </FormItem>
           )}
         />
-        <Button className="w-1/2" type="submit">Se connecter</Button>
+        <Button className="w-1/2 rounded-xl" type="submit">Se connecter</Button>
       </form>
     </Form>
 

@@ -10,13 +10,15 @@ import Connexion from './pages/Connexion/connexion';
 import Profil from './pages/Profil/profil';
 import TableauDeBord from './pages/TableauDeBord/tableaudebord';
 import PageAdd from './pages/PageAdd/pageAdd';
+import Transaction from './pages/Transaction/transaction';
+import PageError from './pages/PageError/pageError';
 
 
 function App() {
   const router = createBrowserRouter([
     {
       element: <Navbar />,
-      errorElement: <h1>ERROR 404</h1>,
+      errorElement: <PageError />,
       children: [
         {
           path: '/',
@@ -30,12 +32,36 @@ function App() {
           element: <PageAdd page="recette" />,
         },
         {
+          path: '/recette/janvier',
+          element: <Transaction />,
+        },
+        {
+          path: '/recette/fevrier',
+          element: <Transaction />,
+        },
+        {
+          path: '/recette/mars',
+          element: <Transaction />,
+        },
+        {
           path: '/depense',
           element: <Depense />,
         },
         {
           path: '/depense/add',
           element: <PageAdd page="dépense" />,
+        },
+        {
+          path: '/depense/janvier',
+          element: <Transaction />,
+        },
+        {
+          path: '/depense/fevrier',
+          element: <Transaction />,
+        },
+        {
+          path: '/depense/mars',
+          element: <Transaction />,
         },
         {
           path: '/epargn',
