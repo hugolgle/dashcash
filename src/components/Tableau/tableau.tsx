@@ -1,9 +1,9 @@
+import { Link } from "react-router-dom";
+
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -133,17 +133,19 @@ export default function Tableau() {
                 </TableRow>
             </TableHeader>
             <TableBody className="flex flex-col justify-center items-center gap-2 w-full">
+
                 {invoices.map((invoice) => (
-                    <TableRow className="rounded w-full flex flex-row bg-zinc-900 cursor-pointer hover:bg-zinc-700 transition-all" key={invoice.invoice}>
-                        <TableCell className="w-full"> {invoice.invoice}</TableCell>
-                        <TableCell className="w-full">{invoice.paymentStatus}</TableCell>
-                        <TableCell className="w-full">{invoice.paymentMethod}</TableCell>
-                        <TableCell className="w-full">{invoice.totalAmount}</TableCell>
-                    </TableRow>
+                    <Link to={invoice.invoice} className="w-full">
+                        <TableRow className="rounded w-full flex flex-row bg-zinc-900 cursor-pointer hover:bg-zinc-700 transition-all" key={invoice.invoice}>
+                            <TableCell className="w-full"> {invoice.invoice}</TableCell>
+                            <TableCell className="w-full">{invoice.paymentStatus}</TableCell>
+                            <TableCell className="w-full">{invoice.paymentMethod}</TableCell>
+                            <TableCell className="w-full">{invoice.totalAmount}</TableCell>
+                        </TableRow>
+                    </Link>
                 ))}
             </TableBody >
         </Table >
-
     </>
 
 }

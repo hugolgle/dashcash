@@ -32,16 +32,12 @@ function App() {
           element: <PageAdd page="recette" />,
         },
         {
-          path: '/recette/janvier',
-          element: <Transaction />,
+          path: '/recette/:month',
+          element: <h1>:month</h1>,
         },
         {
-          path: '/recette/fevrier',
-          element: <Transaction />,
-        },
-        {
-          path: '/recette/mars',
-          element: <Transaction />,
+          path: '/recette/:month/:id',
+          element: <h1>:month:id</h1>,
         },
         {
           path: '/depense',
@@ -52,16 +48,12 @@ function App() {
           element: <PageAdd page="dépense" />,
         },
         {
-          path: '/depense/janvier',
-          element: <Transaction />,
+          path: '/depense/:month',
+          element: <h1>:month</h1>,
         },
         {
-          path: '/depense/fevrier',
-          element: <Transaction />,
-        },
-        {
-          path: '/depense/mars',
-          element: <Transaction />,
+          path: '/depense/:month/:id',
+          element: <h1>:month:id</h1>,
         },
         {
           path: '/epargn',
