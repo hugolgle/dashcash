@@ -10,8 +10,10 @@ import Connexion from './pages/Connexion/connexion';
 import Profil from './pages/Profil/profil';
 import TableauDeBord from './pages/TableauDeBord/tableaudebord';
 import PageAdd from './pages/PageAdd/pageAdd';
-import Transaction from './pages/Transaction/transaction';
+import PageTransactions from './pages/PageTransactions/pageTransactions';
 import PageError from './pages/PageError/pageError';
+import Transaction from './pages/Transaction/transaction';
+import Statistique from './pages/Statistique/statistique';
 
 
 function App() {
@@ -25,6 +27,10 @@ function App() {
           element: <Home />
         },
         {
+          path: '/tdb',
+          element: <TableauDeBord />
+        },
+        {
           path: '/recette',
           element: <Recette />,
         }, {
@@ -33,11 +39,11 @@ function App() {
         },
         {
           path: '/recette/:month',
-          element: <h1>:month</h1>,
+          element: <PageTransactions title="Recettes" />,
         },
         {
           path: '/recette/:month/:id',
-          element: <h1>:month:id</h1>,
+          element: <Transaction />,
         },
         {
           path: '/depense',
@@ -49,11 +55,11 @@ function App() {
         },
         {
           path: '/depense/:month',
-          element: <h1>:month</h1>,
+          element: <PageTransactions title="Dépenses" />,
         },
         {
           path: '/depense/:month/:id',
-          element: <h1>:month:id</h1>,
+          element: <Transaction />,
         },
         {
           path: '/epargn',
@@ -64,17 +70,17 @@ function App() {
           element: <Invest />
         },
         {
-          path: '/connexion',
-          element: <Connexion />
+          path: '/stat',
+          element: <Statistique />
         },
         {
           path: '/profil',
           element: <Profil />
         },
         {
-          path: '/tableaudebord',
-          element: <TableauDeBord />
-        }
+          path: '/connexion',
+          element: <Connexion />
+        },
       ]
     }
   ]);

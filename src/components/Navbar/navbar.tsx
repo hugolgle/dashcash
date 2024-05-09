@@ -16,9 +16,9 @@ export default function Navbar() {
                 <div className='sidebar flex flex-col justify-between items-center border-r border-r-zinc-700 w-1/5 h-screen py-10 px-4 bg-zinc-900 fixed'>
                     <Link to="/" className='font-logo text-3xl w-fit text-center'>DASHCASH</Link>
 
-                    <div className='flex flex-col justify-between gap-5 w-full'>
+                    <div className='flex flex-col justify-between gap-4 w-full'>
 
-                        <Link to="/tableaudebord" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/tableaudebord') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Tableau de bord</Link>
+                        <Link to="/tdb" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/tdb') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Tableau de bord</Link>
 
                         <div className='flex flex-col'>
                             <Link to="/depense" className={`my-1 py-2 rounded hover:bg-zinc-700 transition-all ${activeLink.startsWith('/depense') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Dépenses</Link>
@@ -29,6 +29,8 @@ export default function Navbar() {
                             <Link to="/epargn" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/epargn') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Épargne</Link>
                             <Link to="/invest" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/invest') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Investissement</Link>
                         </div>
+
+                        <Link to="/stat" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/stat') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Statistiques</Link>
 
                     </div>
 

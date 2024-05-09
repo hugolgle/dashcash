@@ -37,7 +37,8 @@ import {
 import { toast } from "../../../@/components/ui/use-toast"
 
 import { Input } from "../../../@/components/ui/input"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
+import { CircleArrowLeft } from "lucide-react"
 
 const formSchema = z.object({
   categorie: z.string({
@@ -55,7 +56,9 @@ const formSchema = z.object({
   }),
 })
 
-const PageAdd = (props: any) => {
+import Path from '../../utils/utils';
+
+export default function PageAdd(props: any) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,8 +79,16 @@ const PageAdd = (props: any) => {
       ),
     })
   }
+
+  const location = useLocation()
+  const lUrl = Path(location);
+
   return <>
     <h2 className="text-5xl font-thin">Ajouter une {props.page}</h2>
+
+    <Link to={`/${lUrl}`}>
+      <CircleArrowLeft className="absolute top-4 cursor-pointer hover:scale-125 ease-in-out duration-300" />
+    </Link>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="px-96 py-16">
         <FormField
@@ -185,4 +196,3 @@ const PageAdd = (props: any) => {
   </>
 
 }
-export default PageAdd;

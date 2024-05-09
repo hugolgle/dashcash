@@ -1,7 +1,5 @@
 
 import { useLocation } from "react-router-dom";
-import Header from "../../components/Header/header";
-import Tableau from "../../components/Tableau/tableau";
 
 
 export default function Transaction() {
@@ -13,7 +11,8 @@ export default function Transaction() {
     const title = firstPart.charAt(0).toUpperCase() + firstPart.slice(1);
 
     return <>
-        <Header title={title} />
-        <Tableau />
+        <h1>
+            La transaction {title}
+        </h1>
     </>
 }

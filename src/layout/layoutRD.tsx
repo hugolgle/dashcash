@@ -6,15 +6,15 @@ export default function LayoutRD() {
         <section className=" flex flex-col gap-4">
 
             <div className="flex flex-row gap-4  w-full text-left">
-                <Link to="janvier" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:opacity-80 transition-all p-2 gap-4 cursor-pointer">
+                <Link to="2401" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4 cursor-pointer">
                     <p>Janvier</p>
                     <p className="text-4xl">1 000.00€</p>
                 </Link>
-                <Link to="fevrier" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:opacity-80 transition-all p-2 gap-4 cursor-pointer">
+                <Link to="2402" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4 cursor-pointer">
                     <p>Février</p>
                     <p className="text-4xl">1 000.00€</p>
                 </Link>
-                <Link to="mars" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:opacity-80 transition-all p-2 gap-4 cursor-pointer">
+                <Link to="2403" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4 cursor-pointer">
                     <p>Mars</p>
                     <p className="text-4xl">1 000.00€</p>
                 </Link>
@@ -22,29 +22,33 @@ export default function LayoutRD() {
 
 
             <div className="flex flex-row-reverse w-full h-64 gap-4">
-                <div className="bg-zinc-900 h-full w-3/5 rounded-2xl hover:opacity-80 transition-all p-2">
-
+                <div className="bg-zinc-900 h-full w-3/5 rounded-2xl hover:bg-opacity-80 transition-all p-2">
+                    <h1>Graphique</h1>
                 </div>
                 <div className="flex flex-col h-full w-2/5 gap-4">
-                    <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:opacity-80 transition-all p-2">
+                    <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:bg-opacity-80 transition-all p-2">
 
                     </div>
-                    <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:opacity-80 transition-all p-2">
+                    <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:bg-opacity-80 transition-all p-2">
 
                     </div>
                 </div>
             </div>
 
             <div className="flex flex-row gap-4  w-full">
-                <div className="w-full h-44 bg-zinc-900 rounded-2xl hover:opacity-80 transition-all p-2">
-                    <p>Moyenne recette</p>
+                <Link to="2023" className="w-1/2 h-32 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2">
+                    <p>2023</p>
                     <p className="text-4xl">1 000.00€</p>
-                </div>
-                <div className="w-5/6 h-44 bg-zinc-900 rounded-2xl hover:opacity-80 transition-all p-2">
-                    <p>Moyenne recette</p>
+                </Link>
+                <Link to="2024" className="w-1/2  h-32 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2">
+                    <p>Cette année</p>
                     <p className="text-4xl">1 000.00€</p>
-                </div>
+                </Link>
             </div>
+            <Link to="all" className="w-full  h-32 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2">
+                <p>Depuis le début</p>
+                <p className="text-4xl">1 000.00€</p>
+            </Link>
         </section>
     </>
 
