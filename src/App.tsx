@@ -14,6 +14,7 @@ import PageTransactions from './pages/PageTransactions/pageTransactions';
 import PageError from './pages/PageError/pageError';
 import Transaction from './pages/Transaction/transaction';
 import Statistique from './pages/Statistique/statistique';
+import LayoutRD from './layout/layoutRD';
 
 
 function App() {
@@ -32,8 +33,13 @@ function App() {
         },
         {
           path: '/recette',
-          element: <Recette />,
-        }, {
+          element: <LayoutRD title="Recettes" />,
+        },
+        {
+          path: '/recette/:month/:id',
+          element: <Transaction />,
+        },
+        {
           path: '/recette/add',
           element: <PageAdd page="recette" />,
         },
@@ -47,7 +53,7 @@ function App() {
         },
         {
           path: '/depense',
-          element: <Depense />,
+          element: <LayoutRD title="Dépenses" />,
         },
         {
           path: '/depense/add',

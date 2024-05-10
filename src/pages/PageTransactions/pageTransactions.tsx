@@ -1,7 +1,7 @@
 
 import { Link, useLocation } from 'react-router-dom'
 import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
-import Path from '../../utils/utils';
+import Path, { getAllOperations } from '../../utils/utils';
 import Tableau from '../../components/Tableau/tableau';
 
 
@@ -28,6 +28,6 @@ export default function PageTransactions(props: any) {
             </div>
 
         </div>
-        <Tableau />
+        <Tableau operations={getAllOperations()} />
     </>
 }

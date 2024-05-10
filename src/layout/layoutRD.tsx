@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 
-export default function LayoutRD() {
+export default function LayoutRD(props: any) {
 
     return <>
+
+        <h2 className="text-5xl font-thin mb-9">{props.title}</h2>
         <section className=" flex flex-col gap-4">
 
             <div className="flex flex-row gap-4  w-full text-left">
