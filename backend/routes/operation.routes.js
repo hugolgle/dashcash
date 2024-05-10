@@ -1,6 +1,6 @@
-const express = import("express");
-const { getOperations, setOperations, editOperation, deleteOperation } = require("../controllers/operation.controller.js");
-const router = require("express").Router();
+const express = require("express");
+const { getOperations, setOperations, editOperation, deleteOperation } = require("../controllers/operation.controller");
+const router = express.Router();
 
 router.get("/", getOperations);
 

@@ -1,23 +1,19 @@
-import dotenv from "dotenv";
-import express from "express"; // Utilisez import pour express
-import connectDB from "./config/db.js"; // Utilisez import pour connectDB
-import cors from "cors";
+const express = require("express");
+const connectDB = require("./config/db");
+const cors = require("cors"); // Ajoutez cette ligne
 
 const port = 5001;
-dotenv.config();
+const dotenv = require("dotenv").config();
 
 connectDB();
 const app = express();
 
-app.use(cors());
+app.use(cors()); // Utilisez le middleware cors
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-import operationRoutes from "./routes/operation.routes"; // Utilisez import pour les routes
-import userRoutes from "./routes/user.routes";
-
-app.use("/operation", operationRoutes);
-app.use("/user", userRoutes);
+app.use("/operation", require("./routes/operation.routes"));
+app.use("/user", require("./routes/user.routes"));
 
 app.listen(port, () => console.log("Le serveur a démarré au port " + port));
