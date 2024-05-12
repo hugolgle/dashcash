@@ -1,18 +1,14 @@
 
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 export default function Transaction() {
 
-    const location = useLocation()
-    const path = location.pathname
-    const pathParts = path.split('/');
-    const firstPart = pathParts[1];
-    const title = firstPart.charAt(0).toUpperCase() + firstPart.slice(1);
+    const { id } = useParams()
 
     return <>
         <h1>
-            La transaction {title}
+            La transaction d'id {id?.substring(4, 8)}
         </h1>
     </>
 }

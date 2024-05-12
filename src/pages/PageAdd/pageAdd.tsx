@@ -59,6 +59,7 @@ const formSchema = z.object({
 import Path from '../../utils/utils';
 
 export default function PageAdd(props: any) {
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -84,7 +85,7 @@ export default function PageAdd(props: any) {
   const lUrl = Path(location);
 
   return <>
-    <h2 className="text-5xl font-thin">Ajouter une {props.page}</h2>
+    <h2 className="text-5xl font-thin">Ajouter une {props.type}</h2>
 
     <Link to={`/${lUrl}`}>
       <CircleArrowLeft className="absolute top-4 cursor-pointer hover:scale-125 ease-in-out duration-300" />

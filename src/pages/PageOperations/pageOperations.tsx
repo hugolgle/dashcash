@@ -1,16 +1,20 @@
-import { Link, useLocation } from 'react-router-dom'
+
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
-import Path, { getOperationsByType } from '../../utils/utils';
+import Path, { getOperations } from '../../utils/utils';
 import Tableau from '../../components/Tableau/tableau';
 
 
-export default function Depense(props: any) {
+export default function PageOperations(props: any) {
 
     const location = useLocation()
     const lUrl = Path(location)
+
+    const { date } = useParams()
+
     return <>
         <div className="w-full relative">
-            <h2 className="text-5xl font-thin mb-9">{props.title}</h2>
+            <h2 className="text-5xl font-thin mb-9">{props.type} de {date}</h2>
             <div className='absolute top-0 flex flex-row justify-between w-full'>
                 <Link to={`/${lUrl}`}>
                     <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
@@ -24,8 +28,7 @@ export default function Depense(props: any) {
                     </Link>
                 </div>
             </div>
-
         </div>
-        <Tableau operations={getOperationsByType("Dépense")} />
+        <Tableau operations={getOperations()} />
     </>
 }

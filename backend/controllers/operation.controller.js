@@ -32,6 +32,15 @@ module.exports.getOperations = async (req, res) => {
     }
 };
 
+module.exports.getOperation = async (req, res) => {
+    try {
+        const operations = await OperationModel.findById(req.params.id);
+        return res.status(200).json(operations);
+    } catch (error) {
+        return res.status(500).json({ message: "Erreur lors de la récupération de l'operation", error });
+    }
+};
+
 module.exports.editOperation = async (req, res) => {
     try {
         const operation = await OperationModel.findById(req.params.id);

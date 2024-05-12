@@ -1,10 +1,19 @@
-import { Link } from "react-router-dom";
+import { CirclePlus } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import Path from "../utils/utils";
+export default function Layout(props: any) {
 
-export default function LayoutRD(props: any) {
+    const location = useLocation()
+    const lUrl = Path(location)
 
     return <>
+        <div className="w-full relative">
+            <h2 className="text-5xl font-thin mb-9">{props.type}</h2>
+            <Link to={`/${lUrl}/add`} className='absolute top-0 flex flex-row justify-between w-full'>
+                <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
+            </Link>
+        </div>
 
-        <h2 className="text-5xl font-thin mb-9">{props.title}</h2>
         <section className=" flex flex-col gap-4">
 
             <div className="flex flex-row gap-4  w-full text-left">
