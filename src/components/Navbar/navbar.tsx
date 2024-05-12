@@ -40,10 +40,8 @@ export default function Navbar() {
                     </div>
 
                 </div>
-                <div className='content w-4/5 ml-auto'>
-                    <div className='p-4 h-full w-full'>
-                        <Outlet />
-                    </div>
+                <div className='content w-4/5 ml-auto p-4'>
+                    <Outlet />
                 </div>
             </div>
         </>

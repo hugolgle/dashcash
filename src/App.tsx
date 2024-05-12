@@ -32,7 +32,7 @@ function App() {
         },
         {
           path: '/depense',
-          element: <Layout type="Dépenses" />,
+          element: <Layout type="Dépense" />,
         },
         {
           path: '/depense/add',
@@ -48,7 +48,7 @@ function App() {
         },
         {
           path: '/recette',
-          element: <Layout type="Recettes" />,
+          element: <Layout type="Recette" />,
         },
         {
           path: '/recette/add',
