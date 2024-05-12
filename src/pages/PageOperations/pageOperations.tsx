@@ -1,9 +1,8 @@
 
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
-import Path, { getOperations } from '../../utils/utils';
+import Path, { convertDate, getOperationsByYear, getOperationsByMonth, getOperationsByType } from '../../utils/utils';
 import Tableau from '../../components/Tableau/tableau';
-
 
 export default function PageOperations(props: any) {
 
@@ -14,7 +13,7 @@ export default function PageOperations(props: any) {
 
     return <>
         <div className="w-full relative">
-            <h2 className="text-5xl font-thin mb-9">{props.type} de {date}</h2>
+            <h2 className="text-5xl font-thin mb-9">{props.type}s de {date === "all" ? "tout temps" : date?.length === 4 ? date : convertDate(date)}</h2>
             <div className='absolute top-0 flex flex-row justify-between w-full'>
                 <Link to={`/${lUrl}`}>
                     <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
@@ -29,6 +28,11 @@ export default function PageOperations(props: any) {
                 </div>
             </div>
         </div>
-        <Tableau operations={getOperations()} />
+        <Tableau operations={
+            date === "all" ? getOperationsByType(props.type) :
+                date?.length === 4 ? getOperationsByYear(date, props.type) :
+                    getOperationsByMonth(date, props.type)
+        } />
+
     </>
 }

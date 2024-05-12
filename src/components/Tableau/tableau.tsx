@@ -8,6 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "../../../@/components/ui/table";
+import { formatDate } from "../../utils/utils";
 
 export default function Tableau(props: any) {
     return <>
@@ -29,7 +30,7 @@ export default function Tableau(props: any) {
                             <TableCell className="w-full">{operation._id.substring(4, 8)}</TableCell>
                             <TableCell className="w-full">{operation.titre}</TableCell>
                             <TableCell className="w-full">{operation.categorie}</TableCell>
-                            <TableCell className="w-full">{operation.date}</TableCell>
+                            <TableCell className="w-full">{formatDate(operation.date)}</TableCell>
                             <TableCell className="w-full">{operation.montant} €</TableCell>
                         </TableRow>
                     </Link>

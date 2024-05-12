@@ -39,12 +39,8 @@ function App() {
           element: <PageAdd type="dépense" />,
         },
         {
-          path: '/depense/all',
-          element: <PageOperations type="Dépenses" />,
-        },
-        {
           path: '/depense/:date',
-          element: <PageOperations type="Dépenses" />,
+          element: <PageOperations type="Dépense" />,
         },
         {
           path: '/depense/:date/:id',
@@ -59,12 +55,8 @@ function App() {
           element: <PageAdd type="recettes" />,
         },
         {
-          path: '/recette/all',
-          element: <PageOperations type="Recettes" />,
-        },
-        {
           path: '/recette/:date',
-          element: <PageOperations type="Recettes" />,
+          element: <PageOperations type="Recette" />,
         },
         {
           path: '/recette/:date/:id',

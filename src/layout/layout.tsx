@@ -17,15 +17,15 @@ export default function Layout(props: any) {
         <section className=" flex flex-col gap-4">
 
             <div className="flex flex-row gap-4  w-full text-left">
-                <Link to="2401" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4 cursor-pointer">
+                <Link to="202401" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4 cursor-pointer">
                     <p>Janvier</p>
                     <p className="text-4xl">1 000.00€</p>
                 </Link>
-                <Link to="2402" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4 cursor-pointer">
+                <Link to="202402" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4 cursor-pointer">
                     <p>Février</p>
                     <p className="text-4xl">1 000.00€</p>
                 </Link>
-                <Link to="2403" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4 cursor-pointer">
+                <Link to="202403" className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4 cursor-pointer">
                     <p>Mars</p>
                     <p className="text-4xl">1 000.00€</p>
                 </Link>
