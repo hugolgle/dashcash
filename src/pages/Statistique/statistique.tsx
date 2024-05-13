@@ -67,7 +67,7 @@ export default function Statistique() {
       <div className="flex flex-row justify-center gap-2 w-full">
         {uniqueYears.map((year, index) => (
           <button
-            className={`text-xs rounded-full transition-all border-2 hover:border-blue-500 ${selectedYear === year ? 'border-blue-500' : ''}`}
+            className={`text-xs rounded-full transition-all border-1 hover:border-blue-500 ${selectedYear === year ? 'border-blue-500' : ''}`}
             key={index}
             onClick={() => clickYear(year)}
           >
@@ -79,7 +79,7 @@ export default function Statistique() {
       <div className="flex flex-row justify-center gap-2 w-full">
         {uniqueMonths.map((monthIndex: any, index) => (
           <button
-            className={`text-xs rounded-full transition-all border-2 hover:border-blue-500 ${selectedMonth === (monthIndex + 1).toString().padStart(2, '0') ? 'border-blue-500' : ''}`}
+            className={`text-xs rounded-full transition-all border-1 hover:border-blue-500 ${selectedMonth === (monthIndex + 1).toString().padStart(2, '0') ? 'border-blue-500' : ''}`}
             key={index}
             onClick={() => clickMonth(String(monthIndex + 1).padStart(2, '0'))}
           >

@@ -4,7 +4,7 @@ import Path, { calculTotal, calculTotalByMonth, calculTotalByYear, getCurrentMon
 export default function Layout(props: any) {
 
     const location = useLocation()
-    const lUrl = Path(location)
+    const lUrl = Path(location, 1)
 
     const lastMonths = getLastThreeMonthsOfCurrentYear()
     const lastYears = getLastTwoYears()
@@ -39,7 +39,7 @@ export default function Layout(props: any) {
                     </table>
                     <p className="text-right">Depuis le {firstDayMonth}</p>
                 </Link>
-                <div className="flex flex-col gap-4 w-2/5 text-left">
+                <div className="flex flex-col-reverse gap-4 w-2/5 text-left">
                     {lastMonths.map((month: any) => <>
                         <Link to={month.code} className="flex flex-col-reverse hover:scale-95 justify-between w-full h-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                             <p className="text-right">{month.month}</p>

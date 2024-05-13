@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
 import Path, { convertDate, getOperationsByYear, getOperationsByMonth, getOperationsByType, calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/utils';
@@ -6,7 +6,7 @@ import Tableau from '../../components/Tableau/tableau';
 
 export default function PageOperations(props: any) {
     const location = useLocation();
-    const lUrl = Path(location);
+    const lUrl = Path(location, 1);
     const { date } = useParams();
     const [isBottom, setIsBottom] = useState(false);
 
@@ -17,7 +17,6 @@ export default function PageOperations(props: any) {
             const scrollHeight = document.documentElement.scrollHeight;
             const bottomOffset = scrollHeight - (scrollTop + windowHeight);
 
-            // Si le défilement atteint le bas de la page
             if (bottomOffset < 50) {
                 setIsBottom(true);
             } else {

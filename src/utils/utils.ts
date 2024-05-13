@@ -10,11 +10,11 @@ const currentYear = currentDate.getFullYear();
 const currentMonth = currentDate.getMonth();
 
 // ------------------------------  Fonctionnel
-export default function Path(lePath: any) {
+export default function Path(lePath: any, level: any) {
     if (lePath && lePath.pathname) {
         const path = lePath.pathname;
         const pathParts = path.split('/');
-        return pathParts[1];
+        return pathParts[level];
     } else {
         return null;
     }
@@ -28,6 +28,19 @@ export function convertDate(code: any) {
 
     return nomMois + " " + annee;
 }
+
+export function convertDateHour(dateString: string): string {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${day}/${month}/${year} à ${hours}h ${minutes}m ${seconds}s`;
+}
+
 
 export function formatDate(date: any) {
 
@@ -59,6 +72,16 @@ export function getOperationsByType(type: any) {
         return operations.filter((operation: any) => operation.type === type);
     } else {
         return operations;
+    }
+}
+
+export function getOperationById(id: any) {
+    const operations = useSelector((state: any) => state.operationReducer || []);
+
+    if (id) {
+        return operations.find((operation: any) => operation._id === id);
+    } else {
+        return null;
     }
 }
 

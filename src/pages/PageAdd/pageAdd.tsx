@@ -82,7 +82,7 @@ export default function PageAdd(props: any) {
   }
 
   const location = useLocation()
-  const lUrl = Path(location);
+  const lUrl = Path(location, 1);
 
   return <>
     <h2 className="text-5xl font-thin">Ajouter une {props.type}</h2>
