@@ -24,19 +24,27 @@ export default function Layout(props: any) {
             <div className="flex flex-row w-full h-64 gap-4">
 
                 <Link to={currentMonth} className="flex flex-col hover:scale-95 justify-between w-3/5 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
-                    <p className="text-4xl">{calculTotalByMonth(props.type, currentMonth)}</p>
-                    <table>
-                        <tbody>
-                            {lastTransactions.map((transaction: any) => <>
-                                <tr>
-                                    <td>{convertirFormatDate(transaction.date)}</td>
-                                    <td>{transaction.categorie}</td>
-                                    <td>{transaction.titre}</td>
-                                    <td><b>{transaction.montant} €</b></td>
-                                </tr>
-                            </>)}
-                        </tbody>
-                    </table>
+                    <div className="flex flex-col w-full gap-4">
+                        <p className="text-4xl">{calculTotalByMonth(props.type, currentMonth)}</p>
+
+                        {lastTransactions && lastTransactions.length > 0 ? (
+                            <table>
+                                <tbody>
+                                    {lastTransactions.map((transaction: any) => (
+                                        <tr key={transaction.id}>
+                                            <td>{convertirFormatDate(transaction.date)}</td>
+                                            <td>{transaction.categorie}</td>
+                                            <td>{transaction.titre}</td>
+                                            <td><b>{transaction.montant} €</b></td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p>Aucune {props.type} ce mois ci !</p>
+                        )}
+                    </div>
+
                     <p className="text-right">Depuis le {firstDayMonth}</p>
                 </Link>
                 <div className="flex flex-col-reverse gap-4 w-2/5 text-left">
@@ -61,7 +69,7 @@ export default function Layout(props: any) {
                 <p>Depuis le début</p>
                 <p className="text-4xl">{calculTotal(props.type)}</p>
             </Link>
-        </section>
+        </section >
     </>
 
 }

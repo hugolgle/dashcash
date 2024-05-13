@@ -8,15 +8,15 @@ import {
     TableHeader,
     TableRow,
 } from "../../../@/components/ui/table";
-import { formatDate } from "../../utils/utils";
+import { addSpace, formatDate } from "../../utils/utils";
 
 export default function Tableau(props: any) {
     return (
         <>
             {props.operations && props.operations.length > 0 ? (
-                <Table className="w-full flex flex-col px-8 ">
+                <Table className="w-full flex flex-col px-1 ">
                     <TableHeader>
-                        <TableRow className="w-full flex flex-row my-3">
+                        <TableRow className="w-full flex flex-row my-1">
                             <TableHead className="w-full">ID</TableHead>
                             <TableHead className="w-full">Titre</TableHead>
                             <TableHead className="w-full">Catégorie</TableHead>
@@ -27,12 +27,12 @@ export default function Tableau(props: any) {
                     <TableBody className="flex flex-col justify-center items-center w-full">
                         {props.operations.map((operation: any) => (
                             <Link to={operation._id} className="w-full" key={operation._id}>
-                                <TableRow className="rounded w-full flex my-1 flex-row bg-zinc-900 cursor-pointer hover:bg-zinc-700 transition-all">
+                                <TableRow className="rounded w-full flex my-1 flex-row items-center bg-zinc-900 cursor-pointer hover:bg-zinc-700 transition-all">
                                     <TableCell className="w-full">{operation._id.substring(4, 8)}</TableCell>
                                     <TableCell className="w-full">{operation.titre}</TableCell>
                                     <TableCell className="w-full">{operation.categorie}</TableCell>
                                     <TableCell className="w-full">{formatDate(operation.date)}</TableCell>
-                                    <TableCell className="w-full"><b>{operation.montant} €</b></TableCell>
+                                    <TableCell className="w-full"><b>{addSpace(operation.montant)} €</b></TableCell>
                                 </TableRow>
                             </Link>
                         ))}

@@ -14,6 +14,8 @@ const day = String(currentDate.getDate()).padStart(2, '0');
 export const getCurrentDate = `${currentYear}-${month}-${day}`;
 
 
+
+
 // ------------------------------  Fonctionnel
 export default function Path(lePath: any, level: any) {
     if (lePath && lePath.pathname) {
@@ -23,6 +25,20 @@ export default function Path(lePath: any, level: any) {
     } else {
         return null;
     }
+}
+
+export function addSpace(number: number | string): string {
+    // Convertir le nombre en chaîne s'il ne l'est pas déjà
+    const numStr: string = typeof number === 'number' ? number.toString() : number;
+
+    // Séparer la partie entière et la partie décimale (s'il y en a)
+    const [integerPart, decimalPart] = numStr.split('.');
+
+    // Ajouter un espace entre chaque groupe de trois chiffres dans la partie entière
+    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+    // Reconstituer le nombre avec la partie entière formatée et la partie décimale (si elle existe)
+    return decimalPart ? `${formattedIntegerPart}.${decimalPart}` : formattedIntegerPart;
 }
 
 export function convertDate(code: any) {
@@ -89,9 +105,10 @@ export function getOperationsByType(type: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
 
     if (type) {
-        return operations.filter((operation: any) => operation.type === type);
+        return operations.filter((operation: any) => operation.type === type)
+            .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
     } else {
-        return operations;
+        return operations.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
     }
 }
 
@@ -121,8 +138,12 @@ export function getOperationsByMonth(month: any, type: any) {
         operationsInMonth = operationsInMonth.filter((operation: any) => operation.type === type);
     }
 
+    // Sorting by date
+    operationsInMonth.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
     return operationsInMonth;
 }
+
 
 export function getOperationsByYear(year: any, type: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
@@ -137,8 +158,12 @@ export function getOperationsByYear(year: any, type: any) {
         operationsInYear = operationsInYear.filter((operation: any) => operation.type === type);
     }
 
+    // Sorting by date
+    operationsInYear.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
     return operationsInYear;
 }
+
 
 export function getLastFiveOperationsByType(type: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);

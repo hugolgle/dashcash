@@ -101,10 +101,10 @@ export default function PageAdd(props: any) {
     </Link>
     <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
-      <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
+      <input className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" value={selectedTitre} type="text" name="" id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
 
       <select id='action' value={selectedCategorie} className="w-96 h-10 px-2 rounded-xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
-        <option value="" disabled selected>Entrez la catégorie</option>
+        <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
         {props.type === "Dépense"
           &&
           categorieDepense.map(({ name }) => {
@@ -125,18 +125,18 @@ export default function PageAdd(props: any) {
       {
         selectedCategorie === "Autre" &&
 
-        <input className="w-96 h-10 px-2 rounded-xl" type="text" value={selectedAutreCategorie} name="titre" id="autreTitre" onChange={(e) => { handleAutreCategorie(e); handleInputChange(); }} placeholder="Entrez une autre categorie" />
+        <input className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" type="text" value={selectedAutreCategorie} name="titre" id="autreTitre" onChange={(e) => { handleAutreCategorie(e); handleInputChange(); }} placeholder="Entrez une autre categorie" />
 
       }
 
 
-      <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl" type="date" name="" id="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
+      <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl text-slate-400" type="date" name="" id="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
 
-      <input value={selectedDetail} className="w-96 h-10 px-2 rounded-xl" type="text" name="" id="" placeholder="Détails" onChange={(e) => { handleDetail(e); handleInputChange(); }} />
+      <input value={selectedDetail} className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" type="text" name="" id="" placeholder="Détails" onChange={(e) => { handleDetail(e); handleInputChange(); }} />
 
-      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
+      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" type="number" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
 
-      <Button variant="outline" className="rounded-xl w-1/4">Soumettre la {props.type}</Button>
+      <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre la {props.type}</Button>
     </form >
     <div className="flex justify-center items-center">
       <p className={`p-4 bg-lime-900 w-60 transition-all rounded ${message ? 'opacity-100' : 'opacity-0'}`}>{message ? message : ''}</p>

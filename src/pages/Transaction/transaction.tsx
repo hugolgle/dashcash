@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Path, { convertDateHour, formatDate, getOperationById } from "../../utils/utils";
 import { deleteOperations, getOperations } from "../../redux/actions/operation.action";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 
 export default function Transaction() {
@@ -11,37 +12,42 @@ export default function Transaction() {
     const location = useLocation()
     const first = Path(location, 1)
     const second = Path(location, 2)
+
     const { id } = useParams()
     const operation = getOperationById(id)
+
+
+
+    const [selectedDelete, setSelectedDelete] = useState(false);
+
+
+
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const deleteSubmit = async (event: any) => {
-        event.preventDefault()
-        const isConfirmed = window.confirm(`Êtes-vous sûr de vouloir supprimer l'opération d' ${id} ?`);
-        if (isConfirmed) {
-            // Déplacer la suppression ici, seulement si l'utilisateur a confirmé
-            await dispatch(deleteOperations(id) as any); // Attendez la suppression
-            alert("L'opération a été supprimée avec succès !");
-            navigate(`/${first}/${second}`);
-            // Après la suppression, récupérer à nouveau les opérations
-            dispatch(getOperations() as any);
-        } else {
-            alert("Suppression annulée !");
-        }
+
+
+
+    const handleDeleteConfirmation = async () => {
+        await dispatch(deleteOperations(id) as any); // Attendez la suppression
+        alert("L'opération a été supprimée avec succès !");
+        navigate(`/${first}/${second}`);
+        // Après la suppression, récupérer à nouveau les opérations
+        dispatch(getOperations() as any);
     };
+
+
 
     return <>
         <div className="w-full relative">
             <h2 className="text-5xl font-thin mb-9">{operation.titre}</h2>
-            <div className='absolute top-0 flex flex-row justify-between w-full'>
+            <div className='absolute top-0 flex flex-row gap-2 w-full'>
                 <Link to={`/${first}/${second}`}>
                     <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
                 </Link>
-                <div className='flex flex-row gap-2'>
-                    <Link to={`/${first}/add`}>
-                        <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
-                    </Link>
-                </div>
+                <Link to={`/${first}/add`}>
+                    <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
+                </Link>
             </div>
         </div >
         <section className=" flex flex-row gap-4">
@@ -71,9 +77,23 @@ export default function Transaction() {
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 hover:scale-95" >Modifier</div>
-                    <div className="p-8 h-32 bg-red-600 rounded-2xl cursor-pointer flex justify-center items-center hover:bg-opacity-80 hover:scale-95" onClick={(event) => deleteSubmit(event)}>Supprimer</div>
+                    <div className="flex flex-col gap-4 justify-center items-center">
+
+                        {selectedDelete ? (
+                            <div className="flex flex-col gap-4 justify-center items-center">
+                                <p className="text-sm">Êtes-vous sûr ?</p>
+                                <div className="flex gap-4">
+                                    <div className="p-8 border-2 border-red-900 bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95" onClick={handleDeleteConfirmation}>Oui</div>
+                                    <div className="p-8 border-2 border-zinc-900 bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95 hover:border-green-900" onClick={() => setSelectedDelete(false)}>Non</div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className={`w-full p-8 h-32 border-2 border-red-900 bg-zinc-900  rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95`} onClick={() => setSelectedDelete(true)}>Supprimer</div>
+                        )}
+                    </div>
+
                 </div>
             </div>
-        </section>
+        </section >
     </>
 }
