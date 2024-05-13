@@ -14,7 +14,7 @@ export default function Tableau(props: any) {
     return (
         <>
             {props.operations && props.operations.length > 0 ? (
-                <Table className="w-full flex flex-col px-8 pb-14">
+                <Table className="w-full flex flex-col px-8 ">
                     <TableHeader>
                         <TableRow className="w-full flex flex-row my-3">
                             <TableHead className="w-full">ID</TableHead>

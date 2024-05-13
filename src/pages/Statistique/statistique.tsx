@@ -34,9 +34,8 @@ export default function Statistique() {
       yearsSet?.add(year);
     });
 
-    const sortedMonths = Array.from(monthsSet).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
-    const sortedYears = Array.from(yearsSet).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
-
+    const sortedMonths = Array.from(monthsSet).sort((a: any, b: any) => parseInt(a, 10) - parseInt(b, 10));
+    const sortedYears = Array.from(yearsSet).sort((a: any, b: any) => parseInt(a, 10) - parseInt(b, 10));
 
     setUniqueMonths(sortedMonths as string[]);
     setUniqueYears(sortedYears as number[]);
