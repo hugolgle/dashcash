@@ -9,6 +9,11 @@ const currentDate = new Date();
 const currentYear = currentDate.getFullYear();
 const currentMonth = currentDate.getMonth();
 
+const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+const day = String(currentDate.getDate()).padStart(2, '0');
+export const getCurrentDate = `${currentYear}-${month}-${day}`;
+
+
 // ------------------------------  Fonctionnel
 export default function Path(lePath: any, level: any) {
     if (lePath && lePath.pathname) {
@@ -50,13 +55,6 @@ export function formatDate(date: any) {
     return `${parseInt(day, 10)} ${months[monthIndex]} ${year}`;
 }
 
-export function separateMillier(valeur: any) {
-    const montantNumerique = typeof valeur === 'number' ? valeur : parseFloat(valeur) || 0;
-    const [partieEntiere, partieDecimale] = montantNumerique.toFixed(2).split('.');
-    const partieEntiereFormatee = parseInt(partieEntiere, 10).toLocaleString('fr-FR');
-    return `${partieEntiereFormatee}.${partieDecimale} €`;
-};
-
 export function convertirFormatDate(date: any) {
     const dateObj = new Date(date);
     const jourFormatte = String(dateObj.getDate()).padStart(2, '0');
@@ -64,7 +62,29 @@ export function convertirFormatDate(date: any) {
     return `${jourFormatte}/${moisFormatte}`;
 };
 
+export function separateMillier(valeur: any) {
+    const montantNumerique = typeof valeur === 'number' ? valeur : parseFloat(valeur) || 0;
+    const [partieEntiere, partieDecimale] = montantNumerique.toFixed(2).split('.');
+    const partieEntiereFormatee = parseInt(partieEntiere, 10).toLocaleString('fr-FR');
+    return `${partieEntiereFormatee}.${partieDecimale}`;
+};
+
+export function formatMontant(montant: any, type: string) {
+    if (type === "Dépense") {
+        return `-${separateMillier(montant)}`;
+    } else {
+        return separateMillier(montant);
+    }
+}
+
+
 // ------------------------------  Récuperation des opérations 
+export function getAllOperations() {
+    const operations = useSelector((state: any) => state.operationReducer || []);
+    return operations;
+
+}
+
 export function getOperationsByType(type: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
 

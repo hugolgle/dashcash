@@ -1,6 +1,6 @@
 import { CirclePlus } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import Path, { calculTotal, calculTotalByMonth, calculTotalByYear, getCurrentMonth, getLastFiveOperationsByType, getLastThreeMonthsOfCurrentYear, getLastTwoYears, separateMillier, convertirFormatDate, premierJourMoisEnCours } from "../utils/utils";
+import Path, { calculTotal, calculTotalByMonth, calculTotalByYear, getCurrentMonth, getLastFiveOperationsByType, getLastThreeMonthsOfCurrentYear, getLastTwoYears, convertirFormatDate, premierJourMoisEnCours } from "../utils/utils";
 export default function Layout(props: any) {
 
     const location = useLocation()
@@ -32,7 +32,7 @@ export default function Layout(props: any) {
                                     <td>{convertirFormatDate(transaction.date)}</td>
                                     <td>{transaction.categorie}</td>
                                     <td>{transaction.titre}</td>
-                                    <td><b>{separateMillier(transaction.montant)}</b></td>
+                                    <td><b>{transaction.montant} €</b></td>
                                 </tr>
                             </>)}
                         </tbody>

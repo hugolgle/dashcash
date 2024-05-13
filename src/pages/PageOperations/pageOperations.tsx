@@ -17,11 +17,12 @@ export default function PageOperations(props: any) {
             const scrollHeight = document.documentElement.scrollHeight;
             const bottomOffset = scrollHeight - (scrollTop + windowHeight);
 
-            if (bottomOffset < 50) {
+            if (bottomOffset < 20) {
                 setIsBottom(true);
             } else {
                 setIsBottom(false);
             }
+
         }
 
         window.addEventListener('scroll', handleScroll);
@@ -51,7 +52,7 @@ export default function PageOperations(props: any) {
                     date?.length === 4 ? getOperationsByYear(date, props.type) :
                         getOperationsByMonth(date, props.type)
             } />
-            <div className={`fixed bottom-0 w-1/5 right-96 mr-16 rounded-t-xl bg-zinc-800 py-3 transition-all${isBottom ? ' -bottom-16' : ''}`}>
+            <div className={`fixed bottom-0 w-1/5 right-96 mr-16 rounded-t-xl bg-zinc-800 py-3 transition-all${isBottom ? ' -bottom-36' : ''}`}>
                 Total : <b>{
                     date === "all" ? calculTotal(props.type) :
                         date && date.length === 4 ? calculTotalByYear(props.type, date) :

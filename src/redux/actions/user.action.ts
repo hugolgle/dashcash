@@ -1,8 +1,8 @@
 import axios from "axios";
 
 
-export const loginUser = (username, password) => {
-    return async (dispatch) => {
+export const loginUser = (username: any, password: any) => {
+    return async (dispatch: any) => {
         try {
             const response = await fetch('http://localhost:5001/user', {
                 method: 'GET',
@@ -13,7 +13,7 @@ export const loginUser = (username, password) => {
 
             const usersData = await response.json();
 
-            const user = usersData.find((u) => u.username === username && u.password === password);
+            const user = usersData.find((u: any) => u.username === username && u.password === password);
 
             if (user) {
                 const { _id, username, nom, prenom, pseudo, image } = user;
@@ -28,13 +28,13 @@ export const loginUser = (username, password) => {
 };
 
 export const logoutUser = () => {
-    return async (dispatch) => {
+    return async (dispatch: any) => {
         dispatch({ type: 'LOGOUT' });
     };
 };
 
 
-export const addUser = (data) => {
+export const addUser = (data: any) => {
     return async () => {
         try {
             await axios.post("http://localhost:5001/user/add", data);
@@ -44,8 +44,8 @@ export const addUser = (data) => {
     };
 };
 
-export const editUser = (data) => {
-    return async (dispatch) => {
+export const editUser = (data: any) => {
+    return async (dispatch: any) => {
         try {
             const response = await axios.put(`http://localhost:5001/user/edit/${data._id}`, data);
             const updatedUserData = response.data;
@@ -57,8 +57,8 @@ export const editUser = (data) => {
     };
 };
 
-export const deleteUser = (id) => {
-    return (dispatch) => {
+export const deleteUser = (id: any) => {
+    return (dispatch: any) => {
         return axios.delete(`http://localhost:5001/user/delete/${id}`).then(() => {
             dispatch({ type: 'DELETE_USER', payload: id })
         })

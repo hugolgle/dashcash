@@ -1,7 +1,7 @@
 const SET_VALUE = 'SET_VALUE';
 
 // Action creator
-export const setValue = (key, value) => ({
+export const setValue = (key: any, value: any) => ({
     type: SET_VALUE,
     payload: { key, value },
 });
@@ -14,7 +14,7 @@ const initialState = {
     plafondLep: 10000,
 };
 
-const tauxReducer = (state = initialState, action) => {
+const tauxReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case SET_VALUE:
             return {

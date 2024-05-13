@@ -1,88 +1,97 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { cn } from "../../../@/lib/utils"
-
 import { Button } from "../../../@/components/ui/button"
-import { Calendar } from "../../../@/components/ui/calendar"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../../@/components/ui/select"
 
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../../../@/components/ui/form"
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../../../@/components/ui/popover"
-
-import { toast } from "../../../@/components/ui/use-toast"
-
-import { Input } from "../../../@/components/ui/input"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { CircleArrowLeft } from "lucide-react"
 
-const formSchema = z.object({
-  categorie: z.string({
-    required_error: "Selectionner une categorie",
-  })
-    .email(),
-  title: z.string().min(0, {
-    message: "Le mot de passe doit avoir au moins 0 caractères.",
-  }),
-  date: z.date({
-    required_error: "La date est requise",
-  }),
-  price: z.string().min(0, {
-    message: "Le mot de passe doit avoir au moins 0 caractères.",
-  }),
-})
+import { categorieRecette, categorieDepense } from '../../../public/categories.json'
 
-import Path from '../../utils/utils';
+import Path, { formatMontant, getCurrentDate } from '../../utils/utils';
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+
+import { addOperations, getOperations } from '../../redux/actions/operation.action';
 
 export default function PageAdd(props: any) {
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      categorie: "",
-      title: "",
-      date: new Date(),
-      price: "",
-    },
-  })
-
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-  }
 
   const location = useLocation()
   const lUrl = Path(location, 1);
+
+  const [selectedTitre, setSelectedTitre] = useState('');
+
+  const [selectedCategorie, setSelectedCategorie] = useState('');
+
+  const [selectedAutreCategorie, setSelectedAutreCategorie] = useState('');
+
+  const [selectedDate, setSelectedDate] = useState(getCurrentDate);
+
+  const [selectedDetail, setSelectedDetail] = useState("");
+
+  const [selectedMontant, setSelectedMontant] = useState('');
+
+  const [message, setMessage] = useState("");
+
+  const handleInputChange = () => {
+
+    setMessage(""); // Réinitialiser le message d'erreur lorsque l'utilisateur commence à modifier un champ
+
+  };
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const resetForm = () => {
+    setSelectedTitre("");
+    setSelectedCategorie("");
+    setSelectedAutreCategorie("");
+    setSelectedDetail("");
+    setSelectedMontant("");
+  }
+
+  const handleCategorie = (event: any) => {
+    setSelectedCategorie(event.target.value);
+  };
+
+  const handleAutreCategorie = (event: any) => {
+    setSelectedAutreCategorie(event.target.value);
+  };
+
+  const handleDateChange = (event: any) => {
+    setSelectedDate(event.target.value);
+  };
+
+  const handleDetail = (event: any) => {
+    setSelectedDetail(event.target.value);
+  };
+
+  const handleTitre = (event: any) => {
+    setSelectedTitre(event.target.value);
+  };
+
+  const handleMontant = (event: any) => {
+    setSelectedMontant(event.target.value);
+  };
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+
+    const postData = {
+      type: props.type,
+      categorie: selectedCategorie === "Autre" ? selectedAutreCategorie : selectedCategorie,
+      titre: selectedTitre,
+      date: selectedDate,
+      detail: selectedDetail,
+      montant: formatMontant(selectedMontant, props.type)
+    };
+
+    // Envoyer la requête
+    await dispatch(addOperations(postData) as any);
+    dispatch(getOperations() as any);
+    resetForm();
+    setMessage(`Votre ${props.type} a été ajouté !`);
+  };
 
   return <>
     <h2 className="text-5xl font-thin">Ajouter une {props.type}</h2>
@@ -90,110 +99,48 @@ export default function PageAdd(props: any) {
     <Link to={`/${lUrl}`}>
       <CircleArrowLeft className="absolute top-4 cursor-pointer hover:scale-125 ease-in-out duration-300" />
     </Link>
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="px-96 py-16">
-        <FormField
-          control={form.control}
-          name="categorie"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Catégorie</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="p-3 rounded-xl m-2 border-0">
-                    <SelectValue placeholder="Selectionner une catégorie" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent className="felx felx-col p-3 rounded-xl bg-black w-full">
-                  <SelectItem value="abonnement">Abonnement</SelectItem>
-                  <SelectItem value="loisir">Loisir</SelectItem>
-                  <SelectItem value="quotidien">Quotidien</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Titre</FormLabel>
-              <FormControl>
-                <Input className="p-3 rounded-xl m-2" placeholder="Titre" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
 
-        <FormField
-          control={form.control}
-          name="date"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "flex w-full p-3 rounded-xl m-2 text-left font-normal border-0",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Choisissez une date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="p-4 w-96 bg-slate-600">
-                  <Calendar
-                    className="bg-slate-500"
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormDescription>
+      <select id='action' value={selectedCategorie} className="w-96 h-10 px-2 rounded-xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
+        <option value="" disabled selected>Entrez la catégorie</option>
+        {props.type === "Dépense"
+          &&
+          categorieDepense.map(({ name }) => {
+            return (
+              <option key={name} value={name}>{name}</option>
+            );
+          })
+        }
+        {props.type === "Recette"
+          &&
+          categorieRecette.map(({ name }) => {
+            return (
+              <option key={name} value={name}>{name}</option>
+            );
+          })
+        }
+      </select>
+      {
+        selectedCategorie === "Autre" &&
 
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <input className="w-96 h-10 px-2 rounded-xl" type="text" value={selectedAutreCategorie} name="titre" id="autreTitre" onChange={(e) => { handleAutreCategorie(e); handleInputChange(); }} placeholder="Entrez une autre categorie" />
 
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Montant</FormLabel>
-              <FormControl>
-                <Input className="p-3 rounded-xl m-2" placeholder="Montant" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="w-1/2 rounded-xl" type="submit">Ajouter</Button>
-      </form>
-    </Form>
+      }
+
+
+      <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl" type="date" name="" id="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
+
+      <input value={selectedDetail} className="w-96 h-10 px-2 rounded-xl" type="text" name="" id="" placeholder="Détails" onChange={(e) => { handleDetail(e); handleInputChange(); }} />
+
+      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
+
+      <Button variant="outline" className="rounded-xl w-1/4">Soumettre la {props.type}</Button>
+    </form >
+    <div className="flex justify-center items-center">
+      <p className={`p-4 bg-lime-900 w-60 transition-all rounded ${message ? 'opacity-100' : 'opacity-0'}`}>{message ? message : ''}</p>
+    </div>
 
   </>
-
 }

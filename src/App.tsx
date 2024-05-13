@@ -36,7 +36,7 @@ function App() {
         },
         {
           path: '/depense/add',
-          element: <PageAdd type="dépense" />,
+          element: <PageAdd type="Dépense" />,
         },
         {
           path: '/depense/:date',
@@ -52,7 +52,7 @@ function App() {
         },
         {
           path: '/recette/add',
-          element: <PageAdd type="recettes" />,
+          element: <PageAdd type="Recette" />,
         },
         {
           path: '/recette/:date',

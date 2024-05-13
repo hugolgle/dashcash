@@ -1,0 +1,51 @@
+{
+    "categorieRecette": [
+        {
+            "name": "Salaire"
+        },
+        {
+            "name": "Remboursement"
+        },
+        {
+            "name": "Virement reçu"
+        },
+        {
+            "name": "Chèque reçu"
+        },
+        {
+            "name": "Dépôt d'argent"
+        },
+        {
+            "name": "Autre"
+        }
+    ],
+    "categorieDepense": [
+        {
+            "name": "Bar/Boite"
+        },
+        {
+            "name": "Resto"
+        },
+        {
+            "name": "Activité"
+        },
+        {
+            "name": "Carburant"
+        },
+        {
+            "name": "Coiffeur"
+        },
+        {
+            "name": "Vêtements"
+        },
+        {
+            "name": "Courses"
+        },
+        {
+            "name": "Abonnement"
+        },
+        {
+            "name": "Autre"
+        }
+    ]
+}

@@ -11,7 +11,7 @@ const initialeState = {
     error: null,
 };
 
-export default function userReducer(state = initialeState, action) {
+export default function userReducer(state = initialeState, action: any) {
     switch (action.type) {
         case 'LOGIN_SUCCESS':
             return {

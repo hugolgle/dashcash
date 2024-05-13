@@ -2,35 +2,27 @@ const mongoose = require("mongoose");
 
 const operationSchema = mongoose.Schema(
     {
-        user: {
-            type: String,
-            required: false,
-        },
-        action: {
+        // user: {
+        //     type: String,
+        //     required: false,
+        // },
+        type: {
             type: String,
             required: true,
         },
-        type: {
-            type: String,
-            required: false,
-        },
-        crediteur: {
-            type: String,
-            required: false,
-        },
         categorie: {
             type: String,
-            required: false,
+            required: true,
         },
         titre: {
             type: String,
-            required: false,
+            required: true,
         },
         date: {
             type: String,
             required: true,
         },
-        remboursement: {
+        detail: {
             type: String,
             required: false,
         },

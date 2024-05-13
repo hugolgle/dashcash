@@ -2,18 +2,17 @@ const OperationModel = require("../models/operation.model");
 
 module.exports.setOperations = async (req, res) => {
     try {
-        if (!req.body.user || !req.body.action || !req.body.date || !req.body.montant) {
+        if (!req.body.date || !req.body.montant) {
             return res.status(400).json({ message: "Veuillez fournir les informations nécessaires" });
         }
 
         const operation = await OperationModel.create({
-            user: req.body.user,
-            action: req.body.action,
-            type: req.body.type || "",
-            crediteur: req.body.crediteur || "",
-            categorie: req.body.categorie || "",
-            titre: req.body.titre || "",
+            // user: req.body.user,
+            type: req.body.type,
+            categorie: req.body.categorie,
+            titre: req.body.titre,
             date: req.body.date,
+            detail: req.body.detail || '',
             montant: req.body.montant,
         });
 

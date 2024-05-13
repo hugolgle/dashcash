@@ -1,7 +1,9 @@
 
 import { CircleArrowLeft, CirclePlus } from "lucide-react";
-import { Link, useLocation, useParams } from "react-router-dom";
-import Path, { convertDateHour, formatDate, getOperationById, separateMillier } from "../../utils/utils";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import Path, { convertDateHour, formatDate, getOperationById } from "../../utils/utils";
+import { deleteOperations, getOperations } from "../../redux/actions/operation.action";
+import { useDispatch } from "react-redux";
 
 
 export default function Transaction() {
@@ -11,6 +13,23 @@ export default function Transaction() {
     const second = Path(location, 2)
     const { id } = useParams()
     const operation = getOperationById(id)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const deleteSubmit = async (event: any) => {
+        event.preventDefault()
+        const isConfirmed = window.confirm(`Êtes-vous sûr de vouloir supprimer l'opération d' ${id} ?`);
+        if (isConfirmed) {
+            // Déplacer la suppression ici, seulement si l'utilisateur a confirmé
+            await dispatch(deleteOperations(id) as any); // Attendez la suppression
+            alert("L'opération a été supprimée avec succès !");
+            navigate(`/${first}/${second}`);
+            // Après la suppression, récupérer à nouveau les opérations
+            dispatch(getOperations() as any);
+        } else {
+            alert("Suppression annulée !");
+        }
+    };
+
     return <>
         <div className="w-full relative">
             <h2 className="text-5xl font-thin mb-9">{operation.titre}</h2>
@@ -39,10 +58,10 @@ export default function Transaction() {
                     </div>
                 </div>
                 <div className="h-40 p-8 bg-zinc-900 rounded-2xl flex justify-center items-center ">
-                    <h2 className="text-4xl">{separateMillier(operation.montant)}</h2>
+                    <h2 className="text-4xl">{operation.montant} €</h2>
                 </div>
                 <div className="h-40 p-8 bg-zinc-900 rounded-2xl flex justify-center items-center ">
-                    <h2 className="text-4xl"></h2>
+                    <h2 className="text-4xl">{operation.detail ? operation.detail : "Aucun détail ajouté"}</h2>
                 </div>
             </div>
             <div className="flex flex-col justify-between w-1/4 gap-4">
@@ -51,8 +70,8 @@ export default function Transaction() {
                     <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Derniere modification le : <br /><b>{convertDateHour(operation.updatedAt)}</b></p></div>
                 </div>
                 <div className="flex flex-col gap-4">
-                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 hover:scale-95">Modifier</div>
-                    <div className="p-8 h-32 bg-red-600 rounded-2xl flex justify-center items-center hover:bg-opacity-80 hover:scale-95">Supprimer</div>
+                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 hover:scale-95" >Modifier</div>
+                    <div className="p-8 h-32 bg-red-600 rounded-2xl cursor-pointer flex justify-center items-center hover:bg-opacity-80 hover:scale-95" onClick={(event) => deleteSubmit(event)}>Supprimer</div>
                 </div>
             </div>
         </section>
