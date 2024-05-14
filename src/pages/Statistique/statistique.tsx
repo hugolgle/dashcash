@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { calculTotalByMonth } from "../../utils/calcul";
+import { calculMoyenne, calculTotalByMonth, calculTotalByYear } from "../../utils/calcul";
 import { useSelector } from "react-redux";
 import { months } from "../../utils/fonctionnel";
 
@@ -61,6 +61,20 @@ export default function Statistique() {
 
   const selectedDate = `${selectedYear}${selectedMonth}`
 
+
+  const depenseYear = calculTotalByYear("Dépense", `${selectedYear}`)
+  const recetteYear = calculTotalByYear("Recette", `${selectedYear}`)
+
+  const depenseMonth = calculTotalByMonth("Dépense", selectedDate)
+  const recetteMonth = calculTotalByMonth("Recette", selectedDate)
+
+  const nbMonth = uniqueMonths.length
+
+
+  const moyenneDepenseMois = calculMoyenne("Dépense", `${selectedYear}`, nbMonth)
+  const moyenneRecetteMois = calculMoyenne("Recette", `${selectedYear}`, nbMonth)
+
+
   return <>
     <h2 className="text-5xl font-thin mb-9">Statistiques</h2>
     <section className=" flex flex-col gap-4">
@@ -77,6 +91,50 @@ export default function Statistique() {
         ))}
       </div>
 
+      <div className="flex flex-row gap-4  w-full text-left">
+        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4">
+          <p>Dépense totale</p>
+          <p className="text-4xl">{depenseYear}</p>
+        </div>
+        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4" >
+          <p>Recette totale</p>
+          <p className="text-4xl">{recetteYear}</p>
+        </div>
+        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4">
+          <p>Mis de coté totale</p>
+          <p className="text-4xl">1 000.00€</p>
+        </div>
+      </div>
+
+      <div className="flex flex-row gap-4  w-full text-left">
+        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4">
+          <p>Moyenne dépense par mois</p>
+          <p className="text-4xl">{moyenneDepenseMois}</p>
+        </div>
+        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4" >
+          <p>Moyenne recette par mois</p>
+          <p className="text-4xl">{moyenneRecetteMois}</p>
+        </div>
+        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4">
+          <p>Moyenne mis de coté par mois</p>
+          <p className="text-4xl">1 000.00€</p>
+        </div>
+      </div>
+
+      {/* <div className="flex flex-row-reverse w-full h-64 gap-4">
+        <div className="bg-zinc-900 h-full w-3/5 rounded-2xl hover:bg-opacity-80 transition-all p-2">
+
+        </div>
+        <div className="flex flex-col h-full w-2/5 gap-4">
+          <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:bg-opacity-80 transition-all p-2">
+
+          </div>
+          <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:bg-opacity-80 transition-all p-2">
+
+          </div>
+        </div>
+      </div> */}
+
       <div className="flex flex-row justify-center gap-2 w-full">
         {uniqueMonths.map((monthIndex: any, index) => (
           <button
@@ -89,46 +147,17 @@ export default function Statistique() {
         ))}
       </div>
 
-      <div className="flex flex-row gap-4  w-full text-left">
-        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4">
-          <p>Dépense</p>
-          <p className="text-4xl">{calculTotalByMonth("Dépense", selectedDate)}</p>
-        </div>
-        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4" >
-          <p>Recette</p>
-          <p className="text-4xl">{calculTotalByMonth("Recette", selectedDate)}</p>
-        </div>
-        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4">
-          <p>Moyenne dépense</p>
-          <p className="text-4xl">1 000.00€</p>
-        </div>
-        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4">
-          <p>Moyenne recette</p>
-          <p className="text-4xl">1 000.00€</p>
-        </div>
-      </div>
-
-      <div className="flex flex-row-reverse w-full h-64 gap-4">
-        <div className="bg-zinc-900 h-full w-3/5 rounded-2xl hover:bg-opacity-80 transition-all p-2">
-
-        </div>
-        <div className="flex flex-col h-full w-2/5 gap-4">
-          <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:bg-opacity-80 transition-all p-2">
-
-          </div>
-          <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:bg-opacity-80 transition-all p-2">
-
-          </div>
-        </div>
-      </div>
-
       <div className="flex flex-row gap-4  w-full">
         <div className="w-full h-44 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2">
-          <p>Moyenne recette</p>
-          <p className="text-4xl">1 000.00€</p>
+          <p>Dépense</p>
+          <p className="text-4xl">{depenseMonth}</p>
         </div>
         <div className="w-5/6 h-44 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2">
-          <p>Moyenne recette</p>
+          <p>Recette</p>
+          <p className="text-4xl">{recetteMonth}</p>
+        </div>
+        <div className="w-5/6 h-44 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2">
+          <p>Mis de coté</p>
           <p className="text-4xl">1 000.00€</p>
         </div>
       </div>

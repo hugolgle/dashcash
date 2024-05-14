@@ -54,7 +54,7 @@ export default function PageOperations(props: any) {
                     date?.length === 4 ? getOperationsByYear(date, props.type) :
                         getOperationsByMonth(date, props.type)
             } />
-            <div className={`fixed bottom-0 w-1/5 right-96 mr-16 rounded-t-xl bg-zinc-800 py-3 transition-all${isBottom ? ' -bottom-96' : ''}`}>
+            <div className={`fixed bottom-0 w-1/5 right-96 mr-16 rounded-t-xl bg-zinc-800 py-3 transition-all${isBottom ? ' -bottom-80' : ''}`}>
                 Total : <b>{
                     date === "all" ? calculTotal(props.type) :
                         date && date.length === 4 ? calculTotalByYear(props.type, date) :

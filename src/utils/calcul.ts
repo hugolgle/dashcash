@@ -47,3 +47,23 @@ export function calculTotalByYear(type: any, year: any) {
 
     return formattedTotal;
 }
+
+export function calculMoyenne(type: any, year: any, nbMonth: any) {
+    const operations = useSelector((state: any) => state.operationReducer || []);
+
+    // Filtrer les opérations pour l'année et le type spécifiés
+    const filteredOperations = operations.filter((operation: any) => {
+        const operationYear = operation.date.slice(0, 4);
+        return operation.type === type && operationYear === year;
+    });
+
+    // Calculer la somme des montants des opérations filtrées
+    const totalAmount = filteredOperations.reduce((acc: number, operation: any) => {
+        return acc + parseFloat(operation.montant);
+    }, 0);
+
+    // Calculer la moyenne en divisant la somme totale par le nombre de mois
+    const resultat = totalAmount / parseFloat(nbMonth);
+
+    return `${resultat.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
+}
