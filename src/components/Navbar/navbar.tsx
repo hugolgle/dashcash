@@ -14,7 +14,7 @@ export default function Navbar() {
         <>
             <div className='flex h-screen w-screen'>
                 <div className='sidebar flex flex-col justify-between items-center border-r border-r-zinc-700 w-1/5 h-screen py-10 px-4 bg-zinc-900 fixed'>
-                    <Link to="/" className='font-logo text-3xl w-fit text-center'>DASHCASH</Link>
+                    <Link to="/" className='font-logo text-3xl w-fit text-center'>DASHBOARD</Link>
 
                     <div className='flex flex-col justify-between gap-4 w-full'>
 

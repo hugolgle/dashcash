@@ -158,12 +158,10 @@ export function getOperationsByYear(year: any, type: any) {
         operationsInYear = operationsInYear.filter((operation: any) => operation.type === type);
     }
 
-    // Sorting by date
     operationsInYear.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return operationsInYear;
 }
-
 
 export function getLastFiveOperationsByType(type: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);

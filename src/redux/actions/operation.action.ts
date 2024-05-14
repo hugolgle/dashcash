@@ -44,8 +44,11 @@ export const getOperations = () => {
 export const addOperations = (data: any) => {
     return (dispatch: Dispatch<AddOperationsAction>) => {
         return axios.post("http://localhost:5001/operation", data)
-            .then(() => {
-                dispatch({ type: ADD_OPERATIONS, payload: data });
+            .then((response) => {
+                // Dispatch de l'action avec la réponse du serveur (qui contient l'ID de l'opération)
+                dispatch({ type: ADD_OPERATIONS, payload: response.data });
+                // Retourner la réponse pour la récupération de l'ID par le code appelant
+                return response;
             })
             .catch((error) => {
                 throw error;
