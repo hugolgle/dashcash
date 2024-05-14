@@ -61,7 +61,7 @@ export default function PageOperations(props: any) {
                             date ? calculTotalByMonth(props.type, date) : "Date non définie"
                 }</b>
                 <br />
-                Transactions : <b>{
+                Transaction(s) : <b>{
                     date === "all" ? getOperationsByType(props.type).length :
                         date?.length === 4 ? getOperationsByYear(date, props.type).length :
                             getOperationsByMonth(date, props.type).length

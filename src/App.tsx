@@ -9,7 +9,6 @@ import Profil from './pages/Profil/profil';
 import TableauDeBord from './pages/TableauDeBord/tableaudebord';
 import PageAdd from './pages/PageAdd/pageAdd';
 import PageOperations from './pages/PageOperations/pageOperations';
-import PageError from './pages/PageError/pageError';
 import Transaction from './pages/Transaction/transaction';
 import Statistique from './pages/Statistique/statistique';
 import Layout from './layout/layout';
@@ -20,7 +19,7 @@ function App() {
   const router = createBrowserRouter([
     {
       element: <Navbar />,
-      errorElement: <PageError />,
+      errorElement: <Navbar><h1>Page introuvable !</h1></Navbar>,
       children: [
         {
           path: '/',

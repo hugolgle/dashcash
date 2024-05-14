@@ -112,7 +112,7 @@ export default function Statistique() {
         </div>
       </div>
 
-      <div className="flex flex-row gap-4  w-full text-left">
+      <div className="flex flex-row gap-4 w-full text-left">
         <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ring-green-800 ring-inset" >
           <p className="text-xs text-right">Recette/Mois</p>
           <p className="text-4xl">{moyenneRecetteMois}</p>
@@ -139,17 +139,17 @@ export default function Statistique() {
         ))}
       </div>
 
-      <div className="flex flex-row gap-4  w-full">
-        <div className="w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 ring-2 ring-green-800 ring-inset">
-          <p>Recette</p>
+      <div className="flex flex-row gap-4 text-left w-full">
+        <div className="w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 ring-2 ring-green-800 ring-inset">
+          <p className="text-xs text-right">Recette</p>
           <p className="text-4xl">{recetteMonth}</p>
         </div>
-        <div className="w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 ring-2 ring-red-800 ring-inset">
-          <p>Dépense</p>
+        <div className="w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 ring-2 ring-red-800 ring-inset">
+          <p className="text-xs text-right">Dépense</p>
           <p className="text-4xl">{depenseMonth}</p>
         </div>
-        <div className={`w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 ring-2 ${economieMonthNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
-          <p>Économie</p>
+        <div className={`w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 ring-2 ${economieMonthNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
+          <p className="text-xs text-right">Économie</p>
           <p className="text-4xl">{economieMonth} €</p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 
-export default function Navbar() {
+export default function Navbar(props: any) {
     const location = useLocation();
     const [activeLink, setActiveLink] = useState('');
 
@@ -14,7 +14,7 @@ export default function Navbar() {
         <>
             <div className='flex h-screen w-screen'>
                 <div className='sidebar flex flex-col justify-between items-center border-r border-r-zinc-700 w-1/5 h-screen py-10 px-4 bg-zinc-900 fixed'>
-                    <Link to="/" className='font-logo text-3xl w-fit text-center'>DASHBOARD</Link>
+                    <Link to="/" className='font-logo text-3xl w-fit text-center'>DA$HBOARD</Link>
 
                     <div className='flex flex-col justify-between gap-4 w-full'>
 
@@ -31,6 +31,7 @@ export default function Navbar() {
                         </div>
 
                         <Link to="/stat" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/stat') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Statistiques</Link>
+                        <Link to="/uyuyu" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/dd') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Calendrier</Link>
 
                     </div>
 
@@ -42,6 +43,7 @@ export default function Navbar() {
                 </div>
                 <div className='content w-4/5 ml-auto p-4'>
                     <Outlet />
+                    {props.children}
                 </div>
             </div>
         </>
