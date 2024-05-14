@@ -8,7 +8,7 @@ export default function TableauDeBord() {
           <p>Dépense</p>
           <p className="text-4xl">1 000.00€</p>
         </div>
-        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2" gap-4>
+        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-2 gap-4">
           <p>Recette</p>
           <p className="text-4xl">1 000.00€</p>
         </div>
@@ -20,7 +20,7 @@ export default function TableauDeBord() {
           <p>Moyenne recette</p>
           <p className="text-4xl">1 000.00€</p>
         </div>
-      </div>
+      </div >
 
       <div className="flex flex-row-reverse w-full h-64 gap-4">
         <div className="bg-zinc-900 h-full w-3/5 rounded-2xl hover:bg-opacity-80 transition-all p-2">
@@ -47,7 +47,7 @@ export default function TableauDeBord() {
         </div>
       </div>
 
-    </section>
+    </section >
   </>
 
 }
