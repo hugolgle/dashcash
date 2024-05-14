@@ -103,7 +103,7 @@ export default function PageAdd(props: any) {
       setMessage(`Votre ${props.type} a été ajouté ! `);
 
     } catch {
-      setMessageError("Une erreur s'est produite lors de l'ajout de l'opération :");
+      setMessageError("Une erreur s'est produite lors de l'ajout de l'opération");
     }
   };
 
@@ -149,7 +149,7 @@ export default function PageAdd(props: any) {
 
       <input value={selectedDetail} className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" type="text" name="" id="" placeholder="Détails" onChange={(e) => { handleDetail(e); handleInputChange(); }} />
 
-      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" type="number" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
+      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" type="number" step="0.50" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
 
       <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre la {props.type}</Button>
     </form >
@@ -158,7 +158,7 @@ export default function PageAdd(props: any) {
         <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>
           {message} <Link to={`/${lUrl}/${addedOperationDate}/${addedOperationId}`} className="underline transition-all hover:text-zinc-950">Allez-y !</Link>
         </p>
-        <p className={`p-4 absolute bg-red-900 w-60 rounded ${messageError ? 'opacity-100' : 'hidden'}`}>{messageError}</p>
+        <p className={`p-4 bg-red-900 w-60 rounded ${messageError ? 'opacity-100' : 'hidden'}`}>{messageError}</p>
       </div >
     ) : null
     }

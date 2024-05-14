@@ -76,9 +76,9 @@ export function convertirFormatDate(date: any) {
 export function separateMillier(valeur: any) {
     const montantNumerique = typeof valeur === 'number' ? valeur : parseFloat(valeur) || 0;
     const [partieEntiere, partieDecimale] = montantNumerique.toFixed(2).split('.');
-    const partieEntiereFormatee = parseInt(partieEntiere, 10).toLocaleString('fr-FR');
-    return `${partieEntiereFormatee}.${partieDecimale}`;
+    return `${partieEntiere}.${partieDecimale}`;
 };
+
 
 export function formatMontant(montant: any, type: string) {
     if (type === "Dépense") {

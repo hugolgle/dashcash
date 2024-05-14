@@ -1,7 +1,7 @@
 import { CirclePlus } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { calculTotal, calculTotalByMonth, calculTotalByYear } from "../utils/calcul";
-import { Path, convertirFormatDate, } from "../utils/fonctionnel";
+import { Path, addSpace, convertirFormatDate, } from "../utils/fonctionnel";
 import { getCurrentMonth, getLastFiveOperationsByType } from "../utils/operations";
 import { getLastThreeMonthsOfCurrentYear, getLastTwoYears, premierJourMoisEnCours } from "../utils/autre";
 export default function Layout(props: any) {
@@ -38,7 +38,7 @@ export default function Layout(props: any) {
                                             <td>{convertirFormatDate(transaction.date)}</td>
                                             <td>{transaction.categorie}</td>
                                             <td>{transaction.titre}</td>
-                                            <td><b>{transaction.montant} €</b></td>
+                                            <td><b>{addSpace(transaction.montant)} €</b></td>
                                         </tr>
                                     ))}
                                 </tbody>

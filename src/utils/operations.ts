@@ -34,11 +34,22 @@ export function getOperationsByType(type: any) {
 
     if (type) {
         return operations.filter((operation: any) => operation.type === type)
-            .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            .sort((a: any, b: any) => {
+                const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
+                if (dateSort !== 0) return dateSort;
+
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+            });
     } else {
-        return operations.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        return operations.sort((a: any, b: any) => {
+            const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
+            if (dateSort !== 0) return dateSort;
+
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
     }
 }
+
 
 export function getOperationById(id: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
@@ -66,7 +77,7 @@ export function getOperationsByMonth(month: any, type: any) {
         operationsInMonth = operationsInMonth.filter((operation: any) => operation.type === type);
     }
 
-    // Sorting by date
+    operationsInMonth.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     operationsInMonth.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return operationsInMonth;
@@ -86,7 +97,9 @@ export function getOperationsByYear(year: any, type: any) {
         operationsInYear = operationsInYear.filter((operation: any) => operation.type === type);
     }
 
+    operationsInYear.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     operationsInYear.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
 
     return operationsInYear;
 }
@@ -96,15 +109,16 @@ export function getLastFiveOperationsByType(type: any) {
 
     const filteredOperations = operations.filter((operation: any) => operation.type === type);
 
-
     const filteredOperationsThisMonth = filteredOperations.filter((operation: any) => {
-        const operationMonth = new Date(operation.date).getMonth();
-        return operationMonth === currentMonth;
+        const operationDate = new Date(operation.date);
+        return operationDate.getMonth() === currentMonth && operationDate.getFullYear() === currentYear;
     });
 
     filteredOperationsThisMonth.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    filteredOperationsThisMonth.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     const lastFiveOperations = filteredOperationsThisMonth.slice(0, 5);
 
     return lastFiveOperations;
 }
+
