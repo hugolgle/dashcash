@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { calculTotalByMonth, months } from "../../utils/utils";
+import { calculTotalByMonth } from "../../utils/calcul";
 import { useSelector } from "react-redux";
+import { months } from "../../utils/fonctionnel";
 
 export default function Statistique() {
 
@@ -26,7 +27,7 @@ export default function Statistique() {
     const monthsSet = new Set();
     const yearsSet = new Set();
 
-    filteredOperation?.forEach((transaction) => {
+    filteredOperation?.forEach((transaction: any) => {
       const month = new Date(transaction.date).getMonth();
       const year = new Date(transaction.date).getFullYear();
 

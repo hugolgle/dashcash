@@ -1,7 +1,11 @@
 
 import { CircleArrowLeft, CirclePlus } from "lucide-react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import Path, { convertDateHour, formatDate, getOperationById } from "../../utils/utils";
+
+import { Path, convertDateHour, formatDate } from "../../utils/fonctionnel";
+import { getOperationById } from "../../utils/operations";
+
+
 import { deleteOperations, getOperations } from "../../redux/actions/operation.action";
 import { useDispatch } from "react-redux";
 import { useState } from "react";

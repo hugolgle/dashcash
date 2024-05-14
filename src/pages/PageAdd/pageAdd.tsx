@@ -7,7 +7,7 @@ import { CircleArrowLeft } from "lucide-react"
 
 import { categorieRecette, categorieDepense } from '../../../public/categories.json'
 
-import Path, { formatMontant, getCurrentDate } from '../../utils/utils';
+import { Path, formatMontant, getCurrentDate } from '../../utils/fonctionnel';
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 

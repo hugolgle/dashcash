@@ -8,7 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "../../../@/components/ui/table";
-import { addSpace, formatDate } from "../../utils/utils";
+import { addSpace, formatDate } from "../../utils/fonctionnel";
 
 export default function Tableau(props: any) {
     return (

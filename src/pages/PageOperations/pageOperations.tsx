@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
-import Path, { convertDate, getOperationsByYear, getOperationsByMonth, getOperationsByType, calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/utils';
+import { Path, convertDate } from '../../utils/fonctionnel'
+import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul'
+import { getOperationsByYear, getOperationsByMonth, getOperationsByType, } from '../../utils/operations'
 import Tableau from '../../components/Tableau/tableau';
 
 export default function PageOperations(props: any) {
