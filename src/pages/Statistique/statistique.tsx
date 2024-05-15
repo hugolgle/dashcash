@@ -30,7 +30,6 @@ export default function Statistique() {
       const month = new Date(transaction.date).getMonth();
       const year = new Date(transaction.date).getFullYear();
 
-      // Ajouter uniquement les mois de l'année sélectionnée
       if (year === selectedYear) {
         monthsSet?.add(month);
       }

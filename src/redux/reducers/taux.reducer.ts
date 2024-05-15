@@ -1,12 +1,10 @@
 const SET_VALUE = 'SET_VALUE';
 
-// Action creator
 export const setValue = (key: any, value: any) => ({
     type: SET_VALUE,
     payload: { key, value },
 });
 
-// Reducer
 const initialState = {
     tauxLivretA: 4,
     tauxLep: 5,

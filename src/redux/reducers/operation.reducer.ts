@@ -7,7 +7,7 @@ export default function operationReducer(state = initialState, action: any) {
         case GET_OPERATIONS:
             return action.payload;
         case ADD_OPERATIONS:
-            return [action.payload, ...state]; // Ajoutez la nouvelle opération en premier dans le tableau
+            return [action.payload, ...state];
         case EDIT_OPERATIONS:
             return state.map((operation: any) => {
                 if (operation.id === action.payload.id) {

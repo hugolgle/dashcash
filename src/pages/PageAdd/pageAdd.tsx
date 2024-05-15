@@ -38,7 +38,7 @@ export default function PageAdd(props: any) {
   const handleInputChange = () => {
 
     setMessage("");
-    setMessageError(""); // Réinitialiser le message d'erreur lorsque l'utilisateur commence à modifier un champ
+    setMessageError("");
     setAddedOperationDate("")
     setAddedOperationId("")
   };
@@ -90,7 +90,6 @@ export default function PageAdd(props: any) {
       montant: formatMontant(selectedMontant, props.type)
     };
 
-
     try {
       const response = await dispatch(addOperations(postData) as any);
       const newOperationId = response.data._id;
@@ -108,8 +107,6 @@ export default function PageAdd(props: any) {
     }
   };
 
-
-
   return <>
     <h2 className="text-5xl font-thin">Ajouter une {props.type}</h2>
 
@@ -118,7 +115,7 @@ export default function PageAdd(props: any) {
     </Link>
     <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
-      <input className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" value={selectedTitre} type="text" name="" id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
+      <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" maxLength={20} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
 
       <select id='action' value={selectedCategorie} className="w-96 h-10 px-2 rounded-xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
         <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
@@ -142,15 +139,15 @@ export default function PageAdd(props: any) {
       {
         selectedCategorie === "Autre" &&
 
-        <input className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" type="text" value={selectedAutreCategorie} name="titre" id="autreTitre" onChange={(e) => { handleAutreCategorie(e); handleInputChange(); }} placeholder="Entrez une autre categorie" />
+        <input className="w-96 h-10 px-2 rounded-xl" type="text" value={selectedAutreCategorie} name="titre" maxLength={20} id="autreTitre" onChange={(e) => { handleAutreCategorie(e); handleInputChange(); }} placeholder="Entrez une autre categorie" />
 
       }
 
       <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl text-slate-400" type="date" name="" id="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
 
-      <input value={selectedDetail} className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" type="text" name="" id="" placeholder="Détails" onChange={(e) => { handleDetail(e); handleInputChange(); }} />
+      <input value={selectedDetail} className="w-96 h-10 px-2 rounded-xl" type="text" name="" id="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e); handleInputChange(); }} />
 
-      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl placeholder:text-slate-400" type="number" step="0.50" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
+      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" step="0.50" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
 
       <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre la {props.type}</Button>
     </form >

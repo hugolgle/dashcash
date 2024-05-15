@@ -19,7 +19,7 @@ module.exports = {
     },
 
     fontFamily: {
-      'logo': ['Prata', 'ui-serif', 'system-ui'],
+      'logo': ['Montserrat', 'ui-serif', 'system-ui'],
     },
     extend: {
       colors: {
