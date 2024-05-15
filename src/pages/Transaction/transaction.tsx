@@ -9,7 +9,7 @@ import { categorieRecette, categorieDepense } from '../../../public/categories.j
 
 import { deleteOperations, editOperations, getOperations } from "../../redux/actions/operation.action";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Transaction() {
@@ -18,12 +18,28 @@ export default function Transaction() {
     const first = Path(location, 1)
     const second = Path(location, 2)
 
+    const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage("");
+            }, 5000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
+
     const { id } = useParams()
     const operation = getOperationById(id)
 
     const [selectedDelete, setSelectedDelete] = useState(false);
 
     const [selectedUpdate, setSelectedUpdate] = useState(false);
+
+    const [update, setUpdate] = useState(false);
+
+    const [selectedTitre, setSelectedTitre] = useState(operation.titre);
 
     const [selectedCategorie, setSelectedCategorie] = useState(operation.categorie);
 
@@ -35,13 +51,16 @@ export default function Transaction() {
 
     const [selectedMontant, setSelectedMontant] = useState(operation.montant);
 
-
-    const handleAutreCategorie = (event: any) => {
-        setSelectedAutreCategorie(event.target.value);
+    const handleTitre = (event: any) => {
+        setSelectedTitre(event.target.value);
     };
 
     const handleCategorie = (event: any) => {
         setSelectedCategorie(event.target.value);
+    };
+
+    const handleAutreCategorie = (event: any) => {
+        setSelectedAutreCategorie(event.target.value);
     };
 
     const handleDate = (event: any) => {
@@ -56,32 +75,51 @@ export default function Transaction() {
         setSelectedMontant(event.target.value);
     };
 
+    const handleInputChange = () => {
+        setUpdate(true);
+    };
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const handleDeleteConfirmation = async () => {
         await dispatch(deleteOperations(id) as any);
-        alert("L'opération a été supprimée avec succès !");
         navigate(`/${first}/${second}`);
         dispatch(getOperations() as any);
+        localStorage.setItem('transactionDeleted', 'true');
     };
 
-    // const handleEditConfirmation = async () => {
-    //     const editData = {
-    //         type: operation.type,
-    //         categorie: selectedCategorie,
-    //         date: selectedDate,
-    //         detail: selectedDetail,
-    //         montant: formatMontant(selectedMontant, operation.type)
-    //     }
-    //     await dispatch(editOperations(editData) as any);
-    //     alert("L'opération a été modifié avec succès !");
-    //     dispatch(getOperations() as any);
-    // };
+
+
+    function removeTiret(number: any): number {
+        return parseFloat(number.replace(/-/g, ''));
+    }
+
+    const handleEditConfirmation = async () => {
+        const editData = {
+            id: operation._id,
+            type: operation.type,
+            titre: selectedTitre,
+            categorie: selectedCategorie,
+            autreCategorie: selectedAutreCategorie,
+            date: selectedDate,
+            detail: selectedDetail,
+            montant: formatMontant(removeTiret(selectedMontant), operation.type)
+        }
+        await dispatch(editOperations(editData) as any);
+        setMessage("L'opération a été modifié avec succès !");
+        dispatch(getOperations() as any);
+        setSelectedUpdate(false)
+    };
 
     return <>
-        <div className="w-full relative">
-            <h2 className="text-5xl font-thin mb-9">{operation.titre}</h2>
+        <div className="w-full h-auto relative">
+            {selectedUpdate ? (
+                <input className="text-5xl animate-[pulseEdit_1s_ease-in-out_infinite] rounded-2xl text-center font-thin mb-9 bg-transparent" value={selectedTitre} type="text" name="" id="" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
+            ) : (
+                <h2 className="text-5xl font-thin mb-9">{operation.titre}</h2>
+            )}
+
             <div className='absolute top-0 flex flex-row gap-2 w-full'>
                 <Link to={`/${first}/${second}`}>
                     <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
@@ -97,9 +135,9 @@ export default function Transaction() {
                     <h2 className="text-4xl">{operation._id}</h2>
                 </div>
                 <div className="flex flex-row gap-4">
-                    <div className={`h-40 w-full p-8 bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                    <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                         {selectedUpdate ? (
-                            <select id='action' value={selectedCategorie} className="h-full w-full bg-transparent text-center text-4xl rounded-2xl" onChange={(e) => { handleCategorie(e); }} required>
+                            <select id='action' value={selectedCategorie} className="h-full w-full bg-transparent text-center text-4xl rounded-2xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
                                 <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
                                 {operation.type === "Dépense" && categorieDepense.map(({ name }) => (
                                     <option key={name} value={name}>{name}</option>
@@ -114,14 +152,14 @@ export default function Transaction() {
                     </div>
                     {selectedCategorie === "Autre" && selectedUpdate && (
                         <div className={`h-40 w-full p-8 bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
-                            <input className="h-full w-full bg-transparent text-center text-4xl rounded-2xl placeholder:text-xl" type="text" value={selectedAutreCategorie} name="titre" id="autreTitre" onChange={(e) => { handleAutreCategorie(e); }} placeholder="Entrez une autre categorie" />
+                            <input className="h-full w-full bg-transparent text-center text-4xl rounded-2xl placeholder:text-xl" type="text" value={selectedAutreCategorie} name="titre" id="autreTitre" onChange={(e) => { handleAutreCategorie(e); handleInputChange(); }} placeholder="Entrez une autre categorie" />
                         </div>
                     )}
 
-                    <div className={`h-40 w-full p-8 bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                    <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                         {
                             selectedUpdate ? (
-                                <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedDate} type="date" name="" id="" onChange={(e) => { handleDate(e); }} />
+                                <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedDate} type="date" name="" id="" onChange={(e) => { handleDate(e); handleInputChange(); }} />
                             ) : (
                                 <h2 className="text-4xl">{formatDate(operation.date)}</h2>
                             )
@@ -132,17 +170,17 @@ export default function Transaction() {
                 <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                     {
                         selectedUpdate ? (
-                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedMontant} type="number" name="" id="" onChange={(e) => { handleMontant(e); }} />
+                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} />
                         ) : (
                             <h2 className="text-4xl">{operation.montant} €</h2>
                         )
                     }
 
                 </div>
-                <div className={`h-40 w-full p-8 bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                     {
                         selectedUpdate ? (
-                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedDetail} type="text" name="" id="" onChange={(e) => { handleDetail(e); }} />
+                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedDetail} type="text" name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} />
                         ) : (
                             <h2 className="text-4xl">{operation.detail ? operation.detail : "Aucun détail ajouté"}</h2>
                         )
@@ -156,7 +194,20 @@ export default function Transaction() {
                     <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Derniere modification le : <br /><b>{convertDateHour(operation.updatedAt)}</b></p></div>
                 </div>
                 <div className="flex flex-col gap-4">
-                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
+                    {selectedUpdate && update === true ? (
+                        <div className="flex flex-col gap-4 justify-center items-center">
+                            <p className="text-sm">Êtes-vous sûr de vouloir modifier ?</p>
+                            <div className="flex gap-4">
+                                <div className="p-8 border-2 border-red-900 bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95" onClick={() => handleEditConfirmation()}>Oui</div>
+                                <div className="p-8 border-2 border-zinc-900 bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95 hover:border-green-900" onClick={() => setSelectedUpdate(false)}>Non</div>
+                            </div>
+                        </div>
+                    ) : selectedUpdate ? (
+                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
+                    ) : (
+                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
+                    )}
+
                     <div className="flex flex-col gap-4 justify-center items-center">
 
                         {selectedDelete ? (
@@ -174,6 +225,13 @@ export default function Transaction() {
 
                 </div>
             </div>
+            {message ? (
+                <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_0.3s_ease-in-out_forwards]`}>
+                    <p className="p-4 bg-lime-900 w-60 rounded shadow-2xl shadow-black">
+                        {message}
+                    </p>
+                </div>
+            ) : null}
         </section >
     </>
 }

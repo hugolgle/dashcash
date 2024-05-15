@@ -9,6 +9,25 @@ import Tableau from '../../components/Tableau/tableau';
 export default function PageOperations(props: any) {
     const location = useLocation();
     const lUrl = Path(location, 1);
+
+    const [transactionDeleted, setTransactionDeleted] = useState(false);
+
+
+    useEffect(() => {
+        const isTransactionDeleted = localStorage.getItem('transactionDeleted') === 'true';
+
+        if (isTransactionDeleted) {
+            setTransactionDeleted(true);
+
+            const timeout = setTimeout(() => {
+                localStorage.removeItem('transactionDeleted');
+                setTransactionDeleted(false);
+            }, 5000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, []);
+
     const { date } = useParams();
     const [isBottom, setIsBottom] = useState(false);
 
@@ -54,7 +73,7 @@ export default function PageOperations(props: any) {
                     date?.length === 4 ? getOperationsByYear(date, props.type) :
                         getOperationsByMonth(date, props.type)
             } />
-            <div className={`fixed bottom-0 w-1/5 right-96 mr-16 rounded-t-xl bg-zinc-800 py-3 transition-all${isBottom ? ' -bottom-80' : ''}`}>
+            <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-800 py-3 transition-all">
                 Total : <b>{
                     date === "all" ? calculTotal(props.type) :
                         date && date.length === 4 ? calculTotalByYear(props.type, date) :
@@ -67,6 +86,13 @@ export default function PageOperations(props: any) {
                             getOperationsByMonth(date, props.type).length
                 }</b>
             </div>
+            {transactionDeleted ? (
+                <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_0.3s_ease-in-out_forwards]`}>
+                    <p className="p-4 bg-red-900 max-w-60 rounded shadow-2xl shadow-black">
+                        Votre transaction a été supprimé avec succès
+                    </p>
+                </div>
+            ) : null}
         </>
     );
 }

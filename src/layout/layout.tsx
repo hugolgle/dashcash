@@ -44,35 +44,34 @@ export default function Layout(props: any) {
                                 </tbody>
                             </table>
                         ) : (
-                            <p>Aucune {props.type} ce mois-ci !</p>
+                            <p className="italic">Aucune {props.type} ce mois-ci !</p>
                         )}
 
                     </div>
 
-                    <p className="text-right">Depuis le {firstDayMonth}</p>
+                    <p className="text-right italic">Depuis le {firstDayMonth}</p>
                 </Link>
                 <div className="flex flex-col-reverse gap-4 w-2/5 text-left">
                     {lastMonths.map((month: any) => (
                         <Link key={month.code} to={month.code} className="flex flex-col-reverse hover:scale-95 justify-between w-full h-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
-                            <p className="text-right">{month.month}</p>
+                            <p className="text-right italic">{month.month}</p>
                             <p className="text-4xl">{calculTotalByMonth(props.type, month.code)}</p>
                         </Link>
                     ))}
                 </div>
-
             </div>
 
             <div className="flex flex-row gap-4 w-full">
                 {lastYears.map((year: any) => (
                     <Link key={year} to={`${year}`} className="w-1/2 h-32 bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
-                        <p>{year}</p>
+                        <p className="italic">{year}</p>
                         <p className="text-4xl">{calculTotalByYear(props.type, `${year}`)}</p>
                     </Link>
                 ))}
             </div>
 
             <Link to="all" className="w-full  h-32 bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
-                <p>Depuis le début</p>
+                <p className="italic">Depuis le début</p>
                 <p className="text-4xl">{calculTotal(props.type)}</p>
             </Link>
         </section >

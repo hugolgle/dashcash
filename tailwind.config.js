@@ -64,8 +64,16 @@ module.exports = {
       },
       keyframes: {
         pulseEdit: {
-          '0%, 100%': { border: '#fb61619c solid 1px' },
-          '50%': { border: '#fb6161 solid 1px' },
+          '0%, 100%': { border: '#4a4a4a59  1px solid' },
+          '50%': { border: '#4a4a4a  1px solid' },
+        },
+        fadeIn: {
+          'from': { opacity: 0 },
+          'to': { opacity: 1 },
+        },
+        fadeOut: {
+          'from': { opacity: 1 },
+          'to': { opacity: 0 },
         }
       },
       animation: {
