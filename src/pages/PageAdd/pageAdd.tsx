@@ -82,12 +82,14 @@ export default function PageAdd(props: any) {
 
     const postData = {
       type: props.type,
-      categorie: selectedCategorie === "Autre" ? selectedAutreCategorie : selectedCategorie,
+      categorie: selectedCategorie,
+      ...(selectedCategorie === "Autre" && { autreCategorie: selectedAutreCategorie }),
       titre: selectedTitre,
       date: selectedDate,
       detail: selectedDetail,
       montant: formatMontant(selectedMontant, props.type)
     };
+
 
     try {
       const response = await dispatch(addOperations(postData) as any);

@@ -30,7 +30,7 @@ export default function Tableau(props: any) {
                                 <TableRow className="rounded w-full flex my-1 flex-row items-center bg-zinc-900 cursor-pointer hover:bg-zinc-700 transition-all">
                                     <TableCell className="w-full">{operation._id.substring(4, 8)}</TableCell>
                                     <TableCell className="w-full">{operation.titre}</TableCell>
-                                    <TableCell className="w-full">{operation.categorie}</TableCell>
+                                    <TableCell className="w-full">{operation.categorie === "Autre" ? operation.autreCategorie : operation.categorie}</TableCell>
                                     <TableCell className="w-full">{formatDate(operation.date)}</TableCell>
                                     <TableCell className="w-full"><b>{addSpace(operation.montant)} €</b></TableCell>
                                 </TableRow>
