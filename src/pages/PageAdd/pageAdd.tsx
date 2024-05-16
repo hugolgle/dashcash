@@ -119,7 +119,7 @@ export default function PageAdd(props: any) {
     </Link>
     <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
-      <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" maxLength={20} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
+      <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" maxLength={50} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
 
       <select id='action' value={selectedCategorie} className="w-96 h-10 px-2 rounded-xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
         <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
@@ -149,7 +149,7 @@ export default function PageAdd(props: any) {
 
       <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl text-slate-400" type="date" name="" id="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
 
-      <input value={selectedDetail} className="w-96 h-10 px-2 rounded-xl" type="text" name="" id="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e); handleInputChange(); }} />
+      <textarea value={selectedDetail} className="w-96 h-10 px-2 rounded-xl" name="" id="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e); handleInputChange(); }} />
 
       <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" step="0.50" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
 

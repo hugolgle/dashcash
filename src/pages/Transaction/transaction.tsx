@@ -181,9 +181,9 @@ export default function Transaction() {
                 <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                     {
                         selectedUpdate ? (
-                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedDetail} type="text" name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} />
+                            <textarea className="h-full w-full bg-transparent text-center text-xl  rounded-2xl" value={selectedDetail} name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} />
                         ) : (
-                            <h2 className="text-4xl">{operation.detail ? operation.detail : "Aucun détail ajouté"}</h2>
+                            <h2 className="text-xl">{operation.detail ? operation.detail : "Aucun détail ajouté"}</h2>
                         )
                     }
 

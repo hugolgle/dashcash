@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom'
 import { calculEconomie, calculMoyenne, calculMoyenneEconomie, calculTotalByMonth, calculTotalByYear } from "../../utils/calcul";
 import { useSelector } from "react-redux";
 import { months } from "../../utils/fonctionnel";
@@ -108,20 +109,22 @@ export default function Statistique() {
       </div>
 
       <div className="flex flex-row gap-4  w-full text-right">
-        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ring-green-800 ring-inset" >
+        <Link to={`/recette/${selectedYear}`} className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all px-4 py-2 gap-4 ring-2 ring-green-800 ring-inset">
           <div className="flex justify-between">
             <p className="text-xs text-left italic">Recette totale</p>
             <p className="text-xs text-left italic">En {selectedYear}</p>
           </div>
           <p className="text-4xl">{recetteYear}</p>
-        </div>
-        <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ring-red-800 ring-inset">
+        </Link>
+
+        <Link to={`/depense/${selectedYear}`} className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all px-4 py-2 gap-4 ring-2 ring-red-800 ring-inset">
           <div className="flex justify-between">
             <p className="text-xs text-left italic">Dépense totale</p>
             <p className="text-xs text-left italic">En {selectedYear}</p>
           </div>
           <p className="text-4xl">{depenseYear}</p>
-        </div>
+        </Link>
+
         <div className={`flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ${economieTotaleNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
           <div className="flex justify-between">
             <p className="text-xs text-left italic">Économie totale</p>
@@ -168,21 +171,22 @@ export default function Statistique() {
       </div>
 
       <div className="flex flex-row gap-4 text-right w-full">
-        <div className="w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 ring-2 ring-green-800 ring-inset">
+        <Link to={`/recette/${selectedYear}${selectedMonth}`} className="w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all px-4 py-2 ring-2 ring-green-800 ring-inset">
           <div className="flex justify-between">
             <p className="text-xs text-left italic">Recette</p>
             <p className="text-xs text-left italic">En {months[parseInt(selectedMonth) - 1]} {selectedYear}</p>
           </div>
           <p className="text-4xl">{recetteMonth}</p>
-        </div>
-        <div className="w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 ring-2 ring-red-800 ring-inset">
+        </Link>
+
+        <Link to={`/depense/${selectedYear}${selectedMonth}`} className="w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all px-4 py-2 ring-2 ring-red-800 ring-inset">
           <div className="flex justify-between">
             <p className="text-xs text-left italic">Dépense</p>
             <p className="text-xs text-left italic">En {months[parseInt(selectedMonth) - 1]} {selectedYear}</p>
           </div>
-
           <p className="text-4xl">{depenseMonth}</p>
-        </div>
+        </Link>
+
         <div className={`w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 ring-2 ${economieMonthNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
           <div className="flex justify-between">
             <p className="text-xs text-left italic">Économie</p>

@@ -39,8 +39,8 @@ export default function Layout(props: any) {
                                     {lastTransactions.map((transaction: any) => (
                                         <tr key={transaction._id}>
                                             <td>{convertirFormatDate(transaction.date)}</td>
-                                            <td>{transaction.categorie}</td>
                                             <td>{transaction.titre}</td>
+                                            <td>{transaction.categorie}</td>
                                             <td><b>{addSpace(transaction.montant)} €</b></td>
                                         </tr>
                                     ))}
