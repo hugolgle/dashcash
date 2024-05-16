@@ -10,10 +10,13 @@ export default function Navbar(props: any) {
     const dispatch = useDispatch()
     const isAuthenticated = isConnected();
 
-    const deconnexion = () => {
-        const confirmLogout = window.confirm('Êtes-vous sûr de vouloir vous déconnecter ?');
-        if (confirmLogout) dispatch(logoutUser());
+    const logout = () => {
+        dispatch(logoutUser());
+        navigate("/")
+        setSelectedLogout(false)
     };
+
+    const [selectedLogout, setSelectedLogout] = useState(false);
 
 
     const location = useLocation();
@@ -53,20 +56,49 @@ export default function Navbar(props: any) {
                         <Link to="/uyuyu" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/dd') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Calendrier</Link>
 
                     </div>
-
-                    <div className='flex flex-col justify-end h-32  w-full'>
-                        {isAuthenticated === true && <Link to="/profil" className='my-1 py-2 bg-zinc-800 rounded hover:bg-zinc-700 transition-all'>Profil</Link>}
+                    <div className='flex flex-col justify-end h-32 w-full'>
+                        {isAuthenticated === true && (
+                            <Link to="/profil" className='my-1 py-2 bg-zinc-800 rounded hover:bg-zinc-700 transition-all'>Profil</Link>
+                        )}
                         {isAuthenticated === false ? (
-                            <Link to="/connexion" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/connexion') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Connexion</Link>
-                        ) : (<Button onClick={deconnexion} className='text-base my-1 py-2 bg-zinc-800 rounded hover:bg-zinc-700 transition-all'>Déconnexion</Button>)}
+                            <Link
+                                to="/connexion"
+                                className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/connexion') ? 'bg-zinc-700' : 'bg-zinc-800'}`}
+                            >
+                                Connexion
+                            </Link>
+                        ) : (
+                            selectedLogout ? (
+                                <div className="flex flex-col justify-center items-center">
+                                    <p className="text-sm py-1">Êtes-vous sûr ?</p>
+                                    <div className="flex justify-center gap-4 w-full">
+                                        <div
+                                            className="p-1 w-full text-sm border-2 border-red-900 bg-zinc-700 rounded cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95"
+                                            onClick={logout}
+                                        >
+                                            Oui
+                                        </div>
+                                        <div
+                                            className="p-1 w-full text-sm border-2 border-zinc-900 bg-zinc-700 rounded cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95 hover:border-green-900"
+                                            onClick={() => setSelectedLogout(false)}
+                                        >
+                                            Non
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <button onClick={() => setSelectedLogout(true)} className='text-base my-1 py-2 bg-zinc-800 rounded hover:bg-zinc-700 transition-all'>Déconnexion</button>
+                            )
+                        )}
                     </div>
+
                     <p className='text-xs text-gray-400 absolute bottom-2'>© Hugo Le Galle - DashBoard v2.0.0</p>
                 </div>
                 <div className='content w-4/5 ml-auto p-4'>
                     <Outlet />
                     {props.children}
                 </div>
-            </div>
+            </div >
         </>
     )
 
