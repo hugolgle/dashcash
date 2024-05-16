@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { calculEconomie, calculMoyenne, calculMoyenneEconomie, calculTotalByMonth, calculTotalByYear } from "../../utils/calcul";
 import { useSelector } from "react-redux";
 import { months } from "../../utils/fonctionnel";
+import { infoUser } from "../../utils/users";
 
 export default function Statistique() {
 
@@ -11,7 +12,7 @@ export default function Statistique() {
     const currentYear = currentDate.getFullYear();
     return { month: currentMonth, year: currentYear };
   };
-
+  const userInfo = infoUser()
   const { month, year } = getCurrentMonthAndYear();
 
   const [selectedMonth, setSelectedMonth] = useState(String(month).padStart(2, '0'));
@@ -30,11 +31,16 @@ export default function Statistique() {
       const month = new Date(transaction.date).getMonth();
       const year = new Date(transaction.date).getFullYear();
 
-      if (year === selectedYear) {
+      // Vérifiez si la transaction appartient à l'utilisateur sélectionné,
+      // ainsi que l'année sélectionnée
+      if (transaction.user === userInfo.id && year === selectedYear) {
         monthsSet?.add(month);
       }
 
-      yearsSet?.add(year);
+      // Ajoutez l'année à l'ensemble des années si la transaction appartient à l'utilisateur sélectionné
+      if (transaction.user === userInfo.id) {
+        yearsSet?.add(year);
+      }
     });
 
     const sortedMonths = Array.from(monthsSet).sort((a: any, b: any) => parseInt(a, 10) - parseInt(b, 10));
@@ -43,7 +49,9 @@ export default function Statistique() {
     setUniqueMonths(sortedMonths as string[]);
     setUniqueYears(sortedYears as number[]);
 
-  }, [filteredOperation, selectedYear]);
+  }, [filteredOperation, selectedYear, userInfo.id]);
+
+
 
   const clickMonth = (month: any) => {
     setSelectedMonth(month);
@@ -64,21 +72,21 @@ export default function Statistique() {
   const selectedDate = `${selectedYear}${selectedMonth}`
 
 
-  const depenseYear = calculTotalByYear("Dépense", `${selectedYear}`)
-  const recetteYear = calculTotalByYear("Recette", `${selectedYear}`)
+  const depenseYear = calculTotalByYear("Dépense", `${selectedYear}`, userInfo.id)
+  const recetteYear = calculTotalByYear("Recette", `${selectedYear}`, userInfo.id)
 
-  const depenseMonth = calculTotalByMonth("Dépense", selectedDate)
-  const recetteMonth = calculTotalByMonth("Recette", selectedDate)
+  const depenseMonth = calculTotalByMonth("Dépense", selectedDate, userInfo.id)
+  const recetteMonth = calculTotalByMonth("Recette", selectedDate, userInfo.id)
 
   const nbMonth = uniqueMonths.length
 
 
-  const moyenneDepenseMois = calculMoyenne("Dépense", `${selectedYear}`, nbMonth)
-  const moyenneRecetteMois = calculMoyenne("Recette", `${selectedYear}`, nbMonth)
+  const moyenneDepenseMois = calculMoyenne("Dépense", `${selectedYear}`, nbMonth, userInfo.id)
+  const moyenneRecetteMois = calculMoyenne("Recette", `${selectedYear}`, nbMonth, userInfo.id)
 
-  const economieTotale = calculEconomie(`${selectedYear}`, null)
+  const economieTotale = calculEconomie(`${selectedYear}`, null, userInfo.id)
   const economieTotaleNumber = parseInt(economieTotale);
-  const economieMonth = calculEconomie(`${selectedYear}`, selectedMonth)
+  const economieMonth = calculEconomie(`${selectedYear}`, selectedMonth, userInfo.id)
   const economieMonthNumber = parseInt(economieMonth);
   const moyenneEconomie = calculMoyenneEconomie(moyenneDepenseMois, moyenneRecetteMois)
   const moyenneEconomieNumber = parseInt(moyenneEconomie);
@@ -183,20 +191,6 @@ export default function Statistique() {
           <p className="text-4xl">{economieMonth} €</p>
         </div>
       </div>
-
-      {/* <div className="flex flex-row-reverse w-full h-64 gap-4">
-        <div className="bg-zinc-900 h-full w-3/5 rounded-2xl hover:bg-opacity-80 transition-all p-2">
-
-        </div>
-        <div className="flex flex-col h-full w-2/5 gap-4">
-          <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:bg-opacity-80 transition-all p-2">
-
-          </div>
-          <div className="bg-zinc-900 w-full h-1/2 rounded-2xl hover:bg-opacity-80 transition-all p-2">
-
-          </div>
-        </div>
-      </div> */}
     </section>
   </>
 

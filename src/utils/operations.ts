@@ -23,17 +23,20 @@ export function getCurrentMonth() {
 
 // --------------------------------
 
-export function getAllOperations() {
+export function getAllOperations(idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
-    return operations;
+
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+
+    return userOperations;
 
 }
 
-export function getOperationsByType(type: any) {
+export function getOperationsByType(type: any, idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
-
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
     if (type) {
-        return operations.filter((operation: any) => operation.type === type)
+        return userOperations.filter((operation: any) => operation.type === type)
             .sort((a: any, b: any) => {
                 const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
                 if (dateSort !== 0) return dateSort;
@@ -41,7 +44,7 @@ export function getOperationsByType(type: any) {
                 return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
             });
     } else {
-        return operations.sort((a: any, b: any) => {
+        return userOperations.sort((a: any, b: any) => {
             const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
             if (dateSort !== 0) return dateSort;
 
@@ -50,23 +53,22 @@ export function getOperationsByType(type: any) {
     }
 }
 
-
-export function getOperationById(id: any) {
+export function getOperationById(id: any, idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
-
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
     if (id) {
-        return operations.find((operation: any) => operation._id === id);
+        return userOperations.find((operation: any) => operation._id === id);
     } else {
         return null;
     }
 }
 
-export function getOperationsByMonth(month: any, type: any) {
+export function getOperationsByMonth(month: any, type: any, idUser: any) {
     const targetMonth = `${month.slice(0, 4)}-${month.slice(4)}`;
 
     const operations = useSelector((state: any) => state.operationReducer || []);
-
-    let operationsInMonth = operations.filter((operation: any) => {
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+    let operationsInMonth = userOperations.filter((operation: any) => {
         const operationDate = operation.date.split('T')[0];
         const operationMonth = operationDate.slice(0, 7);
 
@@ -84,10 +86,10 @@ export function getOperationsByMonth(month: any, type: any) {
 }
 
 
-export function getOperationsByYear(year: any, type: any) {
+export function getOperationsByYear(year: any, type: any, idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
-
-    let operationsInYear = operations.filter((operation: any) => {
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+    let operationsInYear = userOperations.filter((operation: any) => {
         const operationYear = operation.date.slice(0, 4);
 
         return operationYear === year;
@@ -104,10 +106,10 @@ export function getOperationsByYear(year: any, type: any) {
     return operationsInYear;
 }
 
-export function getLastFiveOperationsByType(type: any) {
+export function getLastFiveOperationsByType(type: any, idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
-
-    const filteredOperations = operations.filter((operation: any) => operation.type === type);
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+    const filteredOperations = userOperations.filter((operation: any) => operation.type === type);
 
     const filteredOperationsThisMonth = filteredOperations.filter((operation: any) => {
         const operationDate = new Date(operation.date);

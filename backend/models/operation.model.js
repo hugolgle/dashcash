@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const operationSchema = mongoose.Schema(
     {
-        // user: {
-        //     type: String,
-        //     required: false,
-        // },
+        user: {
+            type: String,
+            required: true,
+        },
         type: {
             type: String,
             required: true,

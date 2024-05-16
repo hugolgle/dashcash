@@ -7,7 +7,7 @@ module.exports.setOperations = async (req, res) => {
         }
 
         const operation = await OperationModel.create({
-            // user: req.body.user,
+            user: req.body.user,
             type: req.body.type,
             categorie: req.body.categorie,
             autreCategorie: req.body.autreCategorie,

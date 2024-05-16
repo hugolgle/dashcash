@@ -1,76 +1,53 @@
-"use client"
-
-
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { Button } from "../../../@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../../../@/components/ui/form"
-import { Input } from "../../../@/components/ui/input"
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Le nom d'utilisateur doit avoir au moins 2 caractères.",
-  }),
-  password: z.string().min(2, {
-    message: "Le mot de passe doit avoir au moins 2 caractères.",
-  }),
-})
+import React, { useState, FormEvent } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/actions/user.action';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../../../@/components/ui/button';
 
 export default function Connexion() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  })
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-  }
-  return <>
-    <h2 className="text-5xl font-thin">Connexion</h2>
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-96 py-32">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nom d'utilisateur</FormLabel>
-              <FormControl>
-                <Input className="p-3 rounded-xl m-2" placeholder="Nom d'utilisateur" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Mot de passe</FormLabel>
-              <FormControl>
-                <Input className="p-3 rounded-xl m-2" placeholder="Mot de passe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="w-1/2 rounded-xl" type="submit">Se connecter</Button>
+  const handleLogin = (e: FormEvent) => {
+    e.preventDefault();
+    dispatch(loginUser(username, password));
+    navigate('/');
+  };
+
+  return (
+    <>
+      <h2 className="text-5xl font-thin">Connexion</h2>
+      <form onSubmit={handleLogin} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
+        <div className="flex flex-col">
+          <label htmlFor="login">Nom d'utilisateur:</label>
+          <input
+            className='w-96 h-10 px-2 rounded-xl'
+            id="login"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="password">Mot de passe:</label>
+          <input
+            className='w-96 h-10 px-2 rounded-xl'
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500" type="submit">
+          Connexion
+        </Button>
       </form>
-    </Form>
-
-  </>
-
+    </>
+  );
 }

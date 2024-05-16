@@ -11,6 +11,7 @@ import {
 import { addSpace, formatDate } from "../../utils/fonctionnel";
 
 export default function Tableau(props: any) {
+
     return (
         <>
             {props.operations && props.operations.length > 0 ? (
@@ -43,6 +44,4 @@ export default function Tableau(props: any) {
             )}
         </>
     );
-
-
 }

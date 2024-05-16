@@ -3,15 +3,18 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
 import { Path, convertDate } from '../../utils/fonctionnel'
 import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul'
-import { getOperationsByYear, getOperationsByMonth, getOperationsByType, } from '../../utils/operations'
+import { getOperationsByYear, getOperationsByMonth, getOperationsByType } from '../../utils/operations'
 import Tableau from '../../components/Tableau/tableau';
+import { infoUser } from '../../utils/users';
 
 export default function PageOperations(props: any) {
+
+    const userInfo = infoUser()
+
     const location = useLocation();
     const lUrl = Path(location, 1);
 
     const [transactionDeleted, setTransactionDeleted] = useState(false);
-
 
     useEffect(() => {
         const isTransactionDeleted = localStorage.getItem('transactionDeleted') === 'true';
@@ -29,6 +32,9 @@ export default function PageOperations(props: any) {
     }, []);
 
     const { date } = useParams();
+
+
+    // _________________________
 
     return (
         <>
@@ -49,21 +55,21 @@ export default function PageOperations(props: any) {
                 </div>
             </div>
             <Tableau operations={
-                date === "all" ? getOperationsByType(props.type) :
-                    date?.length === 4 ? getOperationsByYear(date, props.type) :
-                        getOperationsByMonth(date, props.type)
+                date === "all" ? getOperationsByType(props.type, userInfo.id) :
+                    date?.length === 4 ? getOperationsByYear(date, props.type, userInfo.id) :
+                        getOperationsByMonth(date, props.type, userInfo.id)
             } />
             <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-800 py-3 transition-all">
                 Total : <b>{
-                    date === "all" ? calculTotal(props.type) :
-                        date && date.length === 4 ? calculTotalByYear(props.type, date) :
-                            date ? calculTotalByMonth(props.type, date) : "Date non définie"
+                    date === "all" ? calculTotal(props.type, userInfo.id) :
+                        date && date.length === 4 ? calculTotalByYear(props.type, date, userInfo.id) :
+                            date ? calculTotalByMonth(props.type, date, userInfo.id) : "Date non définie"
                 }</b>
                 <br />
                 Transaction(s) : <b>{
-                    date === "all" ? getOperationsByType(props.type).length :
-                        date?.length === 4 ? getOperationsByYear(date, props.type).length :
-                            getOperationsByMonth(date, props.type).length
+                    date === "all" ? getOperationsByType(props.type, userInfo.id).length :
+                        date?.length === 4 ? getOperationsByYear(date, props.type, userInfo.id).length :
+                            getOperationsByMonth(date, props.type, userInfo.id).length
                 }</b>
             </div>
             {transactionDeleted ? (

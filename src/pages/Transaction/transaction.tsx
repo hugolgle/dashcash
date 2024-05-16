@@ -10,10 +10,11 @@ import { categorieRecette, categorieDepense } from '../../../public/categories.j
 import { deleteOperations, editOperations, getOperations } from "../../redux/actions/operation.action";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { infoUser } from "../../utils/users";
 
 
 export default function Transaction() {
-
+    const userInfo = infoUser()
     const location = useLocation()
     const first = Path(location, 1)
     const second = Path(location, 2)
@@ -31,7 +32,7 @@ export default function Transaction() {
     }, [message]);
 
     const { id } = useParams()
-    const operation = getOperationById(id)
+    const operation = getOperationById(id, userInfo.id)
 
     const [selectedDelete, setSelectedDelete] = useState(false);
 

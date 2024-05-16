@@ -1,7 +1,21 @@
-import { Link, Outlet, useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../redux/actions/user.action';
+import { Button } from '../../../@/components/ui/button';
+import { isConnected } from '../../utils/users';
 
 export default function Navbar(props: any) {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const isAuthenticated = isConnected();
+
+    const deconnexion = () => {
+        const confirmLogout = window.confirm('Êtes-vous sûr de vouloir vous déconnecter ?');
+        if (confirmLogout) dispatch(logoutUser());
+    };
+
+
     const location = useLocation();
     const [activeLink, setActiveLink] = useState('');
 
@@ -41,10 +55,12 @@ export default function Navbar(props: any) {
                     </div>
 
                     <div className='flex flex-col justify-end h-32  w-full'>
-                        <Link to="/profil" className='my-1 py-2 bg-zinc-800 rounded hover:bg-zinc-700 transition-all'>Profil</Link>
-                        <Link to="/connexion" className='my-1 py-2 bg-zinc-800 rounded hover:bg-zinc-700 transition-all'>Connexion</Link>
+                        {isAuthenticated === true && <Link to="/profil" className='my-1 py-2 bg-zinc-800 rounded hover:bg-zinc-700 transition-all'>Profil</Link>}
+                        {isAuthenticated === false ? (
+                            <Link to="/connexion" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/connexion') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Connexion</Link>
+                        ) : (<Button onClick={deconnexion} className='text-base my-1 py-2 bg-zinc-800 rounded hover:bg-zinc-700 transition-all'>Déconnexion</Button>)}
                     </div>
-
+                    <p className='text-xs text-gray-400 absolute bottom-2'>© Hugo Le Galle - DashBoard v2.0.0</p>
                 </div>
                 <div className='content w-4/5 ml-auto p-4'>
                     <Outlet />

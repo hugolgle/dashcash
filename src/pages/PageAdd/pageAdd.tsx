@@ -12,8 +12,11 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 
 import { addOperations, getOperations } from '../../redux/actions/operation.action';
+import { infoUser } from "../../utils/users"
 
 export default function PageAdd(props: any) {
+
+  const userInfo = infoUser()
 
 
   const location = useLocation()
@@ -81,6 +84,7 @@ export default function PageAdd(props: any) {
     event.preventDefault();
 
     const postData = {
+      user: userInfo.id,
       type: props.type,
       categorie: selectedCategorie,
       autreCategorie: selectedAutreCategorie,

@@ -1,10 +1,13 @@
 import { useSelector } from "react-redux";
 
 
-export function calculTotal(type: any) {
+export function calculTotal(type: any, idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
 
-    const filteredOperations = operations.filter((operation: any) => operation.type === type);
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+
+
+    const filteredOperations = userOperations.filter((operation: any) => operation.type === type);
 
     const totalAmount = filteredOperations.reduce((total: any, operation: any) => total + parseFloat(operation.montant), 0.00);
 
@@ -13,13 +16,15 @@ export function calculTotal(type: any) {
     return formattedTotal
 }
 
-export function calculTotalByMonth(type: any, month: string) {
+export function calculTotalByMonth(type: any, month: string, idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
+
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
 
     const year = month.slice(0, 4);
     const monthNumber = month.slice(4);
 
-    const filteredOperations = operations.filter((operation: any) => {
+    const filteredOperations = userOperations.filter((operation: any) => {
         const operationYear = operation.date.slice(0, 4);
         const operationMonth = operation.date.slice(5, 7);
         return operation.type === type && operationYear === year && operationMonth === monthNumber;
@@ -32,10 +37,12 @@ export function calculTotalByMonth(type: any, month: string) {
     return formattedTotal;
 }
 
-export function calculTotalByYear(type: any, year: any) {
+export function calculTotalByYear(type: any, year: any, idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
 
-    const filteredOperations = operations.filter((operation: any) => {
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+
+    const filteredOperations = userOperations.filter((operation: any) => {
         const operationYear = operation.date.slice(0, 4);
         return operation.type === type && operationYear === year;
     });
@@ -47,10 +54,12 @@ export function calculTotalByYear(type: any, year: any) {
     return formattedTotal;
 }
 
-export function calculMoyenne(type: any, year: any, nbMonth: any) {
+export function calculMoyenne(type: any, year: any, nbMonth: any, idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
 
-    let filteredOperations = operations.filter((operation: any) => {
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+
+    let filteredOperations = userOperations.filter((operation: any) => {
         const operationYear = operation.date.slice(0, 4);
         return operationYear === year;
     });
@@ -67,13 +76,20 @@ export function calculMoyenne(type: any, year: any, nbMonth: any) {
 
     const resultat = totalAmount / parseFloat(nbMonth);
 
+    if (isNaN(resultat)) {
+        return '0.00 €';
+    }
+
     return `${resultat.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 }
 
-export function calculEconomie(year: any, month: any) {
+
+export function calculEconomie(year: any, month: any, idUser: any) {
     const operations = useSelector((state: any) => state.operationReducer || []);
 
-    let filteredOperations = operations.filter((operation: any) => {
+    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+
+    let filteredOperations = userOperations.filter((operation: any) => {
         const operationYear = operation.date.slice(0, 4);
         return operationYear === year;
     });
@@ -104,7 +120,7 @@ export function calculMoyenneEconomie(depensesMoyennes: any, recettesMoyennes: a
     const depensesMoyennesNumber = parseFloat(depensesMoyennes.replace(/\s/g, '').replace('€', ''));
     const recettesMoyennesNumber = parseFloat(recettesMoyennes.replace(/\s/g, '').replace('€', ''));
 
-    const economieMoyenne = recettesMoyennesNumber + depensesMoyennesNumber;
+    const economieMoyenne = (recettesMoyennesNumber + depensesMoyennesNumber);
 
     const economieMoyenneFormatted = economieMoyenne.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 

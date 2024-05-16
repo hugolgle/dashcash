@@ -4,15 +4,18 @@ import { calculTotal, calculTotalByMonth, calculTotalByYear } from "../utils/cal
 import { Path, addSpace, convertirFormatDate, } from "../utils/fonctionnel";
 import { getCurrentMonth, getLastFiveOperationsByType } from "../utils/operations";
 import { getLastThreeMonthsOfCurrentYear, getLastTwoYears, premierJourMoisEnCours } from "../utils/autre";
+import { infoUser } from "../utils/users";
 export default function Layout(props: any) {
 
     const location = useLocation()
     const lUrl = Path(location, 1)
 
+    const userInfo = infoUser()
+
     const lastMonths = getLastThreeMonthsOfCurrentYear()
     const lastYears = getLastTwoYears()
     const currentMonth = getCurrentMonth()
-    const lastTransactions = getLastFiveOperationsByType(props.type)
+    const lastTransactions = getLastFiveOperationsByType(props.type, userInfo.id)
     const firstDayMonth = premierJourMoisEnCours()
 
     return <>
@@ -28,7 +31,7 @@ export default function Layout(props: any) {
 
                 <Link to={currentMonth} className="flex flex-col hover:scale-95 justify-between w-3/5 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                     <div className="flex flex-col w-full gap-4">
-                        <p className="text-4xl">{calculTotalByMonth(props.type, currentMonth)}</p>
+                        <p className="text-4xl">{calculTotalByMonth(props.type, currentMonth, userInfo.id)}</p>
 
                         {lastTransactions && lastTransactions.length > 0 ? (
                             <table>
@@ -55,7 +58,7 @@ export default function Layout(props: any) {
                     {lastMonths.map((month: any) => (
                         <Link key={month.code} to={month.code} className="flex flex-col-reverse hover:scale-95 justify-between w-full h-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                             <p className="text-right italic">{month.month}</p>
-                            <p className="text-4xl">{calculTotalByMonth(props.type, month.code)}</p>
+                            <p className="text-4xl">{calculTotalByMonth(props.type, month.code, userInfo.id)}</p>
                         </Link>
                     ))}
                 </div>
@@ -65,14 +68,14 @@ export default function Layout(props: any) {
                 {lastYears.map((year: any) => (
                     <Link key={year} to={`${year}`} className="w-1/2 h-32 bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
                         <p className="italic">{year}</p>
-                        <p className="text-4xl">{calculTotalByYear(props.type, `${year}`)}</p>
+                        <p className="text-4xl">{calculTotalByYear(props.type, `${year}`, userInfo.id)}</p>
                     </Link>
                 ))}
             </div>
 
             <Link to="all" className="w-full  h-32 bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
                 <p className="italic">Depuis le début</p>
-                <p className="text-4xl">{calculTotal(props.type)}</p>
+                <p className="text-4xl">{calculTotal(props.type, userInfo.id)}</p>
             </Link>
         </section >
     </>
