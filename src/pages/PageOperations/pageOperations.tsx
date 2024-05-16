@@ -22,33 +22,13 @@ export default function PageOperations(props: any) {
             const timeout = setTimeout(() => {
                 localStorage.removeItem('transactionDeleted');
                 setTransactionDeleted(false);
-            }, 5000);
+            }, 7000);
 
             return () => clearTimeout(timeout);
         }
     }, []);
 
     const { date } = useParams();
-    const [isBottom, setIsBottom] = useState(false);
-
-    useEffect(() => {
-        function handleScroll() {
-            const scrollTop = document.documentElement.scrollTop;
-            const windowHeight = window.innerHeight;
-            const scrollHeight = document.documentElement.scrollHeight;
-            const bottomOffset = scrollHeight - (scrollTop + windowHeight);
-
-            if (bottomOffset < 20) {
-                setIsBottom(true);
-            } else {
-                setIsBottom(false);
-            }
-
-        }
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     return (
         <>
@@ -87,7 +67,7 @@ export default function PageOperations(props: any) {
                 }</b>
             </div>
             {transactionDeleted ? (
-                <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_0.3s_ease-in-out_forwards]`}>
+                <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
                     <p className="p-4 bg-red-900 max-w-60 rounded shadow-2xl shadow-black">
                         Votre transaction a été supprimé avec succès
                     </p>

@@ -152,7 +152,7 @@ export default function PageAdd(props: any) {
       <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre la {props.type}</Button>
     </form >
     {message || messageError ? (
-      <div className={`absolute animate-[fadeIn_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
+      <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
         <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>
           {message} <Link to={`/${lUrl}/${addedOperationDate}/${addedOperationId}`} className="underline transition-all hover:text-zinc-950">Allez-y !</Link>
         </p>

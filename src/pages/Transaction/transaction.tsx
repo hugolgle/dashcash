@@ -24,7 +24,7 @@ export default function Transaction() {
         if (message) {
             const timer = setTimeout(() => {
                 setMessage("");
-            }, 5000);
+            }, 7000);
 
             return () => clearTimeout(timer);
         }
@@ -226,7 +226,7 @@ export default function Transaction() {
                 </div>
             </div>
             {message ? (
-                <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_0.3s_ease-in-out_forwards]`}>
+                <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
                     <p className="p-4 bg-lime-900 w-60 rounded shadow-2xl shadow-black">
                         {message}
                     </p>

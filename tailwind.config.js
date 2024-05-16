@@ -68,12 +68,12 @@ module.exports = {
           '50%': { border: '#4a4a4a  1px solid' },
         },
         fadeIn: {
+          '0%,100%': { opacity: 0 },
+          '10%,90%': { opacity: 1 },
+        },
+        fadeIn2: {
           'from': { opacity: 0 },
           'to': { opacity: 1 },
-        },
-        fadeOut: {
-          'from': { opacity: 1 },
-          'to': { opacity: 0 },
         }
       },
       animation: {
