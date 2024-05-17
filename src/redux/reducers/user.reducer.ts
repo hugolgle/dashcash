@@ -6,7 +6,7 @@ const initialeState = {
         pseudo: null,
         nom: null,
         prenom: null,
-        img: null,
+        date: null,
     },
     error: null,
 };
@@ -22,7 +22,8 @@ export default function userReducer(state = initialeState, action: any) {
                     username: action.payload.username,
                     pseudo: action.payload.pseudo,
                     nom: action.payload.nom,
-                    prenom: action.payload.prenom
+                    prenom: action.payload.prenom,
+                    date: action.payload.date
                 },
                 error: null,
             };
@@ -35,7 +36,8 @@ export default function userReducer(state = initialeState, action: any) {
                     username: null,
                     pseudo: null,
                     nom: null,
-                    prenom: null
+                    prenom: null,
+                    date: null
                 },
                 error: action.payload.error,
             };
@@ -48,7 +50,8 @@ export default function userReducer(state = initialeState, action: any) {
                     username: null,
                     pseudo: null,
                     nom: null,
-                    prenom: null
+                    prenom: null,
+                    date: null
                 },
                 error: null,
             };
@@ -63,6 +66,7 @@ export default function userReducer(state = initialeState, action: any) {
                     password: action.payload.password,
                     nom: action.payload.nom,
                     prenom: action.payload.prenom,
+                    date: action.payload.date
                 },
                 error: null,
             };
@@ -76,6 +80,7 @@ export default function userReducer(state = initialeState, action: any) {
                     pseudo: null,
                     nom: null,
                     prenom: null,
+                    date: null
                 },
                 error: null,
             };

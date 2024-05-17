@@ -12,21 +12,26 @@ export const loginUser = (username: any, password: any) => {
                 },
             });
 
+            if (!response.ok) {
+                throw new Error('Erreur de réseau. Veuillez réessayer.');
+            }
+
             const usersData = await response.json();
 
             const user = usersData.find((u: any) => u.username === username && u.password === password);
 
             if (user) {
-                const { _id, username, nom, prenom, pseudo, image } = user;
-                dispatch({ type: 'LOGIN_SUCCESS', payload: { id: _id, username, nom, prenom, pseudo, image } });
+                const { _id, username, nom, prenom, pseudo, createdAt } = user;
+                dispatch({ type: 'LOGIN_SUCCESS', payload: { id: _id, username, nom, prenom, pseudo, date: createdAt } });
             } else {
                 dispatch({ type: 'LOGIN_FAILURE', payload: { error: 'Nom d\'utilisateur ou mot de passe incorrect' } });
             }
         } catch (error) {
-            dispatch({ type: 'LOGIN_FAILURE', payload: { error: 'Erreur de connexion' } });
+            dispatch({ type: 'LOGIN_FAILURE', payload: { error: error.message } });
         }
     };
 };
+
 
 export const logoutUser = () => {
     return async (dispatch: Dispatch) => {
@@ -50,8 +55,8 @@ export const editUser = (data: any) => {
         try {
             const response = await axios.put(`http://localhost:5001/user/edit/${data._id}`, data);
             const updatedUserData = response.data;
-            const { _id, username, password, nom, prenom, pseudo } = updatedUserData;
-            dispatch({ type: 'EDIT_USER', payload: { _id: _id, username, password, prenom, nom, pseudo } });
+            const { _id, username, password, nom, prenom, pseudo, createdAt } = updatedUserData;
+            dispatch({ type: 'EDIT_USER', payload: { _id: _id, username, password, prenom, nom, pseudo, date: createdAt } });
         } catch (error) {
             throw error;
         }

@@ -31,6 +31,11 @@ export default function Inscription() {
     try {
       await dispatch(addUser(postData));
       setMessage("Inscription réussi !");
+      setUsername("");
+      setPassword("");
+      setPseudo("");
+      setNom("");
+      setPrenom("");
     } catch (err) {
       setMessageError("Erreur lors de l'inscription. Veuillez réessayer.");
     }
@@ -110,12 +115,12 @@ export default function Inscription() {
           />
         </div>
 
-        <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500" type="submit">Soummetre</Button>
+        <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500" type="submit">S'inscrire</Button>
       </form>
       <div className='flex flex-col justify-center items-center gap-2 px-36'>
-        <p className='text-xs'>Vous posséder déjà un compte ?</p>
+        <p className='text-xs'>Vous possédez déjà un compte ?</p>
         <Link to="/connexion" className="rounded-xl bg-transparent border-2 border-zinc-700  py-2 text-sm px-4 transition-all hover:bg-zinc-700" type="submit">
-          Identifier-vous !
+          Identifiez-vous !
         </Link>
       </div>
 

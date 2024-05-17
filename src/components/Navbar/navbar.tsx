@@ -61,8 +61,8 @@ export default function Navbar(props: any) {
                 <div className='sidebar flex flex-col justify-between items-center border-r border-r-zinc-700 w-1/5 h-screen py-10 px-4 bg-zinc-900 fixed'>
                     <Link to="/" className='font-logo text-2xl w-fit group text-center'>
                         <div className='flex justify-center items-center tracking-tight font-bold'>
-                            <p className='p-2 bg-white rounded-l-xl text-zinc-900 group-hover:bg-transparent group-hover:text-white transition-all'>D A $ H</p>
-                            <p className='p-2 bg-transparent text-white rounded-r-xl group-hover:bg-white group-hover:text-zinc-900 transition-all'>B O A R D</p>
+                            <p className='p-2 bg-white text-zinc-900 group-hover:bg-transparent group-hover:text-white transition-all'>D A $ H</p>
+                            <p className='p-2 bg-transparent text-white group-hover:bg-white group-hover:text-zinc-900 transition-all'>B O A R D</p>
                         </div>
                     </Link>
 
@@ -86,7 +86,7 @@ export default function Navbar(props: any) {
                     </div>
                     <div className='flex flex-col justify-end h-32 w-full'>
                         {isAuthenticated === true && (
-                            <Link to="/profil" className='my-1 py-2 bg-zinc-800 rounded hover:bg-zinc-700 transition-all'>Profil</Link>
+                            <Link to="/profil" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/profil') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Profil</Link>
                         )}
                         {isAuthenticated === false ? (
                             <Link

@@ -40,7 +40,7 @@ export default function Tableau(props: any) {
                     </TableBody>
                 </Table>
             ) : (
-                <p>Aucune transaction n'a été trouvée...</p>
+                <p>Aucune transaction n'a été trouvée ...</p>
             )}
         </>
     );

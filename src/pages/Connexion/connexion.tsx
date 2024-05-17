@@ -1,8 +1,9 @@
-import React, { useState, FormEvent } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, FormEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/actions/user.action';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../../../@/components/ui/button';
+import { isConnected } from '../../utils/users';
 
 export default function Connexion() {
   const dispatch = useDispatch();
@@ -10,11 +11,20 @@ export default function Connexion() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const handleLogin = (e: FormEvent) => {
+  const messageError = useSelector(state => state.userReducer?.error);
+
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     dispatch(loginUser(username, password));
-    navigate('/');
   };
+  const isConnect = isConnected()
+
+  useEffect(() => {
+    if (isConnect) {
+
+      navigate('/');
+    }
+  }, [isConnect, navigate]);
 
   return (
     <>
@@ -54,6 +64,12 @@ export default function Connexion() {
           Créer un compte DashBoard !
         </Link>
       </div>
+
+      {messageError && (
+        <div className="absolute animate-[fadeIn_7s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center">
+          <p className={`p-4 bg-red-900 w-60 rounded ${messageError ? 'opacity-100' : 'hidden'}`}>{messageError}</p>
+        </div >
+      )}
     </>
   );
 }
