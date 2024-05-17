@@ -1,7 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/actions/user.action';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../../../@/components/ui/button';
 
 export default function Connexion() {
@@ -18,10 +18,10 @@ export default function Connexion() {
 
   return (
     <>
-      <h2 className="text-5xl font-thin">Connexion</h2>
+      <h2 className="text-5xl font-thin">S'identifier</h2>
       <form onSubmit={handleLogin} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
         <div className="flex flex-col">
-          <label htmlFor="login">Nom d'utilisateur:</label>
+          <label htmlFor="login" className='mb-2'>Nom d'utilisateur :</label>
           <input
             className='w-96 h-10 px-2 rounded-xl'
             id="login"
@@ -33,7 +33,7 @@ export default function Connexion() {
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="password">Mot de passe:</label>
+          <label htmlFor="password" className='mb-2'>Mot de passe :</label>
           <input
             className='w-96 h-10 px-2 rounded-xl'
             id="password"
@@ -48,6 +48,12 @@ export default function Connexion() {
           Connexion
         </Button>
       </form>
+      <div className='flex flex-col justify-center items-center gap-2 px-36'>
+        <p className='text-xs'>Nouveau sur DashBoard ?</p>
+        <Link to="/inscription" className="rounded-xl bg-transparent border-2 border-zinc-700  py-2 text-sm px-4 transition-all hover:bg-zinc-700" type="submit">
+          Créer un compte DashBoard !
+        </Link>
+      </div>
     </>
   );
 }

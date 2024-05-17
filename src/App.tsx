@@ -12,6 +12,7 @@ import PageOperations from './pages/PageOperations/pageOperations';
 import Transaction from './pages/Transaction/transaction';
 import Statistique from './pages/Statistique/statistique';
 import Layout from './layout/layout';
+import Inscription from './pages/Inscription/inscription';
 
 
 function App() {
@@ -80,6 +81,10 @@ function App() {
         {
           path: '/connexion',
           element: <Connexion />
+        },
+        {
+          path: '/inscription',
+          element: <Inscription />
         },
       ]
     }

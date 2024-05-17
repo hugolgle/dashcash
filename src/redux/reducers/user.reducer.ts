@@ -22,8 +22,7 @@ export default function userReducer(state = initialeState, action: any) {
                     username: action.payload.username,
                     pseudo: action.payload.pseudo,
                     nom: action.payload.nom,
-                    prenom: action.payload.prenom,
-                    // img: action.payload.image,
+                    prenom: action.payload.prenom
                 },
                 error: null,
             };
@@ -36,8 +35,7 @@ export default function userReducer(state = initialeState, action: any) {
                     username: null,
                     pseudo: null,
                     nom: null,
-                    prenom: null,
-                    img: null
+                    prenom: null
                 },
                 error: action.payload.error,
             };
@@ -50,8 +48,7 @@ export default function userReducer(state = initialeState, action: any) {
                     username: null,
                     pseudo: null,
                     nom: null,
-                    prenom: null,
-                    img: null
+                    prenom: null
                 },
                 error: null,
             };
@@ -79,7 +76,6 @@ export default function userReducer(state = initialeState, action: any) {
                     pseudo: null,
                     nom: null,
                     prenom: null,
-                    img: null,
                 },
                 error: null,
             };

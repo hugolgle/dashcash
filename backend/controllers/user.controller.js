@@ -43,8 +43,7 @@ module.exports.addUser = async (req, res) => {
             password,
             pseudo,
             nom,
-            prenom,
-            image: image || "",
+            prenom
         });
 
         return res.status(201).json(newUser);
