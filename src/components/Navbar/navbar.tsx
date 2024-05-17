@@ -2,7 +2,6 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/actions/user.action';
-import { Button } from '../../../@/components/ui/button';
 import { isConnected } from '../../utils/users';
 
 export default function Navbar(props: any) {
@@ -10,17 +9,46 @@ export default function Navbar(props: any) {
     const dispatch = useDispatch()
     const isAuthenticated = isConnected();
 
-    const logout = () => {
-        dispatch(logoutUser());
-        navigate("/")
-        setSelectedLogout(false)
-    };
-
-    const [selectedLogout, setSelectedLogout] = useState(false);
-
-
     const location = useLocation();
     const [activeLink, setActiveLink] = useState('');
+    const [selectedLogout, setSelectedLogout] = useState(false);
+    const [isInactive, setIsInactive] = useState(false);
+
+    const inactivityTime = 15 * 60 * 1000;
+    let inactivityTimer: ReturnType<typeof setTimeout>;
+
+    const resetInactivityTimer = () => {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(() => setIsInactive(true), inactivityTime);
+    };
+
+    const handleActivity = () => {
+        setIsInactive(false);
+        resetInactivityTimer();
+    };
+
+    const logout = () => {
+        dispatch(logoutUser());
+        navigate("/");
+        setSelectedLogout(false);
+    };
+
+    useEffect(() => {
+        window.addEventListener('mousemove', handleActivity);
+        window.addEventListener('keydown', handleActivity);
+
+        return () => {
+            clearTimeout(inactivityTimer);
+            window.removeEventListener('mousemove', handleActivity);
+            window.removeEventListener('keydown', handleActivity);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (isInactive) {
+            logout();
+        }
+    }, [isInactive]);
 
     useEffect(() => {
         const currentPath = location.pathname;

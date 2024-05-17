@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Dispatch } from "redux";
 
 
 export const loginUser = (username: any, password: any) => {
@@ -28,7 +29,7 @@ export const loginUser = (username: any, password: any) => {
 };
 
 export const logoutUser = () => {
-    return async (dispatch: any) => {
+    return async (dispatch: Dispatch) => {
         dispatch({ type: 'LOGOUT' });
     };
 };
@@ -45,7 +46,7 @@ export const addUser = (data: any) => {
 };
 
 export const editUser = (data: any) => {
-    return async (dispatch: any) => {
+    return async (dispatch: Dispatch) => {
         try {
             const response = await axios.put(`http://localhost:5001/user/edit/${data._id}`, data);
             const updatedUserData = response.data;
@@ -58,7 +59,7 @@ export const editUser = (data: any) => {
 };
 
 export const deleteUser = (id: any) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         return axios.delete(`http://localhost:5001/user/delete/${id}`).then(() => {
             dispatch({ type: 'DELETE_USER', payload: id })
         })
