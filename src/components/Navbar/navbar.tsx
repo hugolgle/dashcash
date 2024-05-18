@@ -57,8 +57,8 @@ export default function Navbar(props: any) {
 
     return (
         <>
-            <div className='flex h-screen w-screen'>
-                <div className='sidebar flex flex-col justify-between items-center border-r border-r-zinc-700 w-1/5 h-screen py-10 px-4 bg-zinc-900 fixed'>
+            <section className='flex h-screen w-screen'>
+                <div className='sidebar flex flex-col justify-between items-center border-r rounded-r-3xl border-r-zinc-700 w-1/5 h-screen py-10 px-4 bg-zinc-900 fixed transition-all hover:transform-gpu'>
                     <Link to="/" className='font-logo text-2xl w-fit group text-center'>
                         <div className='flex justify-center items-center tracking-tight'>
                             <p className='p-2 bg-white text-zinc-900 group-hover:bg-transparent group-hover:text-white transition-all'>D A $ H</p>
@@ -126,7 +126,7 @@ export default function Navbar(props: any) {
                     <Outlet />
                     {props.children}
                 </div>
-            </div >
+            </section >
         </>
     )
 

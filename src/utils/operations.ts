@@ -116,8 +116,8 @@ export function getLastFiveOperationsByType(type: any, idUser: any) {
         return operationDate.getMonth() === currentMonth && operationDate.getFullYear() === currentYear;
     });
 
-    filteredOperationsThisMonth.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
     filteredOperationsThisMonth.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    filteredOperationsThisMonth.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     const lastFiveOperations = filteredOperationsThisMonth.slice(0, 5);
 
