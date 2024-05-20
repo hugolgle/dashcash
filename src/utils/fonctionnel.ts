@@ -23,6 +23,7 @@ export function Path(lePath: any, level: any) {
 }
 
 export function addSpace(number: number | string): string {
+    // Convertir le nombre en chaîne s'il ne l'est pas déjà
     const numStr: string = typeof number === 'number' ? number.toString() : number;
 
     const [integerPart, decimalPart] = numStr.split('.');
