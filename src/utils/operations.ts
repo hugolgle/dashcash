@@ -29,7 +29,6 @@ export function getAllOperations(idUser: any) {
     const userOperations = operations.filter((operation: any) => operation.user === idUser);
 
     return userOperations;
-
 }
 
 export function getOperationsByType(type: any, idUser: any) {

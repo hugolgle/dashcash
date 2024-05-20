@@ -67,22 +67,17 @@ export default function Navbar(props: any) {
                     </Link>
 
                     <div className='flex flex-col justify-between gap-4 w-full'>
-
                         <Link to="/tdb" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/tdb') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Tableau de bord</Link>
-
                         <div className='flex flex-col'>
                             <Link to="/depense" className={`my-1 py-2 rounded hover:bg-zinc-700 transition-all ${activeLink.startsWith('/depense') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Dépenses</Link>
                             <Link to="/recette" className={`my-1 py-2 rounded hover:bg-zinc-700 transition-all ${activeLink.startsWith('/recette') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Recettes</Link>
                         </div>
-
                         <div className='flex flex-col'>
                             <Link to="/epargn" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/epargn') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Épargne</Link>
                             <Link to="/invest" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/invest') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Investissement</Link>
                         </div>
-
                         <Link to="/stat" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/stat') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Statistiques</Link>
                         <Link to="/uyuyu" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/dd') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Calendrier</Link>
-
                     </div>
                     <div className='flex flex-col justify-end h-32 w-full'>
                         {isAuthenticated === true && (

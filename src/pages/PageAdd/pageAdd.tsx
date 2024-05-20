@@ -151,7 +151,7 @@ export default function PageAdd(props: any) {
 
       <textarea value={selectedDetail} className="w-96 h-10 px-2 rounded-xl" name="" id="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e); handleInputChange(); }} />
 
-      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" step="0.50" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
+      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" min="0" step="0.01" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
 
       <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre la {props.type}</Button>
     </form >

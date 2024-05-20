@@ -32,13 +32,11 @@ export const loginUser = (username: any, password: any) => {
     };
 };
 
-
 export const logoutUser = () => {
     return async (dispatch: Dispatch) => {
         dispatch({ type: 'LOGOUT' });
     };
 };
-
 
 export const addUser = (data: any) => {
     return async () => {

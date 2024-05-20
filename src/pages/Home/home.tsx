@@ -8,7 +8,7 @@ export default function Home() {
     return (
         <div className="flex flex-col justify-center items-center h-full gap-14">
             <div>
-                <h1 className='font-light'>Bienvenue <span className='font-bold'>{userInfo.prenom}</span> sur</h1>
+                <h1 className='font-light'>Bienvenue <span className='font-bold'>{userInfo.pseudo}</span> sur</h1>
                 <div className='flex justify-center items-center tracking-tight mt-6 font-logo group'>
                     <p className='p-2 bg-white text-6xl text-fontBg group-hover:bg-transparent group-hover:text-white transition-all'>D A $ H</p>
                     <p className='p-2 bg-transparent text-6xl text-white group-hover:bg-white group-hover:text-fontBg transition-all'>B O A R D</p>

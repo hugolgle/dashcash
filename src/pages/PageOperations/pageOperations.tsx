@@ -22,8 +22,8 @@ export default function PageOperations(props: any) {
         if (isTransactionDeleted) {
             setTransactionDeleted(true);
 
+            localStorage.removeItem('transactionDeleted');
             const timeout = setTimeout(() => {
-                localStorage.removeItem('transactionDeleted');
                 setTransactionDeleted(false);
             }, 7000);
 

@@ -6,7 +6,6 @@ export function calculTotal(type: any, idUser: any) {
 
     const userOperations = operations.filter((operation: any) => operation.user === idUser);
 
-
     const filteredOperations = userOperations.filter((operation: any) => operation.type === type);
 
     const totalAmount = filteredOperations.reduce((total: any, operation: any) => total + parseFloat(operation.montant), 0.00);

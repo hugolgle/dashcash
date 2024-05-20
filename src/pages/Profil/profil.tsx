@@ -1,14 +1,8 @@
-import { CircleArrowLeft, CirclePlus } from "lucide-react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { Path, convertDateHour, formatDate, formatMontant } from "../../utils/fonctionnel";
-import { getOperationById } from "../../utils/operations";
-
-import { categorieRecette, categorieDepense } from '../../../public/categories.json'
-
-import { deleteOperations, editOperations, getOperations } from "../../redux/actions/operation.action";
+import { formatDate } from "../../utils/fonctionnel";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { infoUser } from "../../utils/users";
 import { deleteUser, editUser } from "../../redux/actions/user.action";
 
@@ -102,34 +96,9 @@ export default function Profil() {
 
           <p className=""><b>{formatDate(userInfo.date)}</b></p>
         </div>
-
-
-
       </div>
 
-      {/* <div className="flex flex-col w-3/4 gap-4">
-        <div className="flex flex-row gap-4">
-          <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl `}>
-
-          </div>
-
-
-          <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl`}>
-
-
-          </div>
-        </div>
-        <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl`}>
-
-
-        </div>
-        <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl`}>
-
-
-        </div>
-      </div> */}
       <div className="flex flex-col w-3/4 gap-4">
-
         {selectedDelete ? (
           <div className="flex flex-col gap-4 h-40 justify-center items-center">
             <p className="text-sm">Êtes-vous sûr ?</p>
@@ -139,7 +108,7 @@ export default function Profil() {
             </div>
           </div>
         ) : (
-          <div className={`h-40 w-full cursor-pointer bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 hover:scale-95`} onClick={() => setSelectedDelete(true)}>Supprimer mon compte</div>
+          <div className={`h-40 w-full cursor-pointer bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95`} onClick={() => setSelectedDelete(true)}>Supprimer mon compte</div>
         )}
 
         {selectedUpdate && update === true ? (
@@ -151,9 +120,9 @@ export default function Profil() {
             </div>
           </div>
         ) : selectedUpdate ? (
-          <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
+          <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer transition-all hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
         ) : (
-          <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
+          <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer transition-all hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
         )}
 
         <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl`}>

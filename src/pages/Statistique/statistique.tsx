@@ -32,13 +32,10 @@ export default function Statistique() {
       const month = new Date(transaction.date).getMonth();
       const year = new Date(transaction.date).getFullYear();
 
-      // Vérifiez si la transaction appartient à l'utilisateur sélectionné,
-      // ainsi que l'année sélectionnée
       if (transaction.user === userInfo.id && year === selectedYear) {
         monthsSet?.add(month);
       }
 
-      // Ajoutez l'année à l'ensemble des années si la transaction appartient à l'utilisateur sélectionné
       if (transaction.user === userInfo.id) {
         yearsSet?.add(year);
       }

@@ -2,7 +2,7 @@
 import { CircleArrowLeft, CirclePlus } from "lucide-react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
-import { Path, convertDateHour, formatDate, formatMontant } from "../../utils/fonctionnel";
+import { Path, convertDateHour, formatDate, formatMontant, separateMillier } from "../../utils/fonctionnel";
 import { getOperationById } from "../../utils/operations";
 
 import { categorieRecette, categorieDepense } from '../../../public/categories.json'
@@ -171,9 +171,9 @@ export default function Transaction() {
                 <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                     {
                         selectedUpdate ? (
-                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} />
+                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
                         ) : (
-                            <h2 className="text-4xl">{operation.montant} €</h2>
+                            <h2 className="text-4xl">{separateMillier(operation.montant)} €</h2>
                         )
                     }
 
@@ -181,7 +181,7 @@ export default function Transaction() {
                 <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                     {
                         selectedUpdate ? (
-                            <textarea className="h-full w-full bg-transparent text-center text-xl  rounded-2xl" value={selectedDetail} name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} />
+                            <textarea className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" value={selectedDetail} name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} placeholder="Détails" />
                         ) : (
                             <h2 className="text-xl">{operation.detail ? operation.detail : "Aucun détail ajouté"}</h2>
                         )
