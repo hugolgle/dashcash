@@ -26,6 +26,7 @@ export default function Connexion() {
     }
   }, [isConnect, navigate]);
 
+
   return (
     <>
       <h2 className="text-5xl font-thin">S'identifier</h2>
