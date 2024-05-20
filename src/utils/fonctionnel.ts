@@ -23,16 +23,13 @@ export function Path(lePath: any, level: any) {
 }
 
 export function addSpace(number: number | string): string {
-    // Convertir le nombre en chaîne s'il ne l'est pas déjà
+    
     const numStr: string = typeof number === 'number' ? number.toString() : number;
 
-    // Séparer la partie entière et la partie décimale (s'il y en a)
     const [integerPart, decimalPart] = numStr.split('.');
 
-    // Ajouter un espace entre chaque groupe de trois chiffres dans la partie entière
     const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
-    // Reconstituer le nombre avec la partie entière formatée et la partie décimale (si elle existe)
     return decimalPart ? `${formattedIntegerPart}.${decimalPart}` : formattedIntegerPart;
 }
 
