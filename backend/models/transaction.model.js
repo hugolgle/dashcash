@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const operationSchema = mongoose.Schema(
+const transactionSchema = mongoose.Schema(
     {
         user: {
             type: String,
@@ -38,4 +38,4 @@ const operationSchema = mongoose.Schema(
     { timestamps: true }
 );
 
-module.exports = mongoose.model("operation", operationSchema);
+module.exports = mongoose.model("transaction", transactionSchema);

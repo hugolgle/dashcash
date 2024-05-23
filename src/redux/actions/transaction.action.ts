@@ -6,7 +6,7 @@ export const ADD_OPERATIONS = "ADD_OPERATIONS";
 export const EDIT_OPERATIONS = "EDIT_OPERATIONS";
 export const DELETE_OPERATIONS = "DELETE_OPERATIONS";
 
-interface GetOperationsAction {
+interface getTransactionsAction {
     type: typeof GET_OPERATIONS;
     payload: any[];
 }
@@ -16,19 +16,19 @@ interface AddOperationsAction {
     payload: any;
 }
 
-interface EditOperationsAction {
+interface editTransactionsAction {
     type: typeof EDIT_OPERATIONS;
     payload: any;
 }
 
-interface DeleteOperationsAction {
+interface deleteTransactionsAction {
     type: typeof DELETE_OPERATIONS;
     payload: any;
 }
 
-export const getOperations = () => {
-    return (dispatch: Dispatch<GetOperationsAction>) => {
-        return axios.get("http://localhost:5001/operation").then((res) => {
+export const getTransactions = () => {
+    return (dispatch: Dispatch<getTransactionsAction>) => {
+        return axios.get("http://localhost:5001/transactions").then((res) => {
             dispatch({ type: GET_OPERATIONS, payload: res.data });
         });
     };
@@ -36,7 +36,7 @@ export const getOperations = () => {
 
 export const addOperations = (data: any) => {
     return (dispatch: Dispatch<AddOperationsAction>) => {
-        return axios.post("http://localhost:5001/operation", data)
+        return axios.post("http://localhost:5001/transactions", data)
             .then((response) => {
                 dispatch({ type: ADD_OPERATIONS, payload: response.data });
                 return response;
@@ -47,17 +47,17 @@ export const addOperations = (data: any) => {
     };
 };
 
-export const editOperations = (data: any) => {
-    return (dispatch: Dispatch<EditOperationsAction>) => {
-        return axios.put(`http://localhost:5001/operation/${data.id}`, data).then(() => {
+export const editTransactions = (data: any) => {
+    return (dispatch: Dispatch<editTransactionsAction>) => {
+        return axios.put(`http://localhost:5001/transactions/${data.id}`, data).then(() => {
             dispatch({ type: EDIT_OPERATIONS, payload: data });
         });
     };
 };
 
-export const deleteOperations = (id: any) => {
-    return (dispatch: Dispatch<DeleteOperationsAction>) => {
-        return axios.delete(`http://localhost:5001/operation/${id}`).then(() => {
+export const deleteTransactions = (id: any) => {
+    return (dispatch: Dispatch<deleteTransactionsAction>) => {
+        return axios.delete(`http://localhost:5001/transactions/${id}`).then(() => {
             dispatch({ type: DELETE_OPERATIONS, payload: id });
         });
     };

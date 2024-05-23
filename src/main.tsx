@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App.tsx';
 import './index.css';
-import { getOperations } from './redux/actions/operation.action.js'
-store.dispatch(getOperations())
+import { getTransactions } from './redux/actions/transaction.action.js'
+store.dispatch(getTransactions())
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

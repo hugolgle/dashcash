@@ -61,11 +61,11 @@ export default function Statistique() {
   };
 
 
-  const operationReducer = useSelector((state: any) => state.operationReducer);
+  const transactionReducer = useSelector((state: any) => state.transactionReducer);
 
   useEffect(() => {
-    setFilteredOperation(operationReducer);
-  }, [operationReducer]);
+    setFilteredOperation(transactionReducer);
+  }, [transactionReducer]);
 
   const selectedDate = `${selectedYear}${selectedMonth}`
 

@@ -2,7 +2,7 @@ import { CirclePlus } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { calculTotal, calculTotalByMonth, calculTotalByYear } from "../utils/calcul";
 import { Path, addSpace, convertirFormatDate, } from "../utils/fonctionnel";
-import { getCurrentMonth, getLastFiveOperationsByType } from "../utils/operations";
+import { getCurrentMonth, getLastFiveOperationsByType } from "../utils/transactions";
 import { getLastThreeMonthsOfCurrentYear, getLastTwoYears, premierJourMoisEnCours } from "../utils/autre";
 import { infoUser } from "../utils/users";
 export default function Layout(props: any) {

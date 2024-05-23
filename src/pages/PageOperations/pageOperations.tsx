@@ -3,7 +3,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
 import { Path, convertDate } from '../../utils/fonctionnel'
 import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul'
-import { getOperationsByYear, getOperationsByMonth, getOperationsByType } from '../../utils/operations'
+import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType } from '../../utils/transactions'
 import Tableau from '../../components/Tableau/tableau';
 import { infoUser } from '../../utils/users';
 
@@ -54,10 +54,10 @@ export default function PageOperations(props: any) {
                     </Link>
                 </div>
             </div>
-            <Tableau operations={
-                date === "all" ? getOperationsByType(props.type, userInfo.id) :
-                    date?.length === 4 ? getOperationsByYear(date, props.type, userInfo.id) :
-                        getOperationsByMonth(date, props.type, userInfo.id)
+            <Tableau transactions={
+                date === "all" ? getTransactionsByType(props.type, userInfo.id) :
+                    date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id) :
+                        getTransactionsByMonth(date, props.type, userInfo.id)
             } />
             <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-800 py-3 transition-all">
                 Total : <b>{
@@ -67,9 +67,9 @@ export default function PageOperations(props: any) {
                 }</b>
                 <br />
                 Transaction(s) : <b>{
-                    date === "all" ? getOperationsByType(props.type, userInfo.id).length :
-                        date?.length === 4 ? getOperationsByYear(date, props.type, userInfo.id).length :
-                            getOperationsByMonth(date, props.type, userInfo.id).length
+                    date === "all" ? getTransactionsByType(props.type, userInfo.id).length :
+                        date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id).length :
+                            getTransactionsByMonth(date, props.type, userInfo.id).length
                 }</b>
             </div>
             {transactionDeleted ? (

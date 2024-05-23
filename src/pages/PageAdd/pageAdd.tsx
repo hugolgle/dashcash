@@ -11,7 +11,7 @@ import { Path, formatMontant, getCurrentDate } from '../../utils/fonctionnel';
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 
-import { addOperations, getOperations } from '../../redux/actions/operation.action';
+import { addOperations, getTransactions } from '../../redux/actions/transaction.action';
 import { infoUser } from "../../utils/users"
 
 export default function PageAdd(props: any) {
@@ -98,11 +98,11 @@ export default function PageAdd(props: any) {
       const response = await dispatch(addOperations(postData) as any);
       const newOperationId = response.data._id;
       setAddedOperationId(newOperationId)
-      dispatch(getOperations() as any);
+      dispatch(getTransactions() as any);
       resetForm();
 
-      const operationDate = new Date(selectedDate);
-      const formattedDate = `${operationDate.getFullYear()}${(operationDate.getMonth() + 1).toString().padStart(2, '0')}`;
+      const transactionDate = new Date(selectedDate);
+      const formattedDate = `${transactionDate.getFullYear()}${(transactionDate.getMonth() + 1).toString().padStart(2, '0')}`;
       setAddedOperationDate(formattedDate)
       setMessage(`Votre ${props.type} a été ajouté ! `);
 

@@ -2,13 +2,13 @@ import { useSelector } from "react-redux";
 
 
 export function calculTotal(type: any, idUser: any) {
-    const operations = useSelector((state: any) => state.operationReducer || []);
+    const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
 
-    const filteredOperations = userOperations.filter((operation: any) => operation.type === type);
+    const filteredOperations = userOperations.filter((transaction: any) => transaction.type === type);
 
-    const totalAmount = filteredOperations.reduce((total: any, operation: any) => total + parseFloat(operation.montant), 0.00);
+    const totalAmount = filteredOperations.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
 
     const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 
@@ -16,20 +16,20 @@ export function calculTotal(type: any, idUser: any) {
 }
 
 export function calculTotalByMonth(type: any, month: string, idUser: any) {
-    const operations = useSelector((state: any) => state.operationReducer || []);
+    const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
 
     const year = month.slice(0, 4);
     const monthNumber = month.slice(4);
 
-    const filteredOperations = userOperations.filter((operation: any) => {
-        const operationYear = operation.date.slice(0, 4);
-        const operationMonth = operation.date.slice(5, 7);
-        return operation.type === type && operationYear === year && operationMonth === monthNumber;
+    const filteredOperations = userOperations.filter((transaction: any) => {
+        const transactionYear = transaction.date.slice(0, 4);
+        const transactionMonth = transaction.date.slice(5, 7);
+        return transaction.type === type && transactionYear === year && transactionMonth === monthNumber;
     });
 
-    const totalAmount = filteredOperations.reduce((total: any, operation: any) => total + parseFloat(operation.montant), 0.00);
+    const totalAmount = filteredOperations.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
 
     const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 
@@ -37,16 +37,16 @@ export function calculTotalByMonth(type: any, month: string, idUser: any) {
 }
 
 export function calculTotalByYear(type: any, year: any, idUser: any) {
-    const operations = useSelector((state: any) => state.operationReducer || []);
+    const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
 
-    const filteredOperations = userOperations.filter((operation: any) => {
-        const operationYear = operation.date.slice(0, 4);
-        return operation.type === type && operationYear === year;
+    const filteredOperations = userOperations.filter((transaction: any) => {
+        const transactionYear = transaction.date.slice(0, 4);
+        return transaction.type === type && transactionYear === year;
     });
 
-    const totalAmount = filteredOperations.reduce((total: any, operation: any) => total + parseFloat(operation.montant), 0.00);
+    const totalAmount = filteredOperations.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
 
     const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 
@@ -54,23 +54,23 @@ export function calculTotalByYear(type: any, year: any, idUser: any) {
 }
 
 export function calculMoyenne(type: any, year: any, nbMonth: any, idUser: any) {
-    const operations = useSelector((state: any) => state.operationReducer || []);
+    const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
 
-    let filteredOperations = userOperations.filter((operation: any) => {
-        const operationYear = operation.date.slice(0, 4);
-        return operationYear === year;
+    let filteredOperations = userOperations.filter((transaction: any) => {
+        const transactionYear = transaction.date.slice(0, 4);
+        return transactionYear === year;
     });
 
     if (type) {
-        filteredOperations = filteredOperations.filter((operation: any) => {
-            return operation.type === type;
+        filteredOperations = filteredOperations.filter((transaction: any) => {
+            return transaction.type === type;
         });
     }
 
-    const totalAmount = filteredOperations.reduce((acc: number, operation: any) => {
-        return acc + parseFloat(operation.montant);
+    const totalAmount = filteredOperations.reduce((acc: number, transaction: any) => {
+        return acc + parseFloat(transaction.montant);
     }, 0);
 
     const resultat = totalAmount / parseFloat(nbMonth);
@@ -84,30 +84,30 @@ export function calculMoyenne(type: any, year: any, nbMonth: any, idUser: any) {
 
 
 export function calculEconomie(year: any, month: any, idUser: any) {
-    const operations = useSelector((state: any) => state.operationReducer || []);
+    const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = operations.filter((operation: any) => operation.user === idUser);
+    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
 
-    let filteredOperations = userOperations.filter((operation: any) => {
-        const operationYear = operation.date.slice(0, 4);
-        return operationYear === year;
+    let filteredOperations = userOperations.filter((transaction: any) => {
+        const transactionYear = transaction.date.slice(0, 4);
+        return transactionYear === year;
     });
 
     if (month) {
-        filteredOperations = filteredOperations.filter((operation: any) => {
-            const operationMonth = operation.date.slice(5, 7);
-            return operationMonth === month;
+        filteredOperations = filteredOperations.filter((transaction: any) => {
+            const transactionMonth = transaction.date.slice(5, 7);
+            return transactionMonth === month;
         });
     }
 
     let totalRecettes = 0;
     let totalDepenses = 0;
 
-    filteredOperations.forEach((operation: any) => {
-        if (operation.type === 'Recette') {
-            totalRecettes += parseFloat(operation.montant);
-        } else if (operation.type === 'Dépense') {
-            totalDepenses += parseFloat(operation.montant);
+    filteredOperations.forEach((transaction: any) => {
+        if (transaction.type === 'Recette') {
+            totalRecettes += parseFloat(transaction.montant);
+        } else if (transaction.type === 'Dépense') {
+            totalDepenses += parseFloat(transaction.montant);
         }
     });
 

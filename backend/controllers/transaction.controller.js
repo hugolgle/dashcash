@@ -1,12 +1,12 @@
-const OperationModel = require("../models/operation.model");
+const OperationModel = require("../models/transaction.model");
 
-module.exports.setOperations = async (req, res) => {
+module.exports.setTransactions = async (req, res) => {
     try {
         if (!req.body.date || !req.body.montant) {
             return res.status(400).json({ message: "Veuillez fournir les informations nécessaires" });
         }
 
-        const operation = await OperationModel.create({
+        const transaction = await OperationModel.create({
             user: req.body.user,
             type: req.body.type,
             categorie: req.body.categorie,
@@ -17,35 +17,35 @@ module.exports.setOperations = async (req, res) => {
             montant: req.body.montant,
         });
 
-        return res.status(201).json(operation);
+        return res.status(201).json(transaction);
     } catch (error) {
         return res.status(500).json({ message: "Erreur lors de la création de l'opération", error });
     }
 };
 
-module.exports.getOperations = async (req, res) => {
+module.exports.getTransactions = async (req, res) => {
     try {
-        const operations = await OperationModel.find();
-        return res.status(200).json(operations);
+        const transactions = await OperationModel.find();
+        return res.status(200).json(transactions);
     } catch (error) {
         return res.status(500).json({ message: "Erreur lors de la récupération des opérations", error });
     }
 };
 
-module.exports.getOperation = async (req, res) => {
+module.exports.getTransaction = async (req, res) => {
     try {
-        const operations = await OperationModel.findById(req.params.id);
-        return res.status(200).json(operations);
+        const transactions = await OperationModel.findById(req.params.id);
+        return res.status(200).json(transactions);
     } catch (error) {
-        return res.status(500).json({ message: "Erreur lors de la récupération de l'operation", error });
+        return res.status(500).json({ message: "Erreur lors de la récupération de l'transaction", error });
     }
 };
 
-module.exports.editOperation = async (req, res) => {
+module.exports.editTransaction = async (req, res) => {
     try {
-        const operation = await OperationModel.findById(req.params.id);
+        const transaction = await OperationModel.findById(req.params.id);
 
-        if (!operation) {
+        if (!transaction) {
             return res.status(400).json({ message: "Cette opération n'existe pas" });
         }
 
@@ -61,15 +61,15 @@ module.exports.editOperation = async (req, res) => {
     }
 };
 
-module.exports.deleteOperation = async (req, res) => {
+module.exports.deleteTransaction = async (req, res) => {
     try {
-        const operation = await OperationModel.findById(req.params.id);
+        const transaction = await OperationModel.findById(req.params.id);
 
-        if (!operation) {
+        if (!transaction) {
             return res.status(400).json({ message: "Cette opération n'existe pas" });
         }
 
-        await operation.deleteOne({ _id: req.params.id });
+        await transaction.deleteOne({ _id: req.params.id });
 
         return res.status(200).json({ message: `Opération supprimée avec succès: ${req.params.id}` });
     } catch (error) {

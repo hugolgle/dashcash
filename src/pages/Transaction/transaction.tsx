@@ -3,11 +3,11 @@ import { CircleArrowLeft, CirclePlus } from "lucide-react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { Path, convertDateHour, formatDate, formatMontant, separateMillier } from "../../utils/fonctionnel";
-import { getOperationById } from "../../utils/operations";
+import { getTransactionById } from "../../utils/transactions";
 
 import { categorieRecette, categorieDepense } from '../../../public/categories.json'
 
-import { deleteOperations, editOperations, getOperations } from "../../redux/actions/operation.action";
+import { deleteTransactions, editTransactions, getTransactions } from "../../redux/actions/transaction.action";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { infoUser } from "../../utils/users";
@@ -32,7 +32,7 @@ export default function Transaction() {
     }, [message]);
 
     const { id } = useParams()
-    const operation = getOperationById(id, userInfo.id)
+    const transaction = getTransactionById(id, userInfo.id)
 
     const [selectedDelete, setSelectedDelete] = useState(false);
 
@@ -40,17 +40,17 @@ export default function Transaction() {
 
     const [update, setUpdate] = useState(false);
 
-    const [selectedTitre, setSelectedTitre] = useState(operation.titre);
+    const [selectedTitre, setSelectedTitre] = useState(transaction.titre);
 
-    const [selectedCategorie, setSelectedCategorie] = useState(operation.categorie);
+    const [selectedCategorie, setSelectedCategorie] = useState(transaction.categorie);
 
-    const [selectedAutreCategorie, setSelectedAutreCategorie] = useState(operation.autreCategorie);
+    const [selectedAutreCategorie, setSelectedAutreCategorie] = useState(transaction.autreCategorie);
 
-    const [selectedDate, setSelectedDate] = useState(operation.date);
+    const [selectedDate, setSelectedDate] = useState(transaction.date);
 
-    const [selectedDetail, setSelectedDetail] = useState(operation.detail);
+    const [selectedDetail, setSelectedDetail] = useState(transaction.detail);
 
-    const [selectedMontant, setSelectedMontant] = useState(operation.montant);
+    const [selectedMontant, setSelectedMontant] = useState(transaction.montant);
 
     const handleTitre = (event: any) => {
         setSelectedTitre(event.target.value);
@@ -84,9 +84,9 @@ export default function Transaction() {
     const dispatch = useDispatch()
 
     const handleDeleteConfirmation = async () => {
-        await dispatch(deleteOperations(id) as any);
+        await dispatch(deleteTransactions(id) as any);
         navigate(`/${first}/${second}`);
-        dispatch(getOperations() as any);
+        dispatch(getTransactions() as any);
         localStorage.setItem('transactionDeleted', 'true');
     };
 
@@ -98,18 +98,18 @@ export default function Transaction() {
 
     const handleEditConfirmation = async () => {
         const editData = {
-            id: operation._id,
-            type: operation.type,
+            id: transaction._id,
+            type: transaction.type,
             titre: selectedTitre,
             categorie: selectedCategorie,
             autreCategorie: selectedAutreCategorie,
             date: selectedDate,
             detail: selectedDetail,
-            montant: formatMontant(removeTiret(selectedMontant), operation.type)
+            montant: formatMontant(removeTiret(selectedMontant), transaction.type)
         }
-        await dispatch(editOperations(editData) as any);
+        await dispatch(editTransactions(editData) as any);
         setMessage("L'opération a été modifié avec succès !");
-        dispatch(getOperations() as any);
+        dispatch(getTransactions() as any);
         setSelectedUpdate(false)
     };
 
@@ -118,7 +118,7 @@ export default function Transaction() {
             {selectedUpdate ? (
                 <input className="text-5xl animate-[pulseEdit_1s_ease-in-out_infinite] rounded-2xl text-center font-thin mb-9 bg-transparent" value={selectedTitre} type="text" name="" id="" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
             ) : (
-                <h2 className="text-5xl font-thin mb-9">{operation.titre}</h2>
+                <h2 className="text-5xl font-thin mb-9">{transaction.titre}</h2>
             )}
 
             <div className='absolute top-0 flex flex-row gap-2 w-full'>
@@ -133,22 +133,22 @@ export default function Transaction() {
         <section className=" flex flex-row gap-4">
             <div className="flex flex-col w-3/4 gap-4">
                 <div className="h-40 p-8 bg-zinc-900 rounded-2xl flex justify-center items-center ">
-                    <h2 className="text-4xl">{operation._id}</h2>
+                    <h2 className="text-4xl">{transaction._id}</h2>
                 </div>
                 <div className="flex flex-row gap-4">
                     <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                         {selectedUpdate ? (
                             <select id='action' value={selectedCategorie} className="h-full w-full bg-transparent text-center text-4xl rounded-2xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
                                 <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
-                                {operation.type === "Dépense" && categorieDepense.map(({ name }) => (
+                                {transaction.type === "Dépense" && categorieDepense.map(({ name }) => (
                                     <option key={name} value={name}>{name}</option>
                                 ))}
-                                {operation.type === "Recette" && categorieRecette.map(({ name }) => (
+                                {transaction.type === "Recette" && categorieRecette.map(({ name }) => (
                                     <option key={name} value={name}>{name}</option>
                                 ))}
                             </select>
                         ) : (
-                            <h2 className="text-4xl">{operation.categorie === "Autre" ? operation.autreCategorie : operation.categorie}</h2>
+                            <h2 className="text-4xl">{transaction.categorie === "Autre" ? transaction.autreCategorie : transaction.categorie}</h2>
                         )}
                     </div>
                     {selectedCategorie === "Autre" && selectedUpdate && (
@@ -162,7 +162,7 @@ export default function Transaction() {
                             selectedUpdate ? (
                                 <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedDate} type="date" name="" id="" onChange={(e) => { handleDate(e); handleInputChange(); }} />
                             ) : (
-                                <h2 className="text-4xl">{formatDate(operation.date)}</h2>
+                                <h2 className="text-4xl">{formatDate(transaction.date)}</h2>
                             )
                         }
 
@@ -173,7 +173,7 @@ export default function Transaction() {
                         selectedUpdate ? (
                             <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
                         ) : (
-                            <h2 className="text-4xl">{separateMillier(operation.montant)} €</h2>
+                            <h2 className="text-4xl">{separateMillier(transaction.montant)} €</h2>
                         )
                     }
 
@@ -183,7 +183,7 @@ export default function Transaction() {
                         selectedUpdate ? (
                             <textarea className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" value={selectedDetail} name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} placeholder="Détails" />
                         ) : (
-                            <h2 className="text-xl">{operation.detail ? operation.detail : "Aucun détail ajouté"}</h2>
+                            <h2 className="text-xl">{transaction.detail ? transaction.detail : "Aucun détail ajouté"}</h2>
                         )
                     }
 
@@ -191,8 +191,8 @@ export default function Transaction() {
             </div>
             <div className="flex flex-col justify-between w-1/4 gap-4">
                 <div className="flex flex-col gap-4">
-                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Ajouter le : <br /><b>{convertDateHour(operation.createdAt)}</b></p></div>
-                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Derniere modification le : <br /><b>{convertDateHour(operation.updatedAt)}</b></p></div>
+                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Ajouter le : <br /><b>{convertDateHour(transaction.createdAt)}</b></p></div>
+                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Derniere modification le : <br /><b>{convertDateHour(transaction.updatedAt)}</b></p></div>
                 </div>
                 <div className="flex flex-col gap-4">
                     {selectedUpdate && update === true ? (
