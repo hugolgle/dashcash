@@ -40,7 +40,7 @@ export default function Layout(props: any) {
                                         <tr key={transaction._id}>
                                             <td>{convertirFormatDate(transaction.date)}</td>
                                             <td>{transaction.titre}</td>
-                                            <td>{transaction.categorie}</td>
+                                            <td>{transaction.categorie === "Autre" ? transaction.autreCategorie : transaction.categorie}</td>
                                             <td><b>{addSpace(transaction.montant)} €</b></td>
                                         </tr>
                                     ))}
