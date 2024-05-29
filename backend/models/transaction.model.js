@@ -1,6 +1,27 @@
 const mongoose = require("mongoose");
 
-const transactionSchema = mongoose.Schema(
+const Schema = mongoose.Schema;
+
+const RemboursementSchema = new Schema({
+    titre: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: String,
+        required: true
+    },
+    detail: {
+        type: String,
+        default: ''
+    },
+    montant: {
+        type: String,
+        required: true
+    }
+});
+
+const transactionSchema = new Schema(
     {
         user: {
             type: String,
@@ -23,7 +44,7 @@ const transactionSchema = mongoose.Schema(
             required: true,
         },
         date: {
-            type: String,
+            type: String, // Utiliser le type Date pour les dates
             required: true,
         },
         detail: {
@@ -34,6 +55,7 @@ const transactionSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        remboursement: RemboursementSchema // Inclure le schéma de remboursement comme sous-document
     },
     { timestamps: true }
 );

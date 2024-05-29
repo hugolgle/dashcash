@@ -11,6 +11,7 @@ import { deleteTransactions, editTransactions, getTransactions } from "../../red
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { infoUser } from "../../utils/users";
+import PageAddRefund from "../PageForm/pageAddRefund";
 
 
 export default function Transaction() {
@@ -52,6 +53,8 @@ export default function Transaction() {
 
     const [selectedMontant, setSelectedMontant] = useState(transaction.montant);
 
+    const [selectedMontantRefund, setSelectedMontantRefund] = useState();
+
     const handleTitre = (event: any) => {
         setSelectedTitre(event.target.value);
     };
@@ -76,8 +79,18 @@ export default function Transaction() {
         setSelectedMontant(event.target.value);
     };
 
+    const handleMontantRefund = (event: any) => {
+        setSelectedMontantRefund(event.target.value);
+    };
+
     const handleInputChange = () => {
         setUpdate(true);
+    };
+
+    const [refundVisible, setRefundVisible] = useState(false);
+
+    const handleRefund = () => {
+        setRefundVisible(!refundVisible);
     };
 
     const navigate = useNavigate()
@@ -90,10 +103,13 @@ export default function Transaction() {
         localStorage.setItem('transactionDeleted', 'true');
     };
 
-
-
     function removeTiret(number: any): number {
-        return parseFloat(number.replace(/-/g, ''));
+        if (typeof number === 'string') {
+            return parseFloat(number.replace(/-/g, ''));
+        } else {
+            console.error('Invalid input, expected a string:', number);
+            return NaN;
+        }
     }
 
     const handleEditConfirmation = async () => {
@@ -105,7 +121,10 @@ export default function Transaction() {
             autreCategorie: selectedAutreCategorie,
             date: selectedDate,
             detail: selectedDetail,
-            montant: formatMontant(removeTiret(selectedMontant), transaction.type)
+            montant: formatMontant(removeTiret(selectedMontant), transaction.type),
+            remboursement: {
+                montant: selectedMontantRefund
+            }
         }
         await dispatch(editTransactions(editData) as any);
         setMessage("L'opération a été modifié avec succès !");
@@ -121,7 +140,7 @@ export default function Transaction() {
                 <h2 className="text-5xl font-thin mb-9">{transaction.titre}</h2>
             )}
 
-            <div className='absolute top-0 flex flex-row gap-2 w-full'>
+            <div className={`${refundVisible ? 'hidden' : 'absolute top-0 flex flex-row gap-2 w-full'}`}>
                 <Link to={`/${first}/${second}`}>
                     <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
                 </Link>
@@ -129,8 +148,15 @@ export default function Transaction() {
                     <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
                 </Link>
             </div>
+            {transaction.type === "Dépense" && !transaction.remboursement && (
+                <button className="absolute top-0 right-0 flex flex-row gap-2 cursor-pointer" onClick={handleRefund}>{refundVisible ? 'Revenir' : 'Ajouter un remboursement'}</button>
+            )}
         </div >
-        <section className=" flex flex-row gap-4">
+
+        {refundVisible && (
+            <PageAddRefund transactionId={transaction._id} montant={transaction.montant} />
+        )}
+        <section className={`${refundVisible ? 'hidden' : 'flex flex-row gap-4'}`}>
             <div className="flex flex-col w-3/4 gap-4">
                 <div className="h-40 p-8 bg-zinc-900 rounded-2xl flex justify-center items-center ">
                     <h2 className="text-4xl">{transaction._id}</h2>
@@ -168,16 +194,48 @@ export default function Transaction() {
 
                     </div>
                 </div>
-                <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                <div className="flex gap-4">
+                    <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                        {
+                            selectedUpdate ? (
+                                <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
+                            ) : <>
+                                <div className="flex flex-col">
+                                    <p>Montant Payé</p>
+                                    <h2 className="text-4xl">{separateMillier(transaction.montant)} €</h2>
+                                </div>
+                            </>
+                        }
+                    </div>
                     {
-                        selectedUpdate ? (
-                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
-                        ) : (
-                            <h2 className="text-4xl">{separateMillier(transaction.montant)} €</h2>
-                        )
+                        transaction.remboursement && <>
+
+                            <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                                {selectedUpdate ? (
+                                    <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontantRefund)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontantRefund(e); handleInputChange(); }} placeholder="Montant remboursement" />
+                                ) : <>
+                                    <div className="flex flex-col">
+                                        <p>Montant Remboursé</p>
+                                        <h2 className="text-4xl">{separateMillier(transaction.remboursement.montant)} €</h2>
+                                    </div>
+                                </>}
+                            </div>
+                            <div className='h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl p-8'>
+                                {
+                                    <div className="flex flex-col">
+                                        <p>Montant Total</p>
+                                        {/* <h2 className="text-4xl">{separateMillier(montantTotal)} €</h2> */}
+                                    </div>
+                                }
+                            </div>
+                        </>
+
+
+
                     }
 
                 </div>
+
                 <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                     {
                         selectedUpdate ? (

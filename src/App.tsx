@@ -6,14 +6,14 @@ import Epargn from './pages/Epargn/epargn';
 import Connexion from './pages/Connexion/connexion';
 import Profil from './pages/Profil/profil';
 import TableauDeBord from './pages/TableauDeBord/tableaudebord';
-import PageAddTransac from './pages/PageAdd/pageAddTransac';
+import PageAddTransac from './pages/PageForm/pageAddTransac';
 import PageTransactions from './pages/PageOperations/pageTransactions';
 import Transaction from './pages/Operation/transaction';
 import Statistique from './pages/Statistique/statistique';
 import LayoutTransac from './layout/layoutTransac';
 import Inscription from './pages/Inscription/inscription';
 import LayoutInvest from './layout/layoutInvest';
-import PageAddInvest from './pages/PageAdd/pageAddInvest';
+import PageAddInvest from './pages/PageForm/pageAddInvest';
 import PageInvestment from './pages/PageOperations/pageInvestment';
 import Investment from './pages/Operation/investment';
 
