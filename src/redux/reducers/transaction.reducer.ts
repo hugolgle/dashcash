@@ -1,14 +1,14 @@
-import { GET_OPERATIONS, ADD_OPERATIONS, EDIT_OPERATIONS, DELETE_OPERATIONS } from "../actions/transaction.action";
+import { GET_TRANSACTIONS, ADD_TRANSACTIONS, EDIT_TRANSACTIONS, DELETE_TRANSACTIONS } from "../actions/transaction.action";
 
 const initialState: any = [];
 
 export default function transactionReducer(state = initialState, action: any) {
     switch (action.type) {
-        case GET_OPERATIONS:
+        case GET_TRANSACTIONS:
             return action.payload;
-        case ADD_OPERATIONS:
+        case ADD_TRANSACTIONS:
             return [action.payload, ...state];
-        case EDIT_OPERATIONS:
+        case EDIT_TRANSACTIONS:
             return state.map((transaction: any) => {
                 if (transaction.id === action.payload.id) {
                     return {
@@ -17,7 +17,7 @@ export default function transactionReducer(state = initialState, action: any) {
                     };
                 } else return transaction;
             });
-        case DELETE_OPERATIONS:
+        case DELETE_TRANSACTIONS:
             return state.filter((transaction: any) => transaction.id !== action.payload);
         default:
             return state;

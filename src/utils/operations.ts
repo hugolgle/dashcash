@@ -21,21 +21,21 @@ export function getCurrentMonth() {
     return `${currentYear}${formattedMonth}`;
 }
 
-// --------------------------------
+// -------------------------------- Transactions
 
-export function getAllOperations(idUser: any) {
+export function getAllTransactions(idUser: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
 
-    return userOperations;
+    return userTransactions;
 }
 
 export function getTransactionsByType(type: any, idUser: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
     if (type) {
-        return userOperations.filter((transaction: any) => transaction.type === type)
+        return userTransactions.filter((transaction: any) => transaction.type === type)
             .sort((a: any, b: any) => {
                 const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
                 if (dateSort !== 0) return dateSort;
@@ -43,7 +43,7 @@ export function getTransactionsByType(type: any, idUser: any) {
                 return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
             });
     } else {
-        return userOperations.sort((a: any, b: any) => {
+        return userTransactions.sort((a: any, b: any) => {
             const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
             if (dateSort !== 0) return dateSort;
 
@@ -54,9 +54,9 @@ export function getTransactionsByType(type: any, idUser: any) {
 
 export function getTransactionById(id: any, idUser: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
     if (id) {
-        return userOperations.find((transaction: any) => transaction._id === id);
+        return userTransactions.find((transaction: any) => transaction._id === id);
     } else {
         return null;
     }
@@ -66,8 +66,8 @@ export function getTransactionsByMonth(month: any, type: any, idUser: any) {
     const targetMonth = `${month.slice(0, 4)}-${month.slice(4)}`;
 
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
-    let transactionsInMonth = userOperations.filter((transaction: any) => {
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
+    let transactionsInMonth = userTransactions.filter((transaction: any) => {
         const transactionDate = transaction.date.split('T')[0];
         const transactionMonth = transactionDate.slice(0, 7);
 
@@ -84,11 +84,10 @@ export function getTransactionsByMonth(month: any, type: any, idUser: any) {
     return transactionsInMonth;
 }
 
-
 export function getTransactionsByYear(year: any, type: any, idUser: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
-    let transactionsInYear = userOperations.filter((transaction: any) => {
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
+    let transactionsInYear = userTransactions.filter((transaction: any) => {
         const transactionYear = transaction.date.slice(0, 4);
 
         return transactionYear === year;
@@ -105,21 +104,30 @@ export function getTransactionsByYear(year: any, type: any, idUser: any) {
     return transactionsInYear;
 }
 
-export function getLastFiveOperationsByType(type: any, idUser: any) {
+export function getLastFiveTransactionsByType(type: any, idUser: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
-    const filteredOperations = userOperations.filter((transaction: any) => transaction.type === type);
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
+    const filteredTransactions = userTransactions.filter((transaction: any) => transaction.type === type);
 
-    const filteredOperationsThisMonth = filteredOperations.filter((transaction: any) => {
+    const filteredTransactionsThisMonth = filteredTransactions.filter((transaction: any) => {
         const transactionDate = new Date(transaction.date);
         return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
     });
 
-    filteredOperationsThisMonth.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    filteredOperationsThisMonth.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    filteredTransactionsThisMonth.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    filteredTransactionsThisMonth.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    const lastFiveOperations = filteredOperationsThisMonth.slice(0, 5);
+    const lastFiveTransactions = filteredTransactionsThisMonth.slice(0, 5);
 
-    return lastFiveOperations;
+    return lastFiveTransactions;
 }
 
+// -------------------------------- Investissements
+
+export function getAllInvestments(idUser: any) {
+    const investments = useSelector((state: any) => state.investmentReducer || []);
+
+    const userInvestements = investments.filter((investment: any) => investment.user === idUser);
+
+    return userInvestements;
+}

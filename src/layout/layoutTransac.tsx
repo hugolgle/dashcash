@@ -2,10 +2,10 @@ import { CirclePlus } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { calculTotal, calculTotalByMonth, calculTotalByYear } from "../utils/calcul";
 import { Path, addSpace, convertirFormatDate, } from "../utils/fonctionnel";
-import { getCurrentMonth, getLastFiveOperationsByType } from "../utils/transactions";
+import { getCurrentMonth, getLastFiveTransactionsByType } from "../utils/operations";
 import { getLastThreeMonthsOfCurrentYear, getLastTwoYears, premierJourMoisEnCours } from "../utils/autre";
 import { infoUser } from "../utils/users";
-export default function Layout(props: any) {
+export default function LayoutTransac(props: any) {
 
     const location = useLocation()
     const lUrl = Path(location, 1)
@@ -15,7 +15,7 @@ export default function Layout(props: any) {
     const lastMonths = getLastThreeMonthsOfCurrentYear()
     const lastYears = getLastTwoYears()
     const currentMonth = getCurrentMonth()
-    const lastTransactions = getLastFiveOperationsByType(props.type, userInfo.id)
+    const lastTransactions = getLastFiveTransactionsByType(props.type, userInfo.id)
     const firstDayMonth = premierJourMoisEnCours()
 
     return <>

@@ -8,7 +8,6 @@ module.exports.setInvestments = async (req, res) => {
 
         const investment = await InvestmentModel.create({
             user: req.body.user,
-            titre: req.body.titre,
             plateforme: req.body.plateforme,
             type: req.body.type,
             detail: req.body.detail || '',

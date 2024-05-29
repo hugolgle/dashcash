@@ -6,10 +6,6 @@ const investmentSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        titre: {
-            type: String,
-            required: true,
-        },
         plateforme: {
             type: String,
             required: true,

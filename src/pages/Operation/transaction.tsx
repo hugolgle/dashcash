@@ -3,7 +3,7 @@ import { CircleArrowLeft, CirclePlus } from "lucide-react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { Path, convertDateHour, formatDate, formatMontant, separateMillier } from "../../utils/fonctionnel";
-import { getTransactionById } from "../../utils/transactions";
+import { getTransactionById } from "../../utils/operations";
 
 import { categorieRecette, categorieDepense } from '../../../public/categories.json'
 

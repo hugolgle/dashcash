@@ -3,16 +3,19 @@ import './App.css';
 import Home from './pages/Home/home';
 import Navbar from './components/Navbar/navbar';
 import Epargn from './pages/Epargn/epargn';
-import Invest from './pages/Invest/invest';
 import Connexion from './pages/Connexion/connexion';
 import Profil from './pages/Profil/profil';
 import TableauDeBord from './pages/TableauDeBord/tableaudebord';
-import PageAdd from './pages/PageAdd/pageAdd';
-import PageOperations from './pages/PageOperations/pageOperations';
-import Transaction from './pages/Transaction/transaction';
+import PageAddTransac from './pages/PageAdd/pageAddTransac';
+import PageTransactions from './pages/PageOperations/pageTransactions';
+import Transaction from './pages/Operation/transaction';
 import Statistique from './pages/Statistique/statistique';
-import Layout from './layout/layout';
+import LayoutTransac from './layout/layoutTransac';
 import Inscription from './pages/Inscription/inscription';
+import LayoutInvest from './layout/layoutInvest';
+import PageAddInvest from './pages/PageAdd/pageAddInvest';
+import PageInvestment from './pages/PageOperations/pageInvestment';
+import Investment from './pages/Operation/investment';
 
 
 function App() {
@@ -32,15 +35,15 @@ function App() {
         },
         {
           path: '/depense',
-          element: <Layout type="Dépense" />,
+          element: <LayoutTransac type="Dépense" />,
         },
         {
           path: '/depense/add',
-          element: <PageAdd type="Dépense" />,
+          element: <PageAddTransac type="Dépense" />,
         },
         {
           path: '/depense/:date',
-          element: <PageOperations type="Dépense" />,
+          element: <PageTransactions type="Dépense" />,
         },
         {
           path: '/depense/:date/:id',
@@ -48,15 +51,15 @@ function App() {
         },
         {
           path: '/recette',
-          element: <Layout type="Recette" />,
+          element: <LayoutTransac type="Recette" />,
         },
         {
           path: '/recette/add',
-          element: <PageAdd type="Recette" />,
+          element: <PageAddTransac type="Recette" />,
         },
         {
           path: '/recette/:date',
-          element: <PageOperations type="Recette" />,
+          element: <PageTransactions type="Recette" />,
         },
         {
           path: '/recette/:date/:id',
@@ -68,7 +71,19 @@ function App() {
         },
         {
           path: '/invest',
-          element: <Invest />
+          element: <LayoutInvest />
+        },
+        {
+          path: '/invest/add',
+          element: <PageAddInvest />
+        },
+        {
+          path: '/invest/operations',
+          element: <PageInvestment />
+        },
+        {
+          path: '/invest/operations/:id',
+          element: <Investment />
         },
         {
           path: '/stat',

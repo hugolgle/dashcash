@@ -1,44 +1,44 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
 
-export const GET_OPERATIONS = "GET_OPERATIONS";
-export const ADD_OPERATIONS = "ADD_OPERATIONS";
-export const EDIT_OPERATIONS = "EDIT_OPERATIONS";
-export const DELETE_OPERATIONS = "DELETE_OPERATIONS";
+export const GET_TRANSACTIONS = "GET_TRANSACTIONS";
+export const ADD_TRANSACTIONS = "ADD_TRANSACTIONS";
+export const EDIT_TRANSACTIONS = "EDIT_TRANSACTIONS";
+export const DELETE_TRANSACTIONS = "DELETE_TRANSACTIONS";
 
 interface getTransactionsAction {
-    type: typeof GET_OPERATIONS;
+    type: typeof GET_TRANSACTIONS;
     payload: any[];
 }
 
-interface AddOperationsAction {
-    type: typeof ADD_OPERATIONS;
+interface AddTransactionsAction {
+    type: typeof ADD_TRANSACTIONS;
     payload: any;
 }
 
 interface editTransactionsAction {
-    type: typeof EDIT_OPERATIONS;
+    type: typeof EDIT_TRANSACTIONS;
     payload: any;
 }
 
 interface deleteTransactionsAction {
-    type: typeof DELETE_OPERATIONS;
+    type: typeof DELETE_TRANSACTIONS;
     payload: any;
 }
 
 export const getTransactions = () => {
     return (dispatch: Dispatch<getTransactionsAction>) => {
         return axios.get("http://localhost:5001/transactions").then((res) => {
-            dispatch({ type: GET_OPERATIONS, payload: res.data });
+            dispatch({ type: GET_TRANSACTIONS, payload: res.data });
         });
     };
 };
 
-export const addOperations = (data: any) => {
-    return (dispatch: Dispatch<AddOperationsAction>) => {
+export const addTransactions = (data: any) => {
+    return (dispatch: Dispatch<AddTransactionsAction>) => {
         return axios.post("http://localhost:5001/transactions", data)
             .then((response) => {
-                dispatch({ type: ADD_OPERATIONS, payload: response.data });
+                dispatch({ type: ADD_TRANSACTIONS, payload: response.data });
                 return response;
             })
             .catch((error) => {
@@ -50,7 +50,7 @@ export const addOperations = (data: any) => {
 export const editTransactions = (data: any) => {
     return (dispatch: Dispatch<editTransactionsAction>) => {
         return axios.put(`http://localhost:5001/transactions/${data.id}`, data).then(() => {
-            dispatch({ type: EDIT_OPERATIONS, payload: data });
+            dispatch({ type: EDIT_TRANSACTIONS, payload: data });
         });
     };
 };
@@ -58,7 +58,7 @@ export const editTransactions = (data: any) => {
 export const deleteTransactions = (id: any) => {
     return (dispatch: Dispatch<deleteTransactionsAction>) => {
         return axios.delete(`http://localhost:5001/transactions/${id}`).then(() => {
-            dispatch({ type: DELETE_OPERATIONS, payload: id });
+            dispatch({ type: DELETE_TRANSACTIONS, payload: id });
         });
     };
 };

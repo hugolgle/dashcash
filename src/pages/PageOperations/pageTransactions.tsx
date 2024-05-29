@@ -3,11 +3,11 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
 import { Path, convertDate } from '../../utils/fonctionnel'
 import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul'
-import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType } from '../../utils/transactions'
-import Tableau from '../../components/Tableau/tableau';
+import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType } from '../../utils/operations'
+import TableauTransac from '../../components/Tableau/tableauTransac';
 import { infoUser } from '../../utils/users';
 
-export default function PageOperations(props: any) {
+export default function PageTransactions(props: any) {
 
     const userInfo = infoUser()
 
@@ -54,7 +54,7 @@ export default function PageOperations(props: any) {
                     </Link>
                 </div>
             </div>
-            <Tableau transactions={
+            <TableauTransac transactions={
                 date === "all" ? getTransactionsByType(props.type, userInfo.id) :
                     date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id) :
                         getTransactionsByMonth(date, props.type, userInfo.id)

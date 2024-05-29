@@ -11,10 +11,10 @@ import { Path, formatMontant, getCurrentDate } from '../../utils/fonctionnel';
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 
-import { addOperations, getTransactions } from '../../redux/actions/transaction.action';
+import { addTransactions, getTransactions } from '../../redux/actions/transaction.action';
 import { infoUser } from "../../utils/users"
 
-export default function PageAdd(props: any) {
+export default function PageAddTransac(props: any) {
 
   const userInfo = infoUser()
 
@@ -95,7 +95,7 @@ export default function PageAdd(props: any) {
     };
 
     try {
-      const response = await dispatch(addOperations(postData) as any);
+      const response = await dispatch(addTransactions(postData) as any);
       const newOperationId = response.data._id;
       setAddedOperationId(newOperationId)
       dispatch(getTransactions() as any);
