@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux"
 
 import { addTransactions, editTransactions, getTransactions } from '../../redux/actions/transaction.action';
 import { infoUser } from "../../utils/users"
+import { addRefund } from "../../redux/actions/refund.action";
 
 export default function PageAddRefund(props: any) {
 
@@ -33,11 +34,10 @@ export default function PageAddRefund(props: any) {
   const [messageError, setMessageError] = useState("");
 
   const handleInputChange = () => {
-
     setMessage("");
     setMessageError("");
-    setAddedOperationDate("")
-    setAddedOperationId("")
+    setAddedOperationDate("");
+    setAddedOperationId("");
   };
 
   const dispatch = useDispatch()
@@ -64,34 +64,24 @@ export default function PageAddRefund(props: any) {
     setSelectedMontant(event.target.value);
   };
 
+  const handleAddRefund = async (e: any) => {
 
-  const handleSubmit = async (event: any) => {
-    event.preventDefault();
+    e.preventDefault()
 
-    const addField = {
-      id: props.transactionId,
-      // montant: separateMillier(newMontant),
-      remboursement: {
-        titre: selectedTitre,
-        date: selectedDate,
-        detail: selectedDetail,
-        montant: selectedMontant,
-      }
+    const refundData = {
+      titre: selectedTitre,
+      date: selectedDate,
+      detail: selectedDetail,
+      montant: selectedMontant
     };
 
-    try {
-      await dispatch(editTransactions(addField) as any);
-      dispatch(getTransactions() as any);
-      setMessage(`Votre remboursement a été ajouté ! `);
-
-    } catch {
-      setMessageError("Une erreur s'est produite lors de l'ajout du remboursement");
-    }
+    await dispatch(addRefund(props.transactionId, refundData) as any);
+    console.log(refundData)
   };
 
   return <>
 
-    <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
+    <form onSubmit={handleAddRefund} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
       <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" maxLength={50} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
 
@@ -103,6 +93,7 @@ export default function PageAddRefund(props: any) {
 
       <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre le remboursement</Button>
     </form >
+
     {message || messageError ? (
       <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
         <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>

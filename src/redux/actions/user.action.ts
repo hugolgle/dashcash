@@ -26,7 +26,7 @@ export const loginUser = (username: any, password: any) => {
             } else {
                 dispatch({ type: 'LOGIN_FAILURE', payload: { error: 'Nom d\'utilisateur ou mot de passe incorrect' } });
             }
-        } catch (error) {
+        } catch (error: any) {
             dispatch({ type: 'LOGIN_FAILURE', payload: { error: error.message } });
         }
     };

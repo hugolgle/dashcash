@@ -44,7 +44,7 @@ const transactionSchema = new Schema(
             required: true,
         },
         date: {
-            type: String, // Utiliser le type Date pour les dates
+            type: String,
             required: true,
         },
         detail: {
@@ -55,7 +55,7 @@ const transactionSchema = new Schema(
             type: String,
             required: true,
         },
-        remboursement: RemboursementSchema // Inclure le schéma de remboursement comme sous-document
+        remboursements: [RemboursementSchema]
     },
     { timestamps: true }
 );

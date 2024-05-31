@@ -13,6 +13,9 @@ import { useEffect, useState } from "react";
 import { infoUser } from "../../utils/users";
 import PageAddRefund from "../PageForm/pageAddRefund";
 
+// import { editRefund, deleteRefund } from "../../redux/actions/refund.action";
+
+
 
 export default function Transaction() {
     const userInfo = infoUser()
@@ -131,6 +134,29 @@ export default function Transaction() {
         dispatch(getTransactions() as any);
         setSelectedUpdate(false)
     };
+
+
+
+    // // Fonction pour modifier un remboursement
+    // const handleEditRefund = async () => {
+    //     const refundData = {
+    //         id: selectedRefundId,
+    //         titre: selectedRefundTitre,
+    //         date: selectedRefundDate,
+    //         detail: selectedRefundDetail,
+    //         montant: selectedRefundMontant
+    //     };
+    //     await dispatch(editRefund(transaction._id, refundData) as any);
+    //     // Mettez à jour les données de l'interface utilisateur
+    // };
+
+    // // Fonction pour supprimer un remboursement
+    // const handleDeleteRefund = async (refundId: any) => {
+    //     await dispatch(deleteRefund(transaction._id, refundId) as any);
+    //     // Mettez à jour les données de l'interface utilisateur
+    // };
+
+    // Affichez les remboursements de la transaction et ajoutez des fonctionnalités pour les modifier ou les supprimer
 
     return <>
         <div className="w-full h-auto relative">

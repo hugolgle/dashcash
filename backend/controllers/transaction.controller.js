@@ -76,3 +76,20 @@ module.exports.deleteTransaction = async (req, res) => {
         return res.status(500).json({ message: "Erreur lors de la suppression de l'opération", error });
     }
 };
+
+module.exports.addRefund = async (req, res) => {
+    try {
+        const transaction = await OperationModel.findById(req.params.id);
+        if (!transaction) {
+            return res.status(404).json({ message: "Transaction not found" });
+        }
+
+        transaction.remboursements.push(req.body);
+        await transaction.save();
+
+        res.status(200).json(transaction);
+    } catch (error) {
+        console.error("Error in addRefund:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
