@@ -11,7 +11,7 @@ export default function transactionReducer(state = initialState, action: any) {
             return [action.payload, ...state];
         case EDIT_TRANSACTIONS:
             return state.map((transaction: any) => {
-                if (transaction.id === action.payload.id) {
+                if (transaction._id === action.payload._id) {
                     return {
                         ...transaction,
                         content: action.payload.content,
@@ -19,7 +19,7 @@ export default function transactionReducer(state = initialState, action: any) {
                 } else return transaction;
             });
         case DELETE_TRANSACTIONS:
-            return state.filter((transaction: any) => transaction.id !== action.payload);
+            return state.filter((transaction: any) => transaction._id !== action.payload);
         case ADD_REFUND:
             return state.map((transaction: any) => {
                 if (transaction._id === action.payload._id) {

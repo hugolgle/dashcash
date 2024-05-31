@@ -64,9 +64,9 @@ export default function PageAddRefund(props: any) {
     setSelectedMontant(event.target.value);
   };
 
-  const handleAddRefund = async (e: any) => {
+  const handleAddRefund = async (event: any) => {
 
-    e.preventDefault()
+    event.preventDefault()
 
     const refundData = {
       titre: selectedTitre,
@@ -74,9 +74,13 @@ export default function PageAddRefund(props: any) {
       detail: selectedDetail,
       montant: selectedMontant
     };
-
-    await dispatch(addRefund(props.transactionId, refundData) as any);
-    console.log(refundData)
+    try {
+      await dispatch(addRefund(props.transactionId, refundData) as any);
+      resetForm()
+      setMessage("Votre investissement a été ajouté ! ");
+    } catch {
+      setMessageError("Une erreur s'est produite lors de l'ajout du remboursement !");
+    }
   };
 
   return <>
