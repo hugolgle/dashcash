@@ -2,24 +2,14 @@
 
 import { Button } from "../../../@/components/ui/button"
 
-import { Link, useLocation } from "react-router-dom"
-import { CircleArrowLeft } from "lucide-react"
-
-import { Path, formatMontant, getCurrentDate, separateMillier } from '../../utils/fonctionnel';
+import { formatMontant, getCurrentDate } from '../../utils/fonctionnel';
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 
-import { addTransactions, editTransactions, getTransactions } from '../../redux/actions/transaction.action';
-import { infoUser } from "../../utils/users"
+import { editTransactions, getTransactions } from '../../redux/actions/transaction.action';
 import { addRefund } from "../../redux/actions/refund.action";
 
 export default function PageAddRefund(props: any) {
-
-  const userInfo = infoUser()
-
-
-  const location = useLocation()
-  const lUrl = Path(location, 1);
 
   const [selectedTitre, setSelectedTitre] = useState('');
 
@@ -28,16 +18,12 @@ export default function PageAddRefund(props: any) {
   const [selectedDetail, setSelectedDetail] = useState("");
 
   const [selectedMontant, setSelectedMontant] = useState('');
-  const [addedOperationDate, setAddedOperationDate] = useState("");
-  const [addedOperationId, setAddedOperationId] = useState("");
   const [message, setMessage] = useState("");
   const [messageError, setMessageError] = useState("");
 
   const handleInputChange = () => {
     setMessage("");
     setMessageError("");
-    setAddedOperationDate("");
-    setAddedOperationId("");
   };
 
   const dispatch = useDispatch()
@@ -65,8 +51,7 @@ export default function PageAddRefund(props: any) {
   };
 
   const handleAddRefund = async (event: any) => {
-
-    event.preventDefault()
+    event.preventDefault();
 
     const refundData = {
       titre: selectedTitre,
@@ -74,12 +59,33 @@ export default function PageAddRefund(props: any) {
       detail: selectedDetail,
       montant: selectedMontant
     };
-    try {
-      await dispatch(addRefund(props.transactionId, refundData) as any);
-      resetForm()
-      setMessage("Votre investissement a été ajouté ! ");
-    } catch {
-      setMessageError("Une erreur s'est produite lors de l'ajout du remboursement !");
+
+    function removeTiret(number: any): number {
+      return parseFloat(number.replace(/-/g, ''));
+    }
+
+    const montantNumerique = parseFloat(props.montant);
+    const selectedMontantNumerique = removeTiret(selectedMontant);
+
+    if (!isNaN(montantNumerique) && !isNaN(selectedMontantNumerique)) {
+      const newMontant = montantNumerique + selectedMontantNumerique;
+
+      const editData = {
+        id: props.transactionId,
+        montant: formatMontant(newMontant, "")
+      };
+
+      try {
+        await dispatch(addRefund(props.transactionId, refundData) as any);
+        await dispatch(editTransactions(editData) as any);
+        dispatch(getTransactions() as any);
+        resetForm();
+        setMessage("Votre remboursement a été ajouté ! ");
+      } catch {
+        setMessageError("Une erreur s'est produite lors de l'ajout du remboursement !");
+      }
+    } else {
+      setMessageError("Erreur: montant invalide.");
     }
   };
 
@@ -101,7 +107,7 @@ export default function PageAddRefund(props: any) {
     {message || messageError ? (
       <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
         <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>
-          {message} <Link to={`/${lUrl}/${addedOperationDate}/${addedOperationId}`} className="underline transition-all hover:text-zinc-950">Allez-y !</Link>
+          {message}
         </p>
         <p className={`p-4 bg-red-900 w-60 rounded ${messageError ? 'opacity-100' : 'hidden'}`}>{messageError}</p>
       </div >

@@ -24,29 +24,35 @@ export const addRefund = (transactionId: any, refundData: any) => {
 };
 
 export const editRefund = (transactionId: any, refundData: any) => {
-    return async (dispatch: any) => {
-        try {
-            await axios.put(`http://localhost:5001/transactions/${transactionId}/refund/${refundData.id}`, refundData);
-            dispatch({ type: EDIT_REFUND, payload: { transactionId, refund: refundData } });
-            const response = await axios.get('http://localhost:5001/transactions');
-            dispatch({ type: GET_TRANSACTIONS, payload: response.data });
-        } catch (error) {
-            console.error('Error editing refund:', error);
-            throw error;
-        }
+    return (dispatch: any) => {
+        return axios.put(`http://localhost:5001/transactions/${transactionId}/refund/${refundData.id}`, refundData)
+            .then(() => {
+                dispatch({ type: EDIT_REFUND, payload: { transactionId, refund: refundData } });
+                return axios.get('http://localhost:5001/transactions');
+            })
+            .then((response) => {
+                dispatch({ type: GET_TRANSACTIONS, payload: response.data });
+            })
+            .catch((error) => {
+                console.error('Error editing refund:', error);
+                throw error;
+            });
     };
 };
 
 export const deleteRefund = (transactionId: any, refundId: any) => {
-    return async (dispatch: any) => {
-        try {
-            await axios.delete(`http://localhost:5001/transactions/${transactionId}/refund/${refundId}`);
-            dispatch({ type: DELETE_REFUND, payload: { transactionId, refundId } });
-            const response = await axios.get('http://localhost:5001/transactions');
-            dispatch({ type: GET_TRANSACTIONS, payload: response.data });
-        } catch (error) {
-            console.error('Error deleting refund:', error);
-            throw error;
-        }
+    return (dispatch: any) => {
+        return axios.delete(`http://localhost:5001/transactions/${transactionId}/refund/${refundId}`)
+            .then(() => {
+                dispatch({ type: DELETE_REFUND, payload: { transactionId, refundId } });
+                return axios.get('http://localhost:5001/transactions');
+            })
+            .then((response) => {
+                dispatch({ type: GET_TRANSACTIONS, payload: response.data });
+            })
+            .catch((error) => {
+                console.error('Error deleting refund:', error);
+                throw error;
+            });
     };
 };

@@ -131,3 +131,31 @@ export function getAllInvestments(idUser: any) {
 
     return userInvestements;
 }
+
+// -------------------------------- Remboursements
+
+export function getRefundsByTransactionId(transactionId: any, userId: any) {
+    const transactions = useSelector((state: any) => state.transactionReducer || []);
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === userId);
+
+    const transaction = userTransactions.find((transaction: any) => transaction._id === transactionId);
+
+    if (transaction) {
+        return transaction.remboursements || [];
+    } else {
+        return [];
+    }
+}
+
+export function getRefundByTransactionId(transactionId: any, refundId: any, userId: any) {
+    const transactions = useSelector((state: any) => state.transactionReducer || []);
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === userId);
+
+    const transaction = userTransactions.find((transaction: any) => transaction._id === transactionId);
+
+    if (transaction && transaction.remboursements) {
+        return transaction.remboursements.find((refund: any) => refund._id === refundId) || null;
+    } else {
+        return null;
+    }
+}

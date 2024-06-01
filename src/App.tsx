@@ -16,6 +16,8 @@ import LayoutInvest from './layout/layoutInvest';
 import PageAddInvest from './pages/PageForm/pageAddInvest';
 import PageInvestment from './pages/PageOperations/pageInvestment';
 import Investment from './pages/Operation/investment';
+import Refund from './pages/Operation/refund';
+import LayoutRefund from './layout/layoutRefund';
 
 
 function App() {
@@ -48,6 +50,14 @@ function App() {
         {
           path: '/depense/:date/:id',
           element: <Transaction />,
+        },
+        {
+          path: '/depense/:date/:id/refund',
+          element: <LayoutRefund />,
+        },
+        {
+          path: '/depense/:date/:id/refund/:idRefund',
+          element: <Refund />,
         },
         {
           path: '/recette',

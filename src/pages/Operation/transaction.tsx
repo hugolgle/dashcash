@@ -1,8 +1,7 @@
-
 import { CircleArrowLeft, CirclePlus } from "lucide-react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
-import { Path, convertDateHour, formatDate, formatMontant, separateMillier } from "../../utils/fonctionnel";
+import { Path, addSpace, convertDateHour, convertirFormatDate, formatDate, formatMontant, separateMillier } from "../../utils/fonctionnel";
 import { getTransactionById } from "../../utils/operations";
 
 import { categorieRecette, categorieDepense } from '../../../public/categories.json'
@@ -12,10 +11,6 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { infoUser } from "../../utils/users";
 import PageAddRefund from "../PageForm/pageAddRefund";
-
-// import { editRefund, deleteRefund } from "../../redux/actions/refund.action";
-
-
 
 export default function Transaction() {
     const userInfo = infoUser()
@@ -56,8 +51,6 @@ export default function Transaction() {
 
     const [selectedMontant, setSelectedMontant] = useState(transaction.montant);
 
-    const [selectedMontantRefund, setSelectedMontantRefund] = useState();
-
     const handleTitre = (event: any) => {
         setSelectedTitre(event.target.value);
     };
@@ -82,10 +75,6 @@ export default function Transaction() {
         setSelectedMontant(event.target.value);
     };
 
-    const handleMontantRefund = (event: any) => {
-        setSelectedMontantRefund(event.target.value);
-    };
-
     const handleInputChange = () => {
         setUpdate(true);
     };
@@ -94,12 +83,6 @@ export default function Transaction() {
 
     const handleRefund = () => {
         setRefundVisible(!refundVisible);
-    };
-
-    const [detailMontantVisible, setDetailMontantVisible] = useState(false);
-
-    const handleDetailMontant = () => {
-        setDetailMontantVisible(!detailMontantVisible);
     };
 
     const navigate = useNavigate()
@@ -121,6 +104,10 @@ export default function Transaction() {
         }
     }
 
+    const montantFinal = transaction.montant + transaction.remboursements.reduce((acc: any, refund: any) => {
+        return acc + parseFloat(refund.montant);
+    }, 0);
+
     const handleEditConfirmation = async () => {
         const editData = {
             id: transaction._id,
@@ -138,29 +125,18 @@ export default function Transaction() {
         setSelectedUpdate(false)
     };
 
+    const calculateTotalRefunds = () => {
+        let totalRefunds = 0;
+        if (transaction.remboursements && transaction.remboursements.length > 0) {
+            transaction.remboursements.forEach((refund: any) => {
+                totalRefunds += parseFloat(refund.montant);
+            });
+        }
+        const montant = totalRefunds - parseFloat(transaction.montant);
+        return (`-${montant}`)
+    };
 
-
-    // // Fonction pour modifier un remboursement
-    // const handleEditRefund = async () => {
-    //     const refundData = {
-    //         id: selectedRefundId,
-    //         titre: selectedRefundTitre,
-    //         date: selectedRefundDate,
-    //         detail: selectedRefundDetail,
-    //         montant: selectedRefundMontant
-    //     };
-    //     await dispatch(editRefund(transaction._id, refundData) as any);
-    //     // Mettez à jour les données de l'interface utilisateur
-    // };
-
-    // // Fonction pour supprimer un remboursement
-    // const handleDeleteRefund = async (refundId: any) => {
-    //     await dispatch(deleteRefund(transaction._id, refundId) as any);
-    //     // Mettez à jour les données de l'interface utilisateur
-    // };
-
-    // Affichez les remboursements de la transaction et ajoutez des fonctionnalités pour les modifier ou les supprimer
-
+    const montantPaye = calculateTotalRefunds()
     return <>
         <div className="w-full h-auto relative">
             {selectedUpdate ? (
@@ -177,7 +153,7 @@ export default function Transaction() {
                     <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
                 </Link>
             </div>
-            {transaction.type === "Dépense" && !transaction.remboursement && (
+            {transaction.type === "Dépense" && (
                 <button className="absolute top-0 right-0 flex flex-row gap-2 cursor-pointer" onClick={handleRefund}>{refundVisible ? 'Revenir' : 'Ajouter un remboursement'}</button>
             )}
         </div >
@@ -187,7 +163,7 @@ export default function Transaction() {
         )}
         <section className={`${refundVisible ? 'hidden' : 'flex flex-row gap-4'}`}>
             <div className="flex flex-col w-3/4 gap-4">
-                <div className="h-40 p-8 bg-zinc-900 rounded-2xl flex justify-center items-center ">
+                <div className="h-40 p-8 bg-zinc-900 rounded-2xl flex justify-center items-center">
                     <h2 className="text-4xl">{transaction._id}</h2>
                 </div>
                 <div className="flex flex-row gap-4">
@@ -223,38 +199,46 @@ export default function Transaction() {
 
                     </div>
                 </div>
-                <div className="flex flex-col gap-4">
-                    <div className={`min-h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
-                        {
-                            // selectedUpdate ? (
-                            //     <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
-                            // ) : <>
-                            <div className="flex flex-col">
-                                <p>Montant</p>
-                                <h2 className="text-4xl">{separateMillier(transaction.montant)} €</h2>
-                                <button onClick={handleDetailMontant}>Détails</button>
-                                {detailMontantVisible && <>
+                <div className="flex flex-row gap-4">
+                    <div className={`min-h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'py-8'}`}>
 
-                                    <div className="flex w-full justify-between items-center gap-4">
-                                        {
-                                            transaction.remboursements && transaction.remboursements.map((refund: any) => (
-                                                <div className="">
-                                                    <p>Montant Remboursé</p>
-                                                    <h2 className="text-4xl">{separateMillier(refund.montant)} €</h2>
-                                                    <p>{refund.titre}</p>
-                                                </div>
-                                            ))
-                                        }
-                                    </div>
-
-
-                                </>}
-                            </div>
-                            // </>
-                        }
+                        {selectedUpdate ? (
+                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
+                        ) : <div className="flex flex-col">
+                            <p>Montant {transaction.remboursements && transaction.remboursements.length > 0 ? 'payé' : ''}</p>
+                            <h2 className="text-4xl">{separateMillier(montantPaye)} €</h2>
+                        </div>}
                     </div>
+                    {
+                        transaction.remboursements && transaction.remboursements.length > 0 && (
+                            <Link to="refund/" className="min-h-40 w-full flex-col bg-zinc-900 flex items-center rounded-2xl py-8 transition-all hover:bg-opacity-80 hover:scale-95">
+                                <p>Remboursement(s)</p>
+                                <table className="w-full mt-2">
+                                    <tbody>
+                                        {transaction.remboursements.map((refund: any) => (
+                                            <tr key={refund._id}>
+                                                <td>{convertirFormatDate(refund.date)}</td>
+                                                <td>{refund.titre}</td>
+                                                <td><b>{addSpace(refund.montant)} €</b></td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </Link>
+                        )
+                    }
 
+                    {
+                        transaction.remboursements && transaction.remboursements.length > 0 && (
+                            <div className="min-h-40 w-full flex-col bg-zinc-900 flex items-center rounded-2xl py-8">
+                                <div className="flex flex-col">
+                                    <p>Montant final</p>
+                                    <h2 className="text-4xl">{separateMillier(montantFinal)} €</h2>
+                                </div>
 
+                            </div>
+                        )
+                    }
                 </div>
 
                 <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
@@ -265,10 +249,9 @@ export default function Transaction() {
                             <h2 className="text-xl">{transaction.detail ? transaction.detail : "Aucun détail ajouté"}</h2>
                         )
                     }
-
                 </div>
             </div>
-            <div className="flex flex-col w-1/4 gap-20">
+            <div className="flex flex-col w-1/4 justify-between">
                 <div className="flex flex-col gap-4">
                     <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Ajouter le : <br /><b>{convertDateHour(transaction.createdAt)}</b></p></div>
                     <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Derniere modification le : <br /><b>{convertDateHour(transaction.updatedAt)}</b></p></div>
@@ -283,13 +266,11 @@ export default function Transaction() {
                             </div>
                         </div>
                     ) : selectedUpdate ? (
-                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
+                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer transition-all hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
                     ) : (
-                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
+                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer transition-all hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
                     )}
-
                     <div className="flex flex-col gap-4 justify-center items-center">
-
                         {selectedDelete ? (
                             <div className="flex flex-col gap-4 justify-center items-center">
                                 <p className="text-sm">Êtes-vous sûr ?</p>
@@ -302,7 +283,6 @@ export default function Transaction() {
                             <div className={`w-full p-8 h-32 border-2 border-red-900 bg-zinc-900  rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95`} onClick={() => setSelectedDelete(true)}>Supprimer</div>
                         )}
                     </div>
-
                 </div>
             </div>
             {message ? (
