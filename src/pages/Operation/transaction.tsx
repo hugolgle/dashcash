@@ -96,6 +96,12 @@ export default function Transaction() {
         setRefundVisible(!refundVisible);
     };
 
+    const [detailMontantVisible, setDetailMontantVisible] = useState(false);
+
+    const handleDetailMontant = () => {
+        setDetailMontantVisible(!detailMontantVisible);
+    };
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -125,9 +131,6 @@ export default function Transaction() {
             date: selectedDate,
             detail: selectedDetail,
             montant: formatMontant(removeTiret(selectedMontant), transaction.type),
-            remboursement: {
-                montant: selectedMontantRefund
-            }
         }
         await dispatch(editTransactions(editData) as any);
         setMessage("L'opération a été modifié avec succès !");
@@ -220,45 +223,37 @@ export default function Transaction() {
 
                     </div>
                 </div>
-                <div className="flex gap-4">
-                    <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                <div className="flex flex-col gap-4">
+                    <div className={`min-h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                         {
-                            selectedUpdate ? (
-                                <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
-                            ) : <>
-                                <div className="flex flex-col">
-                                    <p>Montant Payé</p>
-                                    <h2 className="text-4xl">{separateMillier(transaction.montant)} €</h2>
-                                </div>
-                            </>
-                        }
-                    </div>
-                    {
-                        transaction.remboursement && <>
+                            // selectedUpdate ? (
+                            //     <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
+                            // ) : <>
+                            <div className="flex flex-col">
+                                <p>Montant</p>
+                                <h2 className="text-4xl">{separateMillier(transaction.montant)} €</h2>
+                                <button onClick={handleDetailMontant}>Détails</button>
+                                {detailMontantVisible && <>
 
-                            <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
-                                {selectedUpdate ? (
-                                    <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontantRefund)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontantRefund(e); handleInputChange(); }} placeholder="Montant remboursement" />
-                                ) : <>
-                                    <div className="flex flex-col">
-                                        <p>Montant Remboursé</p>
-                                        <h2 className="text-4xl">{separateMillier(transaction.remboursement.montant)} €</h2>
+                                    <div className="flex w-full justify-between items-center gap-4">
+                                        {
+                                            transaction.remboursements && transaction.remboursements.map((refund: any) => (
+                                                <div className="">
+                                                    <p>Montant Remboursé</p>
+                                                    <h2 className="text-4xl">{separateMillier(refund.montant)} €</h2>
+                                                    <p>{refund.titre}</p>
+                                                </div>
+                                            ))
+                                        }
                                     </div>
+
+
                                 </>}
                             </div>
-                            <div className='h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl p-8'>
-                                {
-                                    <div className="flex flex-col">
-                                        <p>Montant Total</p>
-                                        {/* <h2 className="text-4xl">{separateMillier(montantTotal)} €</h2> */}
-                                    </div>
-                                }
-                            </div>
-                        </>
+                            // </>
+                        }
+                    </div>
 
-
-
-                    }
 
                 </div>
 
@@ -273,7 +268,7 @@ export default function Transaction() {
 
                 </div>
             </div>
-            <div className="flex flex-col justify-between w-1/4 gap-4">
+            <div className="flex flex-col w-1/4 gap-20">
                 <div className="flex flex-col gap-4">
                     <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Ajouter le : <br /><b>{convertDateHour(transaction.createdAt)}</b></p></div>
                     <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Derniere modification le : <br /><b>{convertDateHour(transaction.updatedAt)}</b></p></div>
