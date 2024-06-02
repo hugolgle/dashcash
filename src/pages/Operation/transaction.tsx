@@ -206,7 +206,11 @@ export default function Transaction() {
                             <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
                         ) : <div className="flex flex-col">
                             <p>Montant {transaction.remboursements && transaction.remboursements.length > 0 ? 'payé' : ''}</p>
-                            <h2 className="text-4xl">{separateMillier(montantPaye)} €</h2>
+                            <h2 className="text-4xl">
+                                {transaction.type === "Dépense"
+                                    ? `${separateMillier(montantPaye)} €`
+                                    : `${separateMillier(transaction.montant)} €`}
+                            </h2>
                         </div>}
                     </div>
                     {
