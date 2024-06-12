@@ -49,7 +49,20 @@ export default function Transaction() {
 
     const [selectedDetail, setSelectedDetail] = useState(transaction.detail);
 
-    const [selectedMontant, setSelectedMontant] = useState(transaction.montant);
+    const calculateTotalRefunds = () => {
+        let totalRefunds = 0;
+        if (transaction.remboursements && transaction.remboursements.length > 0) {
+            transaction.remboursements.forEach((refund: any) => {
+                totalRefunds += parseFloat(refund.montant);
+            });
+        }
+        const montant = totalRefunds - parseFloat(transaction.montant);
+        return (`-${montant}`)
+    };
+
+    const montantPaye = calculateTotalRefunds()
+
+    const [selectedMontant, setSelectedMontant] = useState(transaction.remboursements && transaction.remboursements.length > 0 ? montantPaye : transaction.montant);
 
     const handleTitre = (event: any) => {
         setSelectedTitre(event.target.value);
@@ -125,18 +138,6 @@ export default function Transaction() {
         setSelectedUpdate(false)
     };
 
-    const calculateTotalRefunds = () => {
-        let totalRefunds = 0;
-        if (transaction.remboursements && transaction.remboursements.length > 0) {
-            transaction.remboursements.forEach((refund: any) => {
-                totalRefunds += parseFloat(refund.montant);
-            });
-        }
-        const montant = totalRefunds - parseFloat(transaction.montant);
-        return (`-${montant}`)
-    };
-
-    const montantPaye = calculateTotalRefunds()
     return <>
         <div className="w-full h-auto relative">
             {selectedUpdate ? (
