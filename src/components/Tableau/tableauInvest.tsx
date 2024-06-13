@@ -21,8 +21,16 @@ export default function TableauInvest(props: any) {
                             <TableHead className="w-full">ID</TableHead>
                             <TableHead className="w-full">Plateforme</TableHead>
                             <TableHead className="w-full">Type</TableHead>
+                            <TableHead className="w-full">Titre</TableHead>
                             <TableHead className="w-full">Date</TableHead>
                             <TableHead className="w-full">Montant</TableHead>
+                            {props.sold === true && <>
+                                <TableHead className="w-full">Montant vendu</TableHead>
+                                <TableHead className="w-full">Bénéfice</TableHead>
+                            </>}
+                            {props.sold === null && <>
+                                <TableHead className="w-full">Statut</TableHead>
+                            </>}
                         </TableRow>
                     </TableHeader>
                     <TableBody className="flex flex-col justify-center items-center w-full">
@@ -32,8 +40,21 @@ export default function TableauInvest(props: any) {
                                     <TableCell className="w-full">{investment._id.substring(4, 8)}</TableCell>
                                     <TableCell className="w-full">{investment.plateforme}</TableCell>
                                     <TableCell className="w-full">{investment.type}</TableCell>
+                                    <TableCell className="w-full">{investment.titre}</TableCell>
                                     <TableCell className="w-full">{formatDate(investment.date)}</TableCell>
-                                    <TableCell className="w-full"><b>{addSpace(investment.montant)} €</b></TableCell>
+                                    <TableCell className="w-full"><b>- {addSpace(investment.montant)} €</b></TableCell>
+                                    {props.sold === true && <>
+                                        <TableCell className="w-full"><b>{addSpace(investment.montantVendu)} €</b></TableCell>
+                                        <TableCell className="w-full">
+                                            <b>
+                                                {investment.benefice >= 0 ? "+ " : ""}
+                                                {addSpace(investment.benefice)} €
+                                            </b>
+                                        </TableCell>
+                                    </>}
+                                    {props.sold === null && <>
+                                        <TableCell className="w-full">{investment.isSold === true ? "Vendu" : "En cours"}</TableCell>
+                                    </>}
                                 </TableRow>
                             </Link>
                         ))}

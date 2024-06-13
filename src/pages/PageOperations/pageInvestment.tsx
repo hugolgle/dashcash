@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
-import { Path, convertDate } from '../../utils/fonctionnel'
+import { Path } from '../../utils/fonctionnel'
 import { infoUser } from '../../utils/users';
 import { getAllInvestments } from '../../utils/operations';
 import TableauInvest from '../../components/Tableau/tableauInvest';
+import { calculTotalInvestment } from '../../utils/calcul';
 
 export default function PageInvestment(props: any) {
 
@@ -34,12 +34,14 @@ export default function PageInvestment(props: any) {
                     </Link>
                 </div>
             </div>
-            <TableauInvest investments={getAllInvestments(userInfo.id)} />
+
+            <TableauInvest investments={getAllInvestments(userInfo.id, props.sold)} sold={props.sold} />
             <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-800 py-3 transition-all">
-                Total : <b></b>
+                Total : <b>{calculTotalInvestment(userInfo.id, props.sold)}</b>
                 <br />
-                Transaction(s) : <b></b>
+                Transaction(s) : <b>{getAllInvestments(userInfo.id, props.sold).length}</b>
             </div>
+
 
         </>
     );

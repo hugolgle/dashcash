@@ -14,6 +14,10 @@ const investmentSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        titre: {
+            type: String,
+            required: true,
+        },
         detail: {
             type: String,
             required: false,
@@ -24,6 +28,18 @@ const investmentSchema = mongoose.Schema(
         },
         montant: {
             type: String,
+            required: true,
+        },
+        montantVendu: {
+            type: String,
+            required: false,
+        },
+        benefice: {
+            type: String,
+            required: false,
+        },
+        isSold: {
+            type: Boolean,
             required: true,
         },
     },

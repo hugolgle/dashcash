@@ -2,15 +2,14 @@
 import { CircleArrowLeft, CirclePlus } from "lucide-react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
-import { Path, convertDateHour, formatDate, formatMontant, separateMillier } from "../../utils/fonctionnel";
-import { getTransactionById } from "../../utils/operations";
+import { Path, convertDateHour, formatDate, separateMillier } from "../../utils/fonctionnel";
+import { getInvestmentById } from "../../utils/operations";
 
-import { categorieRecette, categorieDepense } from '../../../public/categories.json'
 
-import { deleteTransactions, editTransactions, getTransactions } from "../../redux/actions/transaction.action";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { infoUser } from "../../utils/users";
+import { deleteInvestments, editInvestments, getInvestments } from "../../redux/actions/investment.action";
 
 
 export default function Investment() {
@@ -32,36 +31,40 @@ export default function Investment() {
     }, [message]);
 
     const { id } = useParams()
-    const transaction = getTransactionById(id, userInfo.id)
+    const investment = getInvestmentById(id, userInfo.id)
 
     const [selectedDelete, setSelectedDelete] = useState(false);
 
     const [selectedUpdate, setSelectedUpdate] = useState(false);
 
+    const [selectedVendre, setSelectedVendre] = useState(false);
+
     const [update, setUpdate] = useState(false);
 
-    const [selectedTitre, setSelectedTitre] = useState(transaction.titre);
+    const [selectedPlateforme, setSelectedPlateforme] = useState(investment.plateforme);
 
-    const [selectedCategorie, setSelectedCategorie] = useState(transaction.categorie);
+    const [selectedType, setSelectedType] = useState(investment.type);
 
-    const [selectedAutreCategorie, setSelectedAutreCategorie] = useState(transaction.autreCategorie);
+    const [selectedTitre, setSelectedTitre] = useState(investment.titre);
 
-    const [selectedDate, setSelectedDate] = useState(transaction.date);
+    const [selectedDetail, setSelectedDetail] = useState(investment.detail);
 
-    const [selectedDetail, setSelectedDetail] = useState(transaction.detail);
+    const [selectedDate, setSelectedDate] = useState(investment.date);
 
-    const [selectedMontant, setSelectedMontant] = useState(transaction.montant);
+    const [selectedMontant, setSelectedMontant] = useState(investment.montant);
+
+    const [selectedMontantVendu, setSelectedMontantVendu] = useState(investment.montant);
+
+    const handlePlateforme = (event: any) => {
+        setSelectedPlateforme(event.target.value);
+    };
+
+    const handleType = (event: any) => {
+        setSelectedType(event.target.value);
+    };
 
     const handleTitre = (event: any) => {
         setSelectedTitre(event.target.value);
-    };
-
-    const handleCategorie = (event: any) => {
-        setSelectedCategorie(event.target.value);
-    };
-
-    const handleAutreCategorie = (event: any) => {
-        setSelectedAutreCategorie(event.target.value);
     };
 
     const handleDate = (event: any) => {
@@ -76,6 +79,10 @@ export default function Investment() {
         setSelectedMontant(event.target.value);
     };
 
+    const handleMontantVendu = (event: any) => {
+        setSelectedMontantVendu(event.target.value);
+    };
+
     const handleInputChange = () => {
         setUpdate(true);
     };
@@ -84,13 +91,10 @@ export default function Investment() {
     const dispatch = useDispatch()
 
     const handleDeleteConfirmation = async () => {
-        await dispatch(deleteTransactions(id) as any);
+        await dispatch(deleteInvestments(id) as any);
         navigate(`/${first}/${second}`);
-        dispatch(getTransactions() as any);
-        localStorage.setItem('transactionDeleted', 'true');
+        dispatch(getInvestments() as any);
     };
-
-
 
     function removeTiret(number: any): number {
         return parseFloat(number.replace(/-/g, ''));
@@ -98,18 +102,29 @@ export default function Investment() {
 
     const handleEditConfirmation = async () => {
         const editData = {
-            id: transaction._id,
-            type: transaction.type,
+            id: investment._id,
+            type: selectedType,
             titre: selectedTitre,
-            categorie: selectedCategorie,
-            autreCategorie: selectedAutreCategorie,
+            plateforme: selectedPlateforme,
             date: selectedDate,
             detail: selectedDetail,
-            montant: formatMontant(removeTiret(selectedMontant), transaction.type)
+            montant: separateMillier(selectedMontant)
         }
-        await dispatch(editTransactions(editData) as any);
+        await dispatch(editInvestments(editData) as any);
         setMessage("L'opération a été modifié avec succès !");
-        dispatch(getTransactions() as any);
+        dispatch(getInvestments() as any);
+        setSelectedUpdate(false)
+    };
+
+    const handleSoldConfirmation = async () => {
+        const editData = {
+            id: investment._id,
+            montantVendu: separateMillier(selectedMontantVendu),
+        }
+        await dispatch(editInvestments(editData) as any);
+        navigate(`/invest/operationsVendu/${investment._id}`)
+        setMessage("L'investissement a été vendu avec succès !");
+        dispatch(getInvestments() as any);
         setSelectedUpdate(false)
     };
 
@@ -118,9 +133,8 @@ export default function Investment() {
             {selectedUpdate ? (
                 <input className="text-5xl animate-[pulseEdit_1s_ease-in-out_infinite] rounded-2xl text-center font-thin mb-9 bg-transparent" value={selectedTitre} type="text" name="" id="" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
             ) : (
-                <h2 className="text-5xl font-thin mb-9">{transaction.titre}</h2>
+                <h2 className="text-5xl font-thin mb-9">{investment.titre}</h2>
             )}
-
             <div className='absolute top-0 flex flex-row gap-2 w-full'>
                 <Link to={`/${first}/${second}`}>
                     <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
@@ -130,71 +144,95 @@ export default function Investment() {
                 </Link>
             </div>
         </div >
-        <section className=" flex flex-row gap-4">
-            <div className="flex flex-col w-3/4 gap-4">
+        <section className="flex flex-row gap-4">
+            <div className="flex flex-col gap-4 w-3/4">
                 <div className="h-40 p-8 bg-zinc-900 rounded-2xl flex justify-center items-center ">
-                    <h2 className="text-4xl">{transaction._id}</h2>
+                    <h2 className="text-4xl">{investment._id}</h2>
                 </div>
-                <div className="flex flex-row gap-4">
+
+                <div className="flex flex-row w-full gap-4">
+
                     <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
-                        {selectedUpdate ? (
-                            <select id='action' value={selectedCategorie} className="h-full w-full bg-transparent text-center text-4xl rounded-2xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
-                                <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
-                                {transaction.type === "Dépense" && categorieDepense.map(({ name }) => (
-                                    <option key={name} value={name}>{name}</option>
-                                ))}
-                                {transaction.type === "Recette" && categorieRecette.map(({ name }) => (
-                                    <option key={name} value={name}>{name}</option>
-                                ))}
-                            </select>
-                        ) : (
-                            <h2 className="text-4xl">{transaction.categorie === "Autre" ? transaction.autreCategorie : transaction.categorie}</h2>
-                        )}
+                        {
+                            selectedUpdate ? (
+                                <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedPlateforme} type="text" name="" id="" onChange={(e) => { handlePlateforme(e); handleInputChange(); }} placeholder="Plateforme" />
+                            ) : (
+                                <h2 className="text-4xl">{investment.plateforme}</h2>
+                            )
+                        }
+
                     </div>
-                    {selectedCategorie === "Autre" && selectedUpdate && (
-                        <div className={`h-40 w-full p-8 bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
-                            <input className="h-full w-full bg-transparent text-center text-4xl rounded-2xl placeholder:text-xl" type="text" value={selectedAutreCategorie} name="titre" id="autreTitre" onChange={(e) => { handleAutreCategorie(e); handleInputChange(); }} placeholder="Entrez une autre categorie" />
-                        </div>
-                    )}
+
+                    <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                        {
+                            selectedUpdate ? (
+                                <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedType} type="text" name="" id="" onChange={(e) => { handleType(e); handleInputChange(); }} placeholder="Type" />
+                            ) : (
+                                <h2 className="text-4xl">{investment.type}</h2>
+                            )
+                        }
+                    </div>
+
+
+                </div>
+                <div className="flex flex-row w-full gap-4">
 
                     <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                         {
                             selectedUpdate ? (
                                 <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedDate} type="date" name="" id="" onChange={(e) => { handleDate(e); handleInputChange(); }} />
                             ) : (
-                                <h2 className="text-4xl">{formatDate(transaction.date)}</h2>
+                                <h2 className="text-4xl">{formatDate(investment.date)}</h2>
                             )
                         }
 
                     </div>
-                </div>
-                <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
-                    {
-                        selectedUpdate ? (
-                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
-                        ) : (
-                            <h2 className="text-4xl">{separateMillier(transaction.montant)} €</h2>
-                        )
-                    }
+                    <div className={`h-40 w-full  bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                        {
+                            selectedUpdate ? (
+                                <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
+                            ) : (
+                                <h2 className="text-4xl">{investment.montant} €</h2>
+                            )
+                        }
 
+                    </div>
                 </div>
                 <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                     {
                         selectedUpdate ? (
                             <textarea className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" value={selectedDetail} name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} placeholder="Détails" />
                         ) : (
-                            <h2 className="text-xl">{transaction.detail ? transaction.detail : "Aucun détail ajouté"}</h2>
+                            <h2 className="text-xl">{investment.detail ? investment.detail : "Aucun détail ajouté"}</h2>
                         )
                     }
-
                 </div>
             </div>
-            <div className="flex flex-col justify-between w-1/4 gap-4">
-                <div className="flex flex-col gap-4">
-                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Ajouter le : <br /><b>{convertDateHour(transaction.createdAt)}</b></p></div>
-                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Derniere modification le : <br /><b>{convertDateHour(transaction.updatedAt)}</b></p></div>
+
+            <div className="flex flex-col justify-between items-center w-1/4 gap-4">
+                <div className="flex flex-col w-full gap-4">
+                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Ajouter le : <br /><b>{convertDateHour(investment.createdAt)}</b></p></div>
+                    <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center"><p>Derniere modification le : <br /><b>{convertDateHour(investment.updatedAt)}</b></p></div>
                 </div>
-                <div className="flex flex-col gap-4">
+                {!investment.isSold && <>
+                    <div className="flex flex-col w-full gap-4 justify-center items-center">
+
+                        {selectedVendre ? (
+                            <div className="flex flex-col gap-4 w-full justify-center items-center">
+                                <p className="text-sm">Montant de la vente :</p>
+                                <input className="rounded px-1" value={selectedMontantVendu} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontantVendu(e); handleInputChange(); }} />
+                                <div className="w-full flex flex-row gap-4">
+                                    <button className="cursor-pointer text-xs w-4/5 hover:bg-opacity-80 hover:scale-95" onClick={() => setSelectedVendre(false)}>Annuler</button>
+                                    <button className="cursor-pointer text-xs w-4/5 hover:bg-opacity-80 hover:scale-95" onClick={() => handleSoldConfirmation()}>Vendre</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <button className="cursor-pointer w-4/5 hover:bg-opacity-80 hover:scale-95" onClick={() => setSelectedVendre(true)}>Vendre</button>
+                        )}
+                    </div>
+                </>}
+
+                <div className="flex flex-col w-full gap-4">
                     {selectedUpdate && update === true ? (
                         <div className="flex flex-col gap-4 justify-center items-center">
                             <p className="text-sm">Êtes-vous sûr de vouloir modifier ?</p>
@@ -204,9 +242,9 @@ export default function Investment() {
                             </div>
                         </div>
                     ) : selectedUpdate ? (
-                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
+                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95 transition-all" onClick={() => setSelectedUpdate(false)}>Annuler</div>
                     ) : (
-                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
+                        <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer hover:scale-95 transition-all" onClick={() => setSelectedUpdate(true)}>Modifier</div>
                     )}
 
                     <div className="flex flex-col gap-4 justify-center items-center">
@@ -225,14 +263,16 @@ export default function Investment() {
                     </div>
 
                 </div>
-            </div>
-            {message ? (
-                <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
-                    <p className="p-4 bg-lime-900 w-60 rounded shadow-2xl shadow-black">
-                        {message}
-                    </p>
-                </div>
-            ) : null}
+            </div >
+            {
+                message ? (
+                    <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`} >
+                        <p className="p-4 bg-lime-900 w-60 rounded shadow-2xl shadow-black">
+                            {message}
+                        </p>
+                    </div >
+                ) : null
+            }
         </section >
     </>
 }

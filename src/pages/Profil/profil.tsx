@@ -108,7 +108,7 @@ export default function Profil() {
             </div>
           </div>
         ) : (
-          <div className={`h-40 w-full cursor-pointer bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95`} onClick={() => setSelectedDelete(true)}>Supprimer mon compte</div>
+          <div className={`h-full w-full cursor-pointer bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95`} onClick={() => setSelectedDelete(true)}>Supprimer mon compte</div>
         )}
 
         {selectedUpdate && update === true ? (
@@ -120,18 +120,16 @@ export default function Profil() {
             </div>
           </div>
         ) : selectedUpdate ? (
-          <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer transition-all hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
+          <div className="h-full w-full cursor-pointer bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
         ) : (
-          <div className="p-8 h-32 bg-zinc-900 rounded-2xl flex justify-center items-center hover:bg-opacity-80 cursor-pointer transition-all hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
+          <div className="h-full w-full cursor-pointer bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
         )}
 
-        <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl`}>
-
-
+        <div className="h-full w-full bg-zinc-900 flex justify-center items-center rounded-2xl">
+          Exporter les données
         </div>
-        <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl`}>
-
-
+        <div className="h-full w-full bg-zinc-900 flex justify-center items-center rounded-2xl">
+          Supprimer les données
         </div>
       </div>
       {message ? (

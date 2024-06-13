@@ -2,7 +2,7 @@
 
 import { Button } from "../../../@/components/ui/button"
 
-import { formatMontant, getCurrentDate } from '../../utils/fonctionnel';
+import { formatMontant, getCurrentDate, separateMillier } from '../../utils/fonctionnel';
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 
@@ -57,7 +57,7 @@ export default function PageAddRefund(props: any) {
       titre: selectedTitre,
       date: selectedDate,
       detail: selectedDetail,
-      montant: selectedMontant
+      montant: separateMillier(selectedMontant)
     };
 
     function removeTiret(number: any): number {

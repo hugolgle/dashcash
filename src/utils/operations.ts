@@ -124,12 +124,32 @@ export function getLastFiveTransactionsByType(type: any, idUser: any) {
 
 // -------------------------------- Investissements
 
-export function getAllInvestments(idUser: any) {
+export function getAllInvestments(idUser: any, isSold: boolean | null) {
     const investments = useSelector((state: any) => state.investmentReducer || []);
 
-    const userInvestements = investments.filter((investment: any) => investment.user === idUser);
+    const userInvestments = investments.filter((investment: any) => investment.user === idUser);
 
-    return userInvestements;
+    const filteredInvestments = isSold !== null
+        ? userInvestments.filter((investment: any) => investment.isSold === isSold)
+        : userInvestments;
+
+    return filteredInvestments.sort((a: any, b: any) => {
+        const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
+        if (dateSort !== 0) return dateSort;
+
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+}
+
+
+export function getInvestmentById(id: any, idUser: any) {
+    const investments = useSelector((state: any) => state.investmentReducer || []);
+    const userInvestments = investments.filter((investment: any) => investment.user === idUser);
+    if (id) {
+        return userInvestments.find((investment: any) => investment._id === id);
+    } else {
+        return null;
+    }
 }
 
 // -------------------------------- Remboursements

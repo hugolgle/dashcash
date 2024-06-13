@@ -26,7 +26,7 @@ export default function LayoutTransac(props: any) {
             </Link>
         </div>
 
-        <section className=" flex flex-col gap-4 ">
+        <section className="flex flex-col gap-4">
             <div className="flex flex-row w-full h-64 gap-4">
 
                 <Link to={currentMonth} className="flex flex-col hover:scale-95 justify-between w-3/5 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">

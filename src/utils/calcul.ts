@@ -126,3 +126,27 @@ export function calculMoyenneEconomie(depensesMoyennes: any, recettesMoyennes: a
     return economieMoyenneFormatted;
 }
 
+// Investment
+
+
+export function calculTotalInvestment(idUser: any, isSold: boolean | null) {
+    const investments = useSelector((state: any) => state.investmentReducer || []);
+
+    const userOperations = investments.filter((investment: any) => investment.user === idUser);
+
+    const filteredOperations = isSold !== null
+        ? userOperations.filter((investment: any) => investment.isSold === isSold)
+        : userOperations;
+
+    const totalAmount = filteredOperations.reduce((total: number, investment: any) => {
+        if (isSold && investment.montantVendu !== undefined) {
+            return total + parseFloat(investment.montantVendu);
+        } else {
+            return total + parseFloat(investment.montant);
+        }
+    }, 0.00);
+
+    const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
+
+    return formattedTotal;
+}

@@ -10,9 +10,11 @@ module.exports.setInvestments = async (req, res) => {
             user: req.body.user,
             plateforme: req.body.plateforme,
             type: req.body.type,
+            titre: req.body.titre,
             detail: req.body.detail || '',
             date: req.body.date,
             montant: req.body.montant,
+            isSold: false,
         });
 
         return res.status(201).json(investment);
@@ -44,12 +46,19 @@ module.exports.editInvestment = async (req, res) => {
         const investment = await InvestmentModel.findById(req.params.id);
 
         if (!investment) {
-            return res.status(400).json({ message: "Cette investissement n'existe pas" });
+            return res.status(400).json({ message: "Cet investissement n'existe pas" });
         }
+
+        const { montantVendu } = req.body;
+        const montantBenefice = parseFloat(montantVendu) - parseFloat(investment.montant);
 
         const updatedOperation = await InvestmentModel.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            {
+                ...req.body,
+                benefice: montantBenefice.toFixed(2),
+                isSold: true,
+            },
             { new: true }
         );
 
@@ -58,6 +67,7 @@ module.exports.editInvestment = async (req, res) => {
         return res.status(500).json({ message: "Erreur lors de la mise à jour de l'investissement", error });
     }
 };
+
 
 module.exports.deleteInvestment = async (req, res) => {
     try {

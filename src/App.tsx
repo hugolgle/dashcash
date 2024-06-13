@@ -2,7 +2,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/home';
 import Navbar from './components/Navbar/navbar';
-import Epargn from './pages/Epargn/epargn';
 import Connexion from './pages/Connexion/connexion';
 import Profil from './pages/Profil/profil';
 import TableauDeBord from './pages/TableauDeBord/tableaudebord';
@@ -76,10 +75,6 @@ function App() {
           element: <Transaction />,
         },
         {
-          path: '/epargn',
-          element: <Epargn />
-        },
-        {
           path: '/invest',
           element: <LayoutInvest />
         },
@@ -89,10 +84,26 @@ function App() {
         },
         {
           path: '/invest/operations',
-          element: <PageInvestment />
+          element: <PageInvestment sold={null} />
+        },
+        {
+          path: '/invest/operationsVendu',
+          element: <PageInvestment sold={true} />
+        },
+        {
+          path: '/invest/operationsC',
+          element: <PageInvestment sold={false} />
         },
         {
           path: '/invest/operations/:id',
+          element: <Investment />
+        },
+        {
+          path: '/invest/operationsVendu/:id',
+          element: <Investment />
+        },
+        {
+          path: '/invest/operationsC/:id',
           element: <Investment />
         },
         {

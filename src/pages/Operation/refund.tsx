@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import { Path, formatMontant } from "../../utils/fonctionnel";
+import { Path, separateMillier } from "../../utils/fonctionnel";
 
 
 import { editTransactions, getTransactions } from "../../redux/actions/transaction.action";
@@ -17,7 +17,6 @@ export default function Refund() {
     const first = Path(location, 1)
     const second = Path(location, 2)
     const third = Path(location, 3)
-    const fourth = Path(location, 4)
 
     const [message, setMessage] = useState("");
 
@@ -81,10 +80,10 @@ export default function Refund() {
     const selectedMontantNumerique = removeTiret(refund.montant);
 
     const newMontant = montantNumerique - selectedMontantNumerique;
-    console.log(newMontant)
+
     const editData = {
         id: id,
-        montant: formatMontant(newMontant, "")
+        montant: separateMillier(newMontant)
     };
     const handleDeleteRefund = async () => {
         await dispatch(deleteRefund(id, refund._id) as any);

@@ -26,6 +26,8 @@ export default function PageAddInvest() {
 
   const [selectedType, setSelectedType] = useState("");
 
+  const [selectedTitre, setSelectedTitre] = useState("");
+
   const [selectedDetail, setSelectedDetail] = useState("");
 
   const [selectedMontant, setSelectedMontant] = useState('');
@@ -35,7 +37,6 @@ export default function PageAddInvest() {
   const [messageError, setMessageError] = useState("");
 
   const handleInputChange = () => {
-
     setMessage("");
     setMessageError("");
     setAddedOperationDate("")
@@ -45,8 +46,9 @@ export default function PageAddInvest() {
   const dispatch = useDispatch()
 
   const resetForm = () => {
-    setSelectedPlateforme("");
     setSelectedDetail("");
+    setSelectedType("");
+    setSelectedTitre("");
     setSelectedMontant("");
   }
 
@@ -60,6 +62,10 @@ export default function PageAddInvest() {
 
   const handleType = (event: any) => {
     setSelectedType(event.target.value);
+  };
+
+  const handleTitre = (event: any) => {
+    setSelectedTitre(event.target.value);
   };
 
   const handlePlateforme = (event: any) => {
@@ -77,6 +83,7 @@ export default function PageAddInvest() {
       user: userInfo.id,
       plateforme: selectedPlateforme,
       type: selectedType,
+      titre: selectedTitre,
       detail: selectedDetail,
       date: selectedDate,
       montant: separateMillier(selectedMontant)
@@ -120,6 +127,8 @@ export default function PageAddInvest() {
         <option value="Dérivé">Dérivé</option>
       </select>
 
+      <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" maxLength={50} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
+
       <textarea value={selectedDetail} className="w-96 h-10 px-2 rounded-xl" name="" id="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e); handleInputChange(); }} />
 
       <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" min="0" step="0.01" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
@@ -129,7 +138,7 @@ export default function PageAddInvest() {
     {message || messageError ? (
       <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
         <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>
-          {message} <Link to={`/${lUrl}/${addedOperationDate}/${addedOperationId}`} className="underline transition-all hover:text-zinc-950">Allez-y !</Link>
+          {message} <Link to={`/invest/operations/${addedOperationId}`} className="underline transition-all hover:text-zinc-950">Allez-y !</Link>
         </p>
         <p className={`p-4 bg-red-900 w-60 rounded ${messageError ? 'opacity-100' : 'hidden'}`}>{messageError}</p>
       </div >
