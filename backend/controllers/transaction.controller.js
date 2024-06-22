@@ -9,6 +9,7 @@ module.exports.setTransactions = async (req, res) => {
         const transaction = await OperationModel.create({
             user: req.body.user,
             type: req.body.type,
+            bank: req.body.bank,
             categorie: req.body.categorie,
             autreCategorie: req.body.autreCategorie,
             titre: req.body.titre,

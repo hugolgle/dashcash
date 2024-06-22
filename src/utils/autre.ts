@@ -57,3 +57,18 @@ export function premierJourMoisEnCours(): string {
     const dateFormatee: string = `${jour}/${mois}/${annee}`;
     return dateFormatee;
 }
+
+export function categorieSort(categories: any) {
+    if (!Array.isArray(categories)) {
+        throw new Error("Input must be an array");
+    }
+    return categories.sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            return -1;
+        }
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
+            return 1;
+        }
+        return 0;
+    });
+}

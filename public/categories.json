@@ -27,6 +27,12 @@
             "name": "Resto"
         },
         {
+            "name": "Santé"
+        },
+        {
+            "name": "Sport"
+        },
+        {
             "name": "Activité"
         },
         {
@@ -45,7 +51,13 @@
             "name": "Abonnement"
         },
         {
+            "name": "Divers"
+        },
+        {
             "name": "Autre"
+        },
+        {
+            "name": "Achat"
         }
     ]
 }

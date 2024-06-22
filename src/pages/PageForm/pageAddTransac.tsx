@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux"
 
 import { addTransactions, getTransactions } from '../../redux/actions/transaction.action';
 import { infoUser } from "../../utils/users"
+import { categorieSort } from "../../utils/autre"
 
 export default function PageAddTransac(props: any) {
 
@@ -22,7 +23,12 @@ export default function PageAddTransac(props: any) {
   const location = useLocation()
   const lUrl = Path(location, 1);
 
+  const categorieD = categorieSort(categorieDepense)
+  const categorieR = categorieSort(categorieRecette)
+
   const [selectedTitre, setSelectedTitre] = useState('');
+
+  const [selectedBank, setSelectedBank] = useState('BNP Paribas');
 
   const [selectedCategorie, setSelectedCategorie] = useState('');
 
@@ -76,6 +82,10 @@ export default function PageAddTransac(props: any) {
     setSelectedTitre(event.target.value);
   };
 
+  const handleBank = (event: any) => {
+    setSelectedBank(event.target.value);
+  };
+
   const handleMontant = (event: any) => {
     setSelectedMontant(event.target.value);
   };
@@ -89,6 +99,7 @@ export default function PageAddTransac(props: any) {
       categorie: selectedCategorie,
       autreCategorie: selectedAutreCategorie,
       titre: selectedTitre,
+      bank: selectedBank,
       date: selectedDate,
       detail: selectedDetail,
       montant: formatMontant(selectedMontant, props.type)
@@ -120,12 +131,13 @@ export default function PageAddTransac(props: any) {
     <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
       <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" maxLength={50} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
+      <input className="w-96 h-10 px-2 rounded-xl" value={selectedBank} type="text" name="" maxLength={50} id="" placeholder="Banque" onChange={(e) => { handleBank(e); handleInputChange(); }} required />
 
       <select id='action' value={selectedCategorie} className="w-96 h-10 px-2 rounded-xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
         <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
         {props.type === "Dépense"
           &&
-          categorieDepense.map(({ name }) => {
+          categorieD.map(({ name }) => {
             return (
               <option key={name} value={name}>{name}</option>
             );
@@ -133,7 +145,7 @@ export default function PageAddTransac(props: any) {
         }
         {props.type === "Recette"
           &&
-          categorieRecette.map(({ name }) => {
+          categorieR.map(({ name }) => {
             return (
               <option key={name} value={name}>{name}</option>
             );

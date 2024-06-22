@@ -7,9 +7,6 @@ import { getLastThreeMonthsOfCurrentYear, getLastTwoYears, premierJourMoisEnCour
 import { infoUser } from "../utils/users";
 export default function LayoutTransac(props: any) {
 
-    const location = useLocation()
-    const lUrl = Path(location, 1)
-
     const userInfo = infoUser()
 
     const lastMonths = getLastThreeMonthsOfCurrentYear()
@@ -21,7 +18,7 @@ export default function LayoutTransac(props: any) {
     return <>
         <div className="w-full relative">
             <h2 className="text-5xl font-thin mb-9">{props.type}s</h2>
-            <Link to={`/${lUrl}/add`} className='absolute  top-0 flex flex-row justify-between'>
+            <Link to="add" className='absolute  top-0 flex flex-row justify-between'>
                 <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
             </Link>
         </div>

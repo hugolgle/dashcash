@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { infoUser } from "../../utils/users";
 import PageAddRefund from "../PageForm/pageAddRefund";
+import { categorieSort } from "../../utils/autre";
 
 export default function Transaction() {
     const userInfo = infoUser()
@@ -30,6 +31,9 @@ export default function Transaction() {
         }
     }, [message]);
 
+    const categorieD = categorieSort(categorieDepense)
+    const categorieR = categorieSort(categorieRecette)
+
     const { id } = useParams()
     const transaction = getTransactionById(id, userInfo.id)
 
@@ -40,6 +44,8 @@ export default function Transaction() {
     const [update, setUpdate] = useState(false);
 
     const [selectedTitre, setSelectedTitre] = useState(transaction.titre);
+
+    const [selectedBank, setSelectedBank] = useState(transaction.bank);
 
     const [selectedCategorie, setSelectedCategorie] = useState(transaction.categorie);
 
@@ -66,6 +72,10 @@ export default function Transaction() {
 
     const handleTitre = (event: any) => {
         setSelectedTitre(event.target.value);
+    };
+
+    const handleBank = (event: any) => {
+        setSelectedBank(event.target.value);
     };
 
     const handleCategorie = (event: any) => {
@@ -126,6 +136,7 @@ export default function Transaction() {
             id: transaction._id,
             type: transaction.type,
             titre: selectedTitre,
+            bank: selectedBank,
             categorie: selectedCategorie,
             autreCategorie: selectedAutreCategorie,
             date: selectedDate,
@@ -172,10 +183,10 @@ export default function Transaction() {
                         {selectedUpdate ? (
                             <select id='action' value={selectedCategorie} className="h-full w-full bg-transparent text-center text-4xl rounded-2xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
                                 <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
-                                {transaction.type === "Dépense" && categorieDepense.map(({ name }) => (
+                                {transaction.type === "Dépense" && categorieD.map(({ name }) => (
                                     <option key={name} value={name}>{name}</option>
                                 ))}
-                                {transaction.type === "Recette" && categorieRecette.map(({ name }) => (
+                                {transaction.type === "Recette" && categorieR.map(({ name }) => (
                                     <option key={name} value={name}>{name}</option>
                                 ))}
                             </select>
@@ -245,16 +256,27 @@ export default function Transaction() {
                         )
                     }
                 </div>
-
-                <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
-                    {
-                        selectedUpdate ? (
-                            <textarea className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" value={selectedDetail} name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} placeholder="Détails" />
-                        ) : (
-                            <h2 className="text-xl">{transaction.detail ? transaction.detail : "Aucun détail ajouté"}</h2>
-                        )
-                    }
+                <div className="flex flex-row gap-4">
+                    <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                        {
+                            selectedUpdate ? (
+                                <textarea className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" value={selectedDetail} name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} placeholder="Détails" />
+                            ) : (
+                                <h2 className="text-xl">{transaction.detail ? transaction.detail : "Aucun détail ajouté"}</h2>
+                            )
+                        }
+                    </div>
+                    <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
+                        {
+                            selectedUpdate ? (
+                                <input className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" type="text" value={selectedBank} name="" id="" onChange={(e) => { handleBank(e); handleInputChange(); }} placeholder="Banque" />
+                            ) : (
+                                <h2 className="text-xl">{transaction.bank ? transaction.bank : "BNP Paribas"}</h2>
+                            )
+                        }
+                    </div>
                 </div>
+
             </div>
             <div className="flex flex-col w-1/4 justify-between">
                 <div className="flex flex-col gap-4">
