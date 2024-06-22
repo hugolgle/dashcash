@@ -71,6 +71,7 @@ export default function Refund() {
             montant: selectedRefundMontant
         };
         await dispatch(editRefund(id, refundData) as any);
+        navigate(`/${first}/${second}/${third}`);
     };
     function removeTiret(number: any): number {
         return parseFloat(number.replace(/-/g, ''));

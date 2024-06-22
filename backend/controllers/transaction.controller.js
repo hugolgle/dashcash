@@ -116,3 +116,25 @@ module.exports.deleteRefund = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+module.exports.editRefund = async (req, res) => {
+    try {
+        const transaction = await OperationModel.findById(req.params.id);
+        if (!transaction) {
+            return res.status(404).json({ message: "Transaction not found" });
+        }
+
+        const refundIndex = transaction.remboursements.findIndex(refund => refund._id.toString() === req.params.refundId);
+        if (refundIndex === -1) {
+            return res.status(404).json({ message: "Refund not found" });
+        }
+
+        transaction.remboursements[refundIndex] = { ...transaction.remboursements[refundIndex], ...req.body };
+        await transaction.save();
+
+        res.status(200).json(transaction);
+    } catch (error) {
+        console.error("Error in editRefund:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
