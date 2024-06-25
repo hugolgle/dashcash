@@ -155,9 +155,11 @@ export default function Statistique() {
           />
 
           <BoxStat
-            type="Économie"
+            type="Économie/Mois"
             selectedYear={selectedYear}
             montant={`${moyenneEconomie}`}
+            months=""
+            selectedMonth=""
           />
         </div>
 
@@ -197,6 +199,8 @@ export default function Statistique() {
             type="Économie"
             selectedYear={selectedYear}
             montant={economieMonth}
+            months={months}
+            selectedMonth={selectedMonth}
           />
         </div>
       </section>
