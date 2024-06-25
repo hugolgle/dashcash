@@ -1,6 +1,6 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Path, separateMillier } from "../../utils/fonctionnel";
+import { separateMillier } from "../../utils/fonctionnel";
 
 
 import { editTransactions, getTransactions } from "../../redux/actions/transaction.action";
@@ -13,10 +13,6 @@ import { getRefundByTransactionId, getTransactionById } from "../../utils/operat
 export default function Refund() {
 
     const userInfo = infoUser()
-    const location = useLocation()
-    const first = Path(location, 1)
-    const second = Path(location, 2)
-    const third = Path(location, 3)
 
     const [message, setMessage] = useState("");
 
@@ -71,7 +67,7 @@ export default function Refund() {
             montant: selectedRefundMontant
         };
         await dispatch(editRefund(id, refundData) as any);
-        navigate(`/${first}/${second}/${third}`);
+        navigate(-1);
     };
     function removeTiret(number: any): number {
         return parseFloat(number.replace(/-/g, ''));
@@ -90,7 +86,7 @@ export default function Refund() {
         await dispatch(deleteRefund(id, refund._id) as any);
         await dispatch(editTransactions(editData) as any)
         dispatch(getTransactions() as any);
-        navigate(`/${first}/${second}/${third}`);
+        navigate(-1);
     };
     return <>
         <form onSubmit={handleEditRefund} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>

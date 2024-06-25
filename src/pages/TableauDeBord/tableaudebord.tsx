@@ -5,16 +5,12 @@ export default function TableauDeBord() {
   return <>
     <h2 className="text-5xl font-thin mb-9">Tableau de bord</h2>
     <section className=" flex flex-col gap-4">
-
-
-
       <div className="flex flex-row gap-4  w-full">
         <div className="flex flex-col justify-between items-center w-full h-80 bg-zinc-900 rounded-2xl transition-all p-2">
           <h2 className="text-2xl">Dépenses</h2>
           <div className="flex flex-row justify-evenly items-center w-full">
             <div className="w-1/3 rounded-xl bg-zinc-800 p-2 gap-2 flex flex-col">
               CAMEMBERT
-
             </div>
             <div className="w-1/3 rounded-xl bg-zinc-800 p-2 gap-2 flex flex-col">
               <p>* </p>

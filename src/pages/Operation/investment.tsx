@@ -1,8 +1,6 @@
+import { useNavigate, useParams } from "react-router-dom";
 
-import { CircleArrowLeft, CirclePlus } from "lucide-react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-
-import { Path, convertDateHour, formatDate, separateMillier } from "../../utils/fonctionnel";
+import { convertDateHour, formatDate, separateMillier } from "../../utils/fonctionnel";
 import { getInvestmentById } from "../../utils/operations";
 
 
@@ -10,13 +8,12 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { infoUser } from "../../utils/users";
 import { deleteInvestments, editInvestments, getInvestments } from "../../redux/actions/investment.action";
+import BtnReturn from "../../components/button/btnReturn";
+import BtnAdd from "../../components/button/btnAdd";
 
 
 export default function Investment() {
     const userInfo = infoUser()
-    const location = useLocation()
-    const first = Path(location, 1)
-    const second = Path(location, 2)
 
     const [message, setMessage] = useState("");
 
@@ -92,7 +89,7 @@ export default function Investment() {
 
     const handleDeleteConfirmation = async () => {
         await dispatch(deleteInvestments(id) as any);
-        navigate(`/${first}/${second}`);
+        navigate(-1);
         dispatch(getInvestments() as any);
     };
 
@@ -136,12 +133,8 @@ export default function Investment() {
                 <h2 className="text-5xl font-thin mb-9">{investment.titre}</h2>
             )}
             <div className='absolute top-0 flex flex-row gap-2 w-full'>
-                <Link to={`/${first}/${second}`}>
-                    <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
-                </Link>
-                <Link to={`/${first}/add`}>
-                    <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
-                </Link>
+                <BtnReturn />
+                <BtnAdd to="/invest" />
             </div>
         </div >
         <section className="flex flex-row gap-4">
@@ -222,12 +215,12 @@ export default function Investment() {
                                 <p className="text-sm">Montant de la vente :</p>
                                 <input className="rounded px-1" value={selectedMontantVendu} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontantVendu(e); handleInputChange(); }} />
                                 <div className="w-full flex flex-row gap-4">
-                                    <button className="cursor-pointer text-xs w-4/5 hover:bg-opacity-80 hover:scale-95" onClick={() => setSelectedVendre(false)}>Annuler</button>
-                                    <button className="cursor-pointer text-xs w-4/5 hover:bg-opacity-80 hover:scale-95" onClick={() => handleSoldConfirmation()}>Vendre</button>
+                                    <button className="cursor-pointer text-xs w-4/5 hover:bg-opacity-80 hover:scale-95 transition-all" onClick={() => setSelectedVendre(false)}>Annuler</button>
+                                    <button className="cursor-pointer text-xs w-4/5 hover:bg-opacity-80 hover:scale-95 transition-all" onClick={() => handleSoldConfirmation()}>Vendre</button>
                                 </div>
                             </div>
                         ) : (
-                            <button className="cursor-pointer w-4/5 hover:bg-opacity-80 hover:scale-95" onClick={() => setSelectedVendre(true)}>Vendre</button>
+                            <button className="cursor-pointer w-4/5 hover:bg-opacity-80 hover:scale-95 transition-all" onClick={() => setSelectedVendre(true)}>Vendre</button>
                         )}
                     </div>
                 </>}

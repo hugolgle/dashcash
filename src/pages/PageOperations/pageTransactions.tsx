@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
-import { Path, convertDate } from '../../utils/fonctionnel'
+import { useParams } from 'react-router-dom';
+import { convertDate } from '../../utils/fonctionnel'
 import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul'
 import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType } from '../../utils/operations'
 import TableauTransac from '../../components/Tableau/tableauTransac';
 import { infoUser } from '../../utils/users';
+import BtnReturn from '../../components/button/btnReturn';
+import BtnAdd from '../../components/button/btnAdd';
 
 export default function PageTransactions(props: any) {
 
     const userInfo = infoUser()
-
-    const location = useLocation();
-    const lUrl = Path(location, 1);
 
     const [transactionDeleted, setTransactionDeleted] = useState(false);
 
@@ -33,6 +31,9 @@ export default function PageTransactions(props: any) {
 
     const { date } = useParams();
 
+    const typeProps = props.type === "Dépense" ? "depense" : props.type === "Recette" ? "recette" : undefined;
+
+
 
     // _________________________
 
@@ -41,17 +42,8 @@ export default function PageTransactions(props: any) {
             <div className="w-full relative">
                 <h2 className="text-5xl font-thin mb-9">{props.type}s de {date === "all" ? "tout temps" : date?.length === 4 ? date : convertDate(date)}</h2>
                 <div className='absolute top-0 flex flex-row w-full gap-2'>
-
-                    <Link to={`/${lUrl}`}>
-                        <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
-                    </Link>
-                    <Link to={`/${lUrl}/add`}>
-                        <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
-                    </Link>
-
-                    <Link to={`/${lUrl}`}>
-                        <SlidersHorizontal className=" hover:scale-125 ease-in-out duration-300" />
-                    </Link>
+                    <BtnReturn />
+                    <BtnAdd to={`/${typeProps}`} />
                 </div>
             </div>
             <TableauTransac transactions={

@@ -1,20 +1,14 @@
-
-import { CircleArrowLeft } from "lucide-react";
-import { Link, useLocation, useParams } from "react-router-dom";
-
-import { Path, formatDate, separateMillier } from "../utils/fonctionnel";
+import { Link, useParams } from "react-router-dom";
+import { formatDate, separateMillier } from "../utils/fonctionnel";
 import { getRefundsByTransactionId } from "../utils/operations";
 import { useEffect, useState } from "react";
 import { infoUser } from "../utils/users";
+import BtnReturn from "../components/button/btnReturn";
 
 
 export default function LayoutRefund() {
 
     const userInfo = infoUser()
-    const location = useLocation()
-    const first = Path(location, 1)
-    const second = Path(location, 2)
-    const third = Path(location, 3)
 
     const [message, setMessage] = useState("");
 
@@ -36,9 +30,7 @@ export default function LayoutRefund() {
 
             <h2 className="text-5xl font-thin mb-9">Remboursement</h2>
             <div className="absolute top-0 flex flex-row gap-2 w-full">
-                <Link to={`/${first}/${second}/${third}`}>
-                    <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
-                </Link>
+                <BtnReturn />
             </div>
         </div >
 

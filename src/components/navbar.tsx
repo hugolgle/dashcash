@@ -1,8 +1,8 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logoutUser } from '../../redux/actions/user.action';
-import { isConnected } from '../../utils/users';
+import { logoutUser } from '../redux/actions/user.action';
+import { isConnected } from '../utils/users';
 
 export default function Navbar(props: any) {
     const navigate = useNavigate()
@@ -115,7 +115,7 @@ export default function Navbar(props: any) {
 
                     <p className='text-xs text-gray-400 absolute bottom-2'>© Hugo Le Galle - DashBoard v2.0.0</p>
                 </div>
-                <div className='content w-4/5 ml-auto p-4'>
+                <div className='relative content w-4/5 ml-auto p-4'>
                     <Outlet />
                     {props.children}
                 </div>

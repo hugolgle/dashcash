@@ -1,17 +1,13 @@
-import { Link, useLocation } from 'react-router-dom';
-import { CircleArrowLeft, CirclePlus, SlidersHorizontal } from 'lucide-react';
-import { Path } from '../../utils/fonctionnel'
 import { infoUser } from '../../utils/users';
 import { getAllInvestments } from '../../utils/operations';
 import TableauInvest from '../../components/Tableau/tableauInvest';
 import { calculTotalInvestment } from '../../utils/calcul';
+import BtnReturn from '../../components/button/btnReturn';
+import BtnAdd from '../../components/button/btnAdd';
 
 export default function PageInvestment(props: any) {
 
     const userInfo = infoUser()
-
-    const location = useLocation();
-    const lUrl = Path(location, 1);
 
 
     // _________________________
@@ -21,17 +17,8 @@ export default function PageInvestment(props: any) {
             <div className="w-full relative">
                 <h2 className="text-5xl font-thin mb-9">Investissements</h2>
                 <div className='absolute top-0 flex flex-row w-full gap-2'>
-
-                    <Link to={`/${lUrl}`}>
-                        <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
-                    </Link>
-                    <Link to={`/${lUrl}/add`}>
-                        <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
-                    </Link>
-
-                    <Link to={`/${lUrl}`}>
-                        <SlidersHorizontal className=" hover:scale-125 ease-in-out duration-300" />
-                    </Link>
+                    <BtnReturn />
+                    <BtnAdd to="/invest" />
                 </div>
             </div>
 

@@ -2,23 +2,19 @@
 
 import { Button } from "../../../@/components/ui/button"
 
-import { Link, useLocation } from "react-router-dom"
-import { CircleArrowLeft } from "lucide-react"
+import { Link } from "react-router-dom"
 
-import { Path, getCurrentDate, separateMillier } from '../../utils/fonctionnel';
+import { getCurrentDate, separateMillier } from '../../utils/fonctionnel';
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 
 import { infoUser } from "../../utils/users"
 import { addInvestments, getInvestments } from "../../redux/actions/investment.action";
+import BtnReturn from "../../components/button/btnReturn";
 
 export default function PageAddInvest() {
 
   const userInfo = infoUser()
-
-
-  const location = useLocation()
-  const lUrl = Path(location, 1);
 
   const [selectedPlateforme, setSelectedPlateforme] = useState('TradeRepublic');
 
@@ -109,9 +105,9 @@ export default function PageAddInvest() {
   return <>
     <h2 className="text-5xl font-thin">Ajouter un investissement</h2>
 
-    <Link to={`/${lUrl}`}>
-      <CircleArrowLeft className="absolute top-4 cursor-pointer hover:scale-125 ease-in-out duration-300" />
-    </Link>
+    <div className="absolute top-4 left-4">
+      <BtnReturn />
+    </div>
     <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
       <input className="w-96 h-10 px-2 rounded-xl" value={selectedPlateforme} type="text" name="" maxLength={50} id="" placeholder="Plateforme" onChange={(e) => { handlePlateforme(e); handleInputChange(); }} required />

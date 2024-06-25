@@ -3,7 +3,6 @@
 import { Button } from "../../../@/components/ui/button"
 
 import { Link, useLocation } from "react-router-dom"
-import { CircleArrowLeft } from "lucide-react"
 
 import { categorieRecette, categorieDepense } from '../../../public/categories.json'
 
@@ -14,6 +13,7 @@ import { useDispatch } from "react-redux"
 import { addTransactions, getTransactions } from '../../redux/actions/transaction.action';
 import { infoUser } from "../../utils/users"
 import { categorieSort } from "../../utils/autre"
+import BtnReturn from "../../components/button/btnReturn";
 
 export default function PageAddTransac(props: any) {
 
@@ -123,11 +123,10 @@ export default function PageAddTransac(props: any) {
   };
 
   return <>
-    <h2 className="text-5xl font-thin">Ajouter une {props.type}</h2>
-
-    <Link to={`/${lUrl}`}>
-      <CircleArrowLeft className="absolute top-4 cursor-pointer hover:scale-125 ease-in-out duration-300" />
-    </Link>
+    <h2 className="text-5xl font-thin">Ajouter une {props.type.toLowerCase()}</h2>
+    <div className="absolute top-4 left-4">
+      <BtnReturn />
+    </div>
     <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
       <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" maxLength={50} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
@@ -165,7 +164,7 @@ export default function PageAddTransac(props: any) {
 
       <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" min="0" step="0.01" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
 
-      <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre la {props.type}</Button>
+      <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre la {(props.type).toLowerCase()}</Button>
     </form >
     {message || messageError ? (
       <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>

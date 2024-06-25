@@ -1,10 +1,11 @@
-import { CirclePlus } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { calculTotal, calculTotalByMonth, calculTotalByYear } from "../utils/calcul";
-import { Path, addSpace, convertirFormatDate, } from "../utils/fonctionnel";
+import { addSpace, convertirFormatDate, } from "../utils/fonctionnel";
 import { getCurrentMonth, getLastFiveTransactionsByType } from "../utils/operations";
 import { getLastThreeMonthsOfCurrentYear, getLastTwoYears, premierJourMoisEnCours } from "../utils/autre";
 import { infoUser } from "../utils/users";
+import BtnAdd from "../components/button/btnAdd";
+
 export default function LayoutTransac(props: any) {
 
     const userInfo = infoUser()
@@ -18,9 +19,9 @@ export default function LayoutTransac(props: any) {
     return <>
         <div className="w-full relative">
             <h2 className="text-5xl font-thin mb-9">{props.type}s</h2>
-            <Link to="add" className='absolute  top-0 flex flex-row justify-between'>
-                <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
-            </Link>
+            <div className="absolute top-0 left-0">
+                <BtnAdd />
+            </div>
         </div>
 
         <section className="flex flex-col gap-4">

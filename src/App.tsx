@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/home';
-import Navbar from './components/Navbar/navbar';
+import Navbar from './components/navbar';
 import Connexion from './pages/Connexion/connexion';
 import Profil from './pages/Profil/profil';
 import TableauDeBord from './pages/TableauDeBord/tableaudebord';

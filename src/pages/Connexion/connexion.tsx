@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/actions/user.action';
 import { Link, useNavigate } from 'react-router-dom';

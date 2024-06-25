@@ -1,7 +1,6 @@
-import { CircleArrowLeft, CirclePlus } from "lucide-react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { Path, addSpace, convertDateHour, convertirFormatDate, formatDate, formatMontant, separateMillier } from "../../utils/fonctionnel";
+import { addSpace, convertDateHour, convertirFormatDate, formatDate, formatMontant, separateMillier } from "../../utils/fonctionnel";
 import { getTransactionById } from "../../utils/operations";
 
 import { categorieRecette, categorieDepense } from '../../../public/categories.json'
@@ -12,12 +11,11 @@ import { useEffect, useState } from "react";
 import { infoUser } from "../../utils/users";
 import PageAddRefund from "../PageForm/pageAddRefund";
 import { categorieSort } from "../../utils/autre";
+import BtnReturn from "../../components/button/btnReturn";
+import BtnAdd from "../../components/button/btnAdd";
 
 export default function Transaction() {
     const userInfo = infoUser()
-    const location = useLocation()
-    const first = Path(location, 1)
-    const second = Path(location, 2)
 
     const [message, setMessage] = useState("");
 
@@ -113,7 +111,7 @@ export default function Transaction() {
 
     const handleDeleteConfirmation = async () => {
         await dispatch(deleteTransactions(id) as any);
-        navigate(`/${first}/${second}`);
+        navigate(-1);
         dispatch(getTransactions() as any);
         localStorage.setItem('transactionDeleted', 'true');
     };
@@ -149,6 +147,9 @@ export default function Transaction() {
         setSelectedUpdate(false)
     };
 
+    const typeProps = transaction.type === "Dépense" ? "depense" : transaction.type === "Recette" ? "recette" : undefined;
+
+
     return <>
         <div className="w-full h-auto relative">
             {selectedUpdate ? (
@@ -158,15 +159,11 @@ export default function Transaction() {
             )}
 
             <div className={`${refundVisible ? 'hidden' : 'absolute top-0 flex flex-row gap-2 w-full'}`}>
-                <Link to={`/${first}/${second}`}>
-                    <CircleArrowLeft className="hover:scale-125 ease-in-out duration-300" />
-                </Link>
-                <Link to={`/${first}/add`}>
-                    <CirclePlus className="hover:scale-125 ease-in-out duration-300" />
-                </Link>
+                <BtnReturn />
+                <BtnAdd to={`/${typeProps}`} />
             </div>
             {transaction.type === "Dépense" && (
-                <button className="absolute top-0 right-0 flex flex-row gap-2 cursor-pointer" onClick={handleRefund}>{refundVisible ? 'Revenir' : 'Ajouter un remboursement'}</button>
+                <button className="absolute top-0 right-0 flex flex-row gap-2 cursor-pointer border-1 hover:border-blue-500 transition-all" onClick={handleRefund}>{refundVisible ? 'Revenir' : 'Ajouter un remboursement'}</button>
             )}
         </div >
 
