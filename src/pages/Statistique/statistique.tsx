@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
 import { calculEconomie, calculMoyenne, calculMoyenneEconomie, calculTotalByMonth, calculTotalByYear } from "../../utils/calcul";
 import { useSelector } from "react-redux";
 import { months } from "../../utils/fonctionnel";
 import { infoUser } from "../../utils/users";
+import LinkStat from "../../components/Stats/linkStat";
+import BoxStat from "../../components/Stats/boxStat";
 
 export default function Statistique() {
 
@@ -113,21 +114,22 @@ export default function Statistique() {
         </div>
 
         <div className="flex flex-row gap-4 w-full text-right">
-          <Link to={`/recette/${selectedYear}`} className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all px-4 py-2 gap-4 ring-2 ring-green-800 ring-inset">
-            <div className="flex justify-between">
-              <p className="text-xs text-left italic">Recette totale</p>
-              <p className="text-xs text-left italic">En {selectedYear}</p>
-            </div>
-            <p className="text-4xl">{recetteYear}</p>
-          </Link>
 
-          <Link to={`/depense/${selectedYear}`} className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all px-4 py-2 gap-4 ring-2 ring-red-800 ring-inset">
-            <div className="flex justify-between">
-              <p className="text-xs text-left italic">Dépense totale</p>
-              <p className="text-xs text-left italic">En {selectedYear}</p>
-            </div>
-            <p className="text-4xl">{depenseYear}</p>
-          </Link>
+          <LinkStat
+            link={`/recette/${selectedYear}${selectedMonth}`}
+            type="Recette totale"
+            months=""
+            selectedYear={selectedYear}
+            montant={recetteYear}
+          />
+
+          <LinkStat
+            link={`/depense/${selectedYear}${selectedMonth}`}
+            type="Dépense totale"
+            months=""
+            selectedYear={selectedYear}
+            montant={depenseYear}
+          />
 
           <div className={`flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ${economieTotaleNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
             <div className="flex justify-between">
@@ -139,27 +141,24 @@ export default function Statistique() {
         </div>
 
         <div className="flex flex-row gap-4 w-full text-right">
-          <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ring-green-800 ring-inset" >
-            <div className="flex justify-between">
-              <p className="text-xs text-left italic">Recette/Mois</p>
-              <p className="text-xs text-left italic">En {selectedYear}</p>
-            </div>
-            <p className="text-4xl">{moyenneRecetteMois}</p>
-          </div>
-          <div className="flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ring-red-800 ring-inset">
-            <div className="flex justify-between">
-              <p className="text-xs text-left italic">Dépense/Mois</p>
-              <p className="text-xs text-left italic">En {selectedYear}</p>
-            </div>
-            <p className="text-4xl">{moyenneDepenseMois}</p>
-          </div>
-          <div className={`flex flex-col-reverse justify-between w-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ${moyenneEconomieNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
-            <div className="flex justify-between">
-              <p className="text-xs text-left italic">Économie/Mois</p>
-              <p className="text-xs text-left italic">En {selectedYear}</p>
-            </div>
-            <p className="text-4xl">{moyenneEconomie} €</p>
-          </div>
+
+          <BoxStat
+            type="Recette"
+            selectedYear={selectedYear}
+            montant={moyenneRecetteMois}
+          />
+
+          <BoxStat
+            type="Dépense"
+            selectedYear={selectedYear}
+            montant={moyenneDepenseMois}
+          />
+
+          <BoxStat
+            type="Économie"
+            selectedYear={selectedYear}
+            montant={`${moyenneEconomie}`}
+          />
         </div>
 
         <div className="flex flex-row justify-center gap-2 w-full">
@@ -175,29 +174,30 @@ export default function Statistique() {
         </div>
 
         <div className="flex flex-row gap-4 text-right w-full">
-          <Link to={`/recette/${selectedYear}${selectedMonth}`} className="w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all px-4 py-2 ring-2 ring-green-800 ring-inset">
-            <div className="flex justify-between">
-              <p className="text-xs text-left italic">Recette</p>
-              <p className="text-xs text-left italic">En {months[parseInt(selectedMonth) - 1]} {selectedYear}</p>
-            </div>
-            <p className="text-4xl">{recetteMonth}</p>
-          </Link>
 
-          <Link to={`/depense/${selectedYear}${selectedMonth}`} className="w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all px-4 py-2 ring-2 ring-red-800 ring-inset">
-            <div className="flex justify-between">
-              <p className="text-xs text-left italic">Dépense</p>
-              <p className="text-xs text-left italic">En {months[parseInt(selectedMonth) - 1]} {selectedYear}</p>
-            </div>
-            <p className="text-4xl">{depenseMonth}</p>
-          </Link>
+          <LinkStat
+            link={`/recette/${selectedYear}${selectedMonth}`}
+            type="Recette"
+            months={months}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            montant={recetteMonth}
+          />
 
-          <div className={`w-full flex flex-col-reverse gap-4 justify-between bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 ring-2 ${economieMonthNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
-            <div className="flex justify-between">
-              <p className="text-xs text-left italic">Économie</p>
-              <p className="text-xs text-left italic">En {months[parseInt(selectedMonth) - 1]} {selectedYear}</p>
-            </div>
-            <p className="text-4xl">{economieMonth} €</p>
-          </div>
+          <LinkStat
+            link={`/depense/${selectedYear}${selectedMonth}`}
+            type="Dépense"
+            months={months}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            montant={depenseMonth}
+          />
+
+          <BoxStat
+            type="Économie"
+            selectedYear={selectedYear}
+            montant={economieMonth}
+          />
         </div>
       </section>
     </>
