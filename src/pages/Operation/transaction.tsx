@@ -43,8 +43,6 @@ export default function Transaction() {
 
     const [selectedTitre, setSelectedTitre] = useState(transaction.titre);
 
-    const [selectedBank, setSelectedBank] = useState(transaction.bank);
-
     const [selectedCategorie, setSelectedCategorie] = useState(transaction.categorie);
 
     const [selectedAutreCategorie, setSelectedAutreCategorie] = useState(transaction.autreCategorie);
@@ -70,10 +68,6 @@ export default function Transaction() {
 
     const handleTitre = (event: any) => {
         setSelectedTitre(event.target.value);
-    };
-
-    const handleBank = (event: any) => {
-        setSelectedBank(event.target.value);
     };
 
     const handleCategorie = (event: any) => {
@@ -134,7 +128,6 @@ export default function Transaction() {
             id: transaction._id,
             type: transaction.type,
             titre: selectedTitre,
-            bank: selectedBank,
             categorie: selectedCategorie,
             autreCategorie: selectedAutreCategorie,
             date: selectedDate,
@@ -260,15 +253,6 @@ export default function Transaction() {
                                 <textarea className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" value={selectedDetail} name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} placeholder="Détails" />
                             ) : (
                                 <h2 className="text-xl">{transaction.detail ? transaction.detail : "Aucun détail ajouté"}</h2>
-                            )
-                        }
-                    </div>
-                    <div className={`h-40 w-full bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
-                        {
-                            selectedUpdate ? (
-                                <input className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" type="text" value={selectedBank} name="" id="" onChange={(e) => { handleBank(e); handleInputChange(); }} placeholder="Banque" />
-                            ) : (
-                                <h2 className="text-xl">{transaction.bank ? transaction.bank : "BNP Paribas"}</h2>
                             )
                         }
                     </div>

@@ -9,7 +9,7 @@ function BtnReturn() {
     };
 
     return (
-        <CircleArrowLeft className="cursor-pointer hover:scale-105 transition-all" onClick={handleGoBack} />
+        <CircleArrowLeft className="cursor-pointer hover:scale-110 transition-all" onClick={handleGoBack} />
     )
 }
 

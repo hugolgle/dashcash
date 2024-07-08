@@ -7,6 +7,7 @@ import TableauTransac from '../../components/Tableau/tableauTransac';
 import { infoUser } from '../../utils/users';
 import BtnReturn from '../../components/button/btnReturn';
 import BtnAdd from '../../components/button/btnAdd';
+import { ListCollapse } from 'lucide-react';
 
 export default function PageTransactions(props: any) {
 
@@ -33,6 +34,11 @@ export default function PageTransactions(props: any) {
 
     const typeProps = props.type === "Dépense" ? "depense" : props.type === "Recette" ? "recette" : undefined;
 
+    const [selectOpe, setSelectOpe] = useState(false)
+
+    const handleSelectOpe = () => {
+        setSelectOpe(!selectOpe);
+    };
 
 
     // _________________________
@@ -44,13 +50,14 @@ export default function PageTransactions(props: any) {
                 <div className='absolute top-0 flex flex-row w-full gap-2'>
                     <BtnReturn />
                     <BtnAdd to={`/${typeProps}`} />
+                    <ListCollapse className={`cursor-pointer hover:scale-110 transition-all ${selectOpe ? "text-zinc-500" : ""}`} onClick={handleSelectOpe} />
                 </div>
-            </div>
+            </div >
             <TableauTransac transactions={
                 date === "all" ? getTransactionsByType(props.type, userInfo.id) :
                     date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id) :
                         getTransactionsByMonth(date, props.type, userInfo.id)
-            } />
+            } selectOpe={selectOpe} />
             <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-800 py-3 transition-all">
                 Total : <b>{
                     date === "all" ? calculTotal(props.type, userInfo.id) :
@@ -64,13 +71,15 @@ export default function PageTransactions(props: any) {
                             getTransactionsByMonth(date, props.type, userInfo.id).length
                 }</b>
             </div>
-            {transactionDeleted ? (
-                <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
-                    <p className="p-4 bg-red-900 max-w-60 rounded shadow-2xl shadow-black">
-                        Votre transaction a été supprimé avec succès
-                    </p>
-                </div>
-            ) : null}
+            {
+                transactionDeleted ? (
+                    <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
+                        <p className="p-4 bg-red-900 max-w-60 rounded shadow-2xl shadow-black">
+                            Votre transaction a été supprimé avec succès
+                        </p>
+                    </div>
+                ) : null
+            }
         </>
     );
 }
