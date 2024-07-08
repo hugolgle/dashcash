@@ -143,13 +143,13 @@ export default function Statistique() {
         <div className="flex flex-row gap-4 w-full text-right">
 
           <BoxStat
-            type="Recette"
+            type="Recette/Mois"
             selectedYear={selectedYear}
             montant={moyenneRecetteMois}
           />
 
           <BoxStat
-            type="Dépense"
+            type="Dépense/Mois"
             selectedYear={selectedYear}
             montant={moyenneDepenseMois}
           />

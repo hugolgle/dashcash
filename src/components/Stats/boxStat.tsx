@@ -7,7 +7,7 @@ function BoxStat(props: any) {
     } else if (props.type.includes("Recette")) {
         borderColor = "ring-green-800";
     } else if (props.type.includes("Économie")) {
-        borderColor = props.montant >= 0 ? "ring-green-800" : "ring-red-800";
+        borderColor = parseFloat(props.montant) >= 0 ? "ring-green-800" : "ring-red-800";
     }
 
     return (
