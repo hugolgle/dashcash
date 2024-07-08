@@ -16,7 +16,7 @@ function BoxStat(props: any) {
                 <p className="text-xs text-left italic">{props.type}</p>
                 <p className="text-xs text-left italic">En {props.months ? props.months[parseInt(props.selectedMonth) - 1] : ""} {props.selectedYear}</p>
             </div>
-            <p className="text-4xl">{props.montant} {props.type === "Économie" && "€"}</p>
+            <p className="text-4xl">{props.montant} {props.type.includes("Économie") && "€"}</p>
         </div>
     )
 }
