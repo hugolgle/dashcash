@@ -1,4 +1,4 @@
-import { GET_INVESTMENTS, ADD_INVESTMENTS, EDIT_INVESTMENTS, DELETE_INVESTMENTS } from "../actions/investment.action";
+import { GET_INVESTMENTS, ADD_INVESTMENTS, EDIT_INVESTMENTS, DELETE_INVESTMENTS, SOLD_INVESTMENTS } from "../actions/investment.action";
 
 const initialState: any = [];
 
@@ -9,6 +9,15 @@ export default function investmentReducer(state = initialState, action: any) {
         case ADD_INVESTMENTS:
             return [action.payload, ...state];
         case EDIT_INVESTMENTS:
+            return state.map((investment: any) => {
+                if (investment.id === action.payload.id) {
+                    return {
+                        ...investment,
+                        content: action.payload.content,
+                    };
+                } else return investment;
+            });
+        case SOLD_INVESTMENTS:
             return state.map((investment: any) => {
                 if (investment.id === action.payload.id) {
                     return {

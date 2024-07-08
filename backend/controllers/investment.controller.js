@@ -41,7 +41,7 @@ module.exports.getInvestment = async (req, res) => {
     }
 };
 
-module.exports.editInvestment = async (req, res) => {
+module.exports.soldInvestment = async (req, res) => {
     try {
         const investment = await InvestmentModel.findById(req.params.id);
 
@@ -68,6 +68,25 @@ module.exports.editInvestment = async (req, res) => {
     }
 };
 
+module.exports.editInvestment = async (req, res) => {
+    try {
+        const investment = await InvestmentModel.findById(req.params.id);
+
+        if (!investment) {
+            return res.status(400).json({ message: "Cette investissement n'existe pas" });
+        }
+
+        const updatedInvestment = await InvestmentModel.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        return res.status(200).json(updatedInvestment);
+    } catch (error) {
+        return res.status(500).json({ message: "Erreur lors de la mise à jour de l'investissement", error });
+    }
+};
 
 module.exports.deleteInvestment = async (req, res) => {
     try {

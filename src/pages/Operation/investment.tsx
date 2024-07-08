@@ -7,7 +7,7 @@ import { getInvestmentById } from "../../utils/operations";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { infoUser } from "../../utils/users";
-import { deleteInvestments, editInvestments, getInvestments } from "../../redux/actions/investment.action";
+import { deleteInvestments, editInvestments, getInvestments, soldInvestments } from "../../redux/actions/investment.action";
 import BtnReturn from "../../components/button/btnReturn";
 import BtnAdd from "../../components/button/btnAdd";
 
@@ -118,7 +118,7 @@ export default function Investment() {
             id: investment._id,
             montantVendu: separateMillier(selectedMontantVendu),
         }
-        await dispatch(editInvestments(editData) as any);
+        await dispatch(soldInvestments(editData) as any);
         navigate(`/invest/operationsVendu/${investment._id}`)
         setMessage("L'investissement a été vendu avec succès !");
         dispatch(getInvestments() as any);

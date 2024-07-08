@@ -59,5 +59,34 @@
         {
             "name": "Achat"
         }
+    ],
+    "categorieAbonnement": [
+        {
+            "name": "Netflix"
+        },
+        {
+            "name": "Bein Sport"
+        },
+        {
+            "name": "Icloud"
+        },
+        {
+            "name": "Forfait"
+        },
+        {
+            "name": "Basic Fit"
+        },
+        {
+            "name": "Spotify"
+        },
+        {
+            "name": "Banque"
+        },
+        {
+            "name": "Xbox Live"
+        },
+        {
+            "name": "Autre"
+        }
     ]
 }

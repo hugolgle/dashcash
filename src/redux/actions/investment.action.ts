@@ -4,6 +4,7 @@ import axios from 'axios';
 export const GET_INVESTMENTS = "GET_INVESTMENTS";
 export const ADD_INVESTMENTS = "ADD_INVESTMENTS";
 export const EDIT_INVESTMENTS = "EDIT_INVESTMENTS";
+export const SOLD_INVESTMENTS = "SOLD_INVESTMENTS";
 export const DELETE_INVESTMENTS = "DELETE_INVESTMENTS";
 
 interface getInvestmentsAction {
@@ -48,6 +49,14 @@ export const addInvestments = (data: any) => {
 };
 
 export const editInvestments = (data: any) => {
+    return (dispatch: Dispatch<editInvestmentsAction>) => {
+        return axios.put(`http://localhost:5001/investments/${data.id}`, data).then(() => {
+            dispatch({ type: EDIT_INVESTMENTS, payload: data });
+        });
+    };
+};
+
+export const soldInvestments = (data: any) => {
     return (dispatch: Dispatch<editInvestmentsAction>) => {
         return axios.put(`http://localhost:5001/investments/${data.id}`, data).then(() => {
             dispatch({ type: EDIT_INVESTMENTS, payload: data });
