@@ -114,7 +114,7 @@ export default function Statistique() {
         <div className="flex flex-row gap-4 w-full text-right">
 
           <LinkStat
-            link={`/recette/${selectedYear}${selectedMonth}`}
+            link={`/recette/${selectedYear}`}
             type="Recette totale"
             months=""
             selectedYear={selectedYear}
@@ -122,7 +122,7 @@ export default function Statistique() {
           />
 
           <LinkStat
-            link={`/depense/${selectedYear}${selectedMonth}`}
+            link={`/depense/${selectedYear}`}
             type="Dépense totale"
             months=""
             selectedYear={selectedYear}
