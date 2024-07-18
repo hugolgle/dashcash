@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { convertDate } from '../../utils/fonctionnel'
-import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul'
-import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType } from '../../utils/operations'
+import { convertDate } from '../../utils/fonctionnel';
+import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul';
+import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType } from '../../utils/operations';
 import TableauTransac from '../../components/Tableau/tableauTransac';
 import { infoUser } from '../../utils/users';
 import BtnReturn from '../../components/button/btnReturn';
 import BtnAdd from '../../components/button/btnAdd';
 import { ListCollapse } from 'lucide-react';
+import BtnFilter from '../../components/button/btnFilter';
+import { categorieSort } from '../../utils/autre';
+import { categorieDepense } from '../../../public/categories.json'
+import { categorieRecette } from '../../../public/categories.json'
+
 
 export default function PageTransactions(props: any) {
 
-    const userInfo = infoUser()
+    const userInfo = infoUser();
 
     const [transactionDeleted, setTransactionDeleted] = useState(false);
 
@@ -40,8 +45,34 @@ export default function PageTransactions(props: any) {
         setSelectOpe(!selectOpe);
     };
 
+    const categories = props.type === "Dépense"
+        ? categorieSort(categorieDepense)
+        : props.type === "Recette"
+            ? categorieSort(categorieRecette)
+            : "";
+    const [showModal, setShowModal] = useState(false);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    ;
 
-    // _________________________
+
+    const toggleModal = () => {
+        setShowModal(!showModal);
+    };
+
+    const handleCheckboxChange = (event: any) => {
+        const value = event.target.value;
+        const isChecked = event.target.checked;
+
+        if (event.target.name === 'categorie') {
+            if (isChecked) {
+                setSelectedCategories([...selectedCategories, value]);
+            } else {
+                setSelectedCategories(selectedCategories.filter(cat => cat !== value));
+            }
+        }
+    }
+
+    const check = selectedCategories.length;
 
     return (
         <>
@@ -51,35 +82,61 @@ export default function PageTransactions(props: any) {
                     <BtnReturn />
                     <BtnAdd to={`/${typeProps}`} />
                     <ListCollapse className={`cursor-pointer hover:scale-110 transition-all ${selectOpe ? "text-zinc-500" : ""}`} onClick={handleSelectOpe} />
+                    <BtnFilter categories={categories} action={toggleModal} check={check}>
+                        {/* modal */}
+                        {showModal && (
+                            <div className="flex flex-col bg-zinc-500 rounded-xl z-50 text-left p-2 mt-2">
+                                <p className='text-center font-semibold'>Filtrer par :</p>
+                                {Array.isArray(categories) && categories.map(({ name }: { name: string }) => (
+                                    <div key={name}>
+                                        <input
+                                            type="checkbox"
+                                            id={name}
+                                            name="categorie"
+                                            value={name}
+                                            checked={selectedCategories.includes(name)}
+                                            onChange={handleCheckboxChange}
+                                            className='cursor-pointer'
+                                        />
+                                        <label htmlFor={name} className='cursor-pointer'> {name}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </BtnFilter>
                 </div>
-            </div >
+            </div>
+
             <TableauTransac transactions={
-                date === "all" ? getTransactionsByType(props.type, userInfo.id) :
-                    date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id) :
-                        getTransactionsByMonth(date, props.type, userInfo.id)
+                date === "all" ? getTransactionsByType(props.type, userInfo.id, selectedCategories) :
+                    date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories) :
+                        getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories)
             } selectOpe={selectOpe} />
+
             <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-800 py-3 transition-all">
                 Total : <b>{
-                    date === "all" ? calculTotal(props.type, userInfo.id) :
-                        date && date.length === 4 ? calculTotalByYear(props.type, date, userInfo.id) :
-                            date ? calculTotalByMonth(props.type, date, userInfo.id) : "Date non définie"
+                    date === "all" ? calculTotal(props.type, userInfo.id, selectedCategories) :
+                        date && date.length === 4 ? calculTotalByYear(props.type, date, userInfo.id, selectedCategories) :
+                            date ? calculTotalByMonth(props.type, date, userInfo.id, selectedCategories) : "Date non définie"
                 }</b>
                 <br />
                 Transaction(s) : <b>{
-                    date === "all" ? getTransactionsByType(props.type, userInfo.id).length :
-                        date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id).length :
-                            getTransactionsByMonth(date, props.type, userInfo.id).length
+                    date === "all" ? getTransactionsByType(props.type, userInfo.id, selectedCategories).length :
+                        date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories).length :
+                            getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories).length
                 }</b>
             </div>
             {
                 transactionDeleted ? (
                     <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
                         <p className="p-4 bg-red-900 max-w-60 rounded shadow-2xl shadow-black">
-                            Votre transaction a été supprimé avec succès
+                            Votre transaction a été supprimée avec succès
                         </p>
                     </div>
                 ) : null
             }
+
+
         </>
     );
 }

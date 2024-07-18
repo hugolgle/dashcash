@@ -1,21 +1,25 @@
 import { useSelector } from "react-redux";
 
-
-export function calculTotal(type: any, idUser: any) {
+export function calculTotal(type: any, idUser: any, filterCategorie: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
 
-    const filteredOperations = userOperations.filter((transaction: any) => transaction.type === type);
+    const filteredOperationsByType = userOperations.filter((transaction: any) => transaction.type === type);
 
-    const totalAmount = filteredOperations.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
+    const filteredOperationsByCategory = filterCategorie && filterCategorie.length > 0
+        ? filteredOperationsByType.filter((transaction: any) => filterCategorie.includes(transaction.categorie))
+        : filteredOperationsByType;
+
+    const totalAmount = filteredOperationsByCategory.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
 
     const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 
-    return formattedTotal
+    return formattedTotal;
 }
 
-export function calculTotalByMonth(type: any, month: string, idUser: any) {
+
+export function calculTotalByMonth(type: any, month: string, idUser: any, filterCategorie: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
@@ -29,14 +33,18 @@ export function calculTotalByMonth(type: any, month: string, idUser: any) {
         return transaction.type === type && transactionYear === year && transactionMonth === monthNumber;
     });
 
-    const totalAmount = filteredOperations.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
+    const filteredOperationsByCategory = filterCategorie && filterCategorie.length > 0
+        ? filteredOperations.filter((transaction: any) => filterCategorie.includes(transaction.categorie))
+        : filteredOperations;
+
+    const totalAmount = filteredOperationsByCategory.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
 
     const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 
     return formattedTotal;
 }
 
-export function calculTotalByYear(type: any, year: any, idUser: any) {
+export function calculTotalByYear(type: any, year: any, idUser: any, filterCategorie: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
@@ -46,7 +54,11 @@ export function calculTotalByYear(type: any, year: any, idUser: any) {
         return transaction.type === type && transactionYear === year;
     });
 
-    const totalAmount = filteredOperations.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
+    const filteredOperationsByCategory = filterCategorie && filterCategorie.length > 0
+        ? filteredOperations.filter((transaction: any) => filterCategorie.includes(transaction.categorie))
+        : filteredOperations;
+
+    const totalAmount = filteredOperationsByCategory.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
 
     const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 
