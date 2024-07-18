@@ -12,6 +12,7 @@ import BtnFilter from '../../components/button/btnFilter';
 import { categorieSort } from '../../utils/autre';
 import { categorieDepense } from '../../../public/categories.json'
 import { categorieRecette } from '../../../public/categories.json'
+import BtnSearch from '../../components/button/btnSearch';
 
 
 export default function PageTransactions(props: any) {
@@ -74,6 +75,49 @@ export default function PageTransactions(props: any) {
 
     const check = selectedCategories.length;
 
+    const [showSearch, setShowSearch] = useState(false);
+
+    const toggleSearch = () => {
+        setShowSearch(!showSearch);
+    };
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState<any[]>([]);
+
+    const performSearch = (term: string) => {
+        const filteredTransactions = transactions.filter((transaction: any) => {
+            const titleMatches = transaction.titre.toLowerCase().includes(term.toLowerCase());
+
+            const categoryMatches = transaction.categorie.toLowerCase().includes(term.toLowerCase());
+
+            return titleMatches || categoryMatches;
+        });
+
+        setSearchResults(filteredTransactions);
+    };
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value);
+        performSearch(event.target.value);
+    };
+
+    const transactions = date === "all" ? getTransactionsByType(props.type, userInfo.id, selectedCategories) :
+        date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories) :
+            getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories);
+
+
+    useEffect(() => {
+        if (searchTerm === "") {
+            setSearchResults(transactions);
+        }
+    }, [searchTerm, transactions]);
+
+    const clearFilters = () => {
+        setSelectedCategories([]);
+        setShowModal(false);
+    };
+
+
     return (
         <>
             <div className="w-full relative">
@@ -83,35 +127,45 @@ export default function PageTransactions(props: any) {
                     <BtnAdd to={`/${typeProps}`} />
                     <ListCollapse className={`cursor-pointer hover:scale-110 transition-all ${selectOpe ? "text-zinc-500" : ""}`} onClick={handleSelectOpe} />
                     <BtnFilter categories={categories} action={toggleModal} check={check}>
-                        {/* modal */}
                         {showModal && (
-                            <div className="flex flex-col bg-zinc-500 rounded-xl z-50 text-left p-2 mt-2">
+                            <div className="flex flex-col bg-zinc-500 rounded z-50 text-left p-2 mt-8 absolute">
                                 <p className='text-center font-semibold'>Filtrer par :</p>
-                                {Array.isArray(categories) && categories.map(({ name }: { name: string }) => (
-                                    <div key={name}>
-                                        <input
-                                            type="checkbox"
-                                            id={name}
-                                            name="categorie"
-                                            value={name}
-                                            checked={selectedCategories.includes(name)}
-                                            onChange={handleCheckboxChange}
-                                            className='cursor-pointer'
-                                        />
-                                        <label htmlFor={name} className='cursor-pointer'> {name}</label>
-                                    </div>
-                                ))}
+                                <div className='grid grid-cols-2 gap-x-2'>
+                                    {Array.isArray(categories) && categories.map(({ name }: { name: string }) => (
+                                        <div key={name}>
+                                            <input
+                                                type="checkbox"
+                                                id={name}
+                                                name="categorie"
+                                                value={name}
+                                                checked={selectedCategories.includes(name)}
+                                                onChange={handleCheckboxChange}
+                                                className='cursor-pointer'
+                                            />
+                                            <label htmlFor={name} className='cursor-pointer'> {name}</label>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <button className='text-xs hover:bg-red-800 transition-all' onClick={clearFilters}>Annuler</button>
                             </div>
                         )}
                     </BtnFilter>
+                    <BtnSearch action={toggleSearch} ifSearch={showSearch}>
+                        {showSearch ? <input
+                            className='rounded px-2 ml-2 placeholder:text-sm'
+                            type="search"
+                            name=""
+                            id=""
+                            placeholder='Rechercher'
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        /> : ""}
+                    </BtnSearch>
                 </div>
             </div>
 
-            <TableauTransac transactions={
-                date === "all" ? getTransactionsByType(props.type, userInfo.id, selectedCategories) :
-                    date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories) :
-                        getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories)
-            } selectOpe={selectOpe} />
+            <TableauTransac transactions={searchTerm ? searchResults : transactions} selectOpe={selectOpe} />
 
             <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-800 py-3 transition-all">
                 Total : <b>{
@@ -135,8 +189,6 @@ export default function PageTransactions(props: any) {
                     </div>
                 ) : null
             }
-
-
         </>
     );
 }
