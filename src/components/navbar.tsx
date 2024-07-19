@@ -67,7 +67,7 @@ export default function Navbar(props: any) {
                     </Link>
 
                     <div className='flex flex-col justify-between gap-4 w-full'>
-                        {/* <Link to="/tdb" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/tdb') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Tableau de bord</Link> */}
+                        <Link to="/tdb" className={`my-1 py-2 rounded text-nowrap hover:bg-zinc-700 transition-all ${activeLink.startsWith('/tdb') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Tableau de bord</Link>
                         <div className='flex flex-col'>
                             <Link to="/depense" className={`my-1 py-2 rounded hover:bg-zinc-700 transition-all ${activeLink.startsWith('/depense') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Dépenses</Link>
                             <Link to="/recette" className={`my-1 py-2 rounded hover:bg-zinc-700 transition-all ${activeLink.startsWith('/recette') ? 'bg-zinc-700' : 'bg-zinc-800'}`}>Recettes</Link>

@@ -12,7 +12,6 @@ import BtnFilter from '../../components/button/btnFilter';
 import { categorieSort } from '../../utils/autre';
 import { categorieDepense } from '../../../public/categories.json'
 import { categorieRecette } from '../../../public/categories.json'
-import BtnSearch from '../../components/button/btnSearch';
 
 
 export default function PageTransactions(props: any) {
@@ -74,12 +73,6 @@ export default function PageTransactions(props: any) {
     }
 
     const check = selectedCategories.length;
-
-    const [showSearch, setShowSearch] = useState(false);
-
-    const toggleSearch = () => {
-        setShowSearch(!showSearch);
-    };
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -151,17 +144,14 @@ export default function PageTransactions(props: any) {
                             </div>
                         )}
                     </BtnFilter>
-                    <BtnSearch action={toggleSearch} ifSearch={showSearch}>
-                        {showSearch ? <input
-                            className='rounded px-2 ml-2 placeholder:text-sm'
-                            type="search"
-                            name=""
-                            id=""
-                            placeholder='Rechercher'
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                        /> : ""}
-                    </BtnSearch>
+                    <input
+                        className='rounded-xl px-2 w-32 placeholder:text-sm'
+                        type="search"
+                        name=""
+                        id=""
+                        placeholder='Rechercher'
+                        value={searchTerm}
+                        onChange={handleSearchChange} />
                 </div>
             </div>
 

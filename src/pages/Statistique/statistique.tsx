@@ -79,11 +79,11 @@ export default function Statistique() {
 
   const selectedDate = `${selectedYear}${selectedMonth}`;
 
-  const depenseYear = calculTotalByYear("Dépense", `${selectedYear}`, userInfo.id);
-  const recetteYear = calculTotalByYear("Recette", `${selectedYear}`, userInfo.id);
+  const depenseYear = calculTotalByYear("Dépense", `${selectedYear}`, userInfo.id, null);
+  const recetteYear = calculTotalByYear("Recette", `${selectedYear}`, userInfo.id, null);
 
-  const depenseMonth = calculTotalByMonth("Dépense", selectedDate, userInfo.id);
-  const recetteMonth = calculTotalByMonth("Recette", selectedDate, userInfo.id);
+  const depenseMonth = calculTotalByMonth("Dépense", selectedDate, userInfo.id, null);
+  const recetteMonth = calculTotalByMonth("Recette", selectedDate, userInfo.id, null);
 
   const nbMonth = generateMonths().length;
 

@@ -19,7 +19,7 @@ export function calculTotal(type: any, idUser: any, filterCategorie: any) {
 }
 
 
-export function calculTotalByMonth(type: any, month: string, idUser: any, filterCategorie: any) {
+export function calculTotalByMonth(type: any, month: string, idUser: any, filterCategorie: any | null) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
@@ -44,7 +44,7 @@ export function calculTotalByMonth(type: any, month: string, idUser: any, filter
     return formattedTotal;
 }
 
-export function calculTotalByYear(type: any, year: any, idUser: any, filterCategorie: any) {
+export function calculTotalByYear(type: any, year: any, idUser: any, filterCategorie: any | null) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
