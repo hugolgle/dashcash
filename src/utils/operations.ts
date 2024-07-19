@@ -121,11 +121,23 @@ export function getTransactionsByYear(year: any, type: any, idUser: any, filterC
     return transactionsInYear;
 }
 
-
 export function getLastFiveTransactionsByType(type: any, idUser: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
     const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
-    const filteredTransactions = userTransactions.filter((transaction: any) => transaction.type === type);
+
+    let filteredTransactions = userTransactions;
+    if (type !== null) {
+        filteredTransactions = userTransactions.filter((transaction: any) => transaction.type === type);
+    }
+
+    const getCurrentMonthAndYear = () => {
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+        return { month: currentMonth, year: currentYear };
+    };
+
+    const { month: currentMonth, year: currentYear } = getCurrentMonthAndYear();
 
     const filteredTransactionsThisMonth = filteredTransactions.filter((transaction: any) => {
         const transactionDate = new Date(transaction.date);
@@ -139,6 +151,7 @@ export function getLastFiveTransactionsByType(type: any, idUser: any) {
 
     return lastFiveTransactions;
 }
+
 
 // -------------------------------- Investissements
 
