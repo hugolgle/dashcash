@@ -12,9 +12,9 @@ import {
 export function Camembert(props: any) {
 
     const chartData = [
-        { categorie: "Dépenses fixes", pourcentage: (parseInt(props.dataDf)), fill: "var(--color-depensesFixes)" },
-        { categorie: "Loisir", pourcentage: (parseInt(props.dataLoisir)), fill: "var(--color-loisir)" },
-        { categorie: "Épargne", pourcentage: (parseInt(props.dataEpargne)), fill: "var(--color-epargne)" },
+        { categorie: "Dépenses fixes", value: (parseFloat(props.dataDf)), fill: "var(--color-depensesFixes)" },
+        { categorie: "Loisir", value: (parseFloat(props.dataLoisir)), fill: "var(--color-loisir)" },
+        { categorie: "Épargne", value: (parseFloat(props.dataEpargne)), fill: "var(--color-epargne)" },
     ]
 
     const chartConfig = {
@@ -31,7 +31,7 @@ export function Camembert(props: any) {
             color: "hsl(var(--chart-3))",
         },
     } satisfies ChartConfig
-    console.log(props.dataEpargne)
+
     return <>
         <ResponsiveContainer width="100%" height={170}>
             <ChartContainer
@@ -39,17 +39,13 @@ export function Camembert(props: any) {
                 className="mx-auto aspect-square max-h-[250px]"
             >
                 <PieChart>
-                    <ChartTooltip
-                        cursor={false}
-                        content={<ChartTooltipContent hideLabel />}
-                    />
                     <Pie
                         data={chartData}
-                        dataKey="pourcentage"
+                        dataKey="value"
                         nameKey="categorie"
                         innerRadius={30}
                         outerRadius={50}
-                        label={({ pourcentage }) => `${(pourcentage / 10).toFixed(0)} %`}
+                        label={({ value }) => `${(value.toFixed(2))} €`}
                     />
                 </PieChart>
             </ChartContainer>

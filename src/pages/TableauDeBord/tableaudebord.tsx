@@ -1,9 +1,10 @@
 import { getAllTransactions, getLastFiveTransactionsByType, getTransactionsByMonth } from "../../utils/operations";
 import { calculEconomie, calculTotalByMonth } from "../../utils/calcul";
 import { infoUser } from "../../utils/users";
-import { addSpace, convertirFormatDate } from "../../utils/fonctionnel";
+import { addSpace, convertDate, convertirFormatDate } from "../../utils/fonctionnel";
 import { Camembert } from "../../components/Charts/camembert";
-import { getTransactions } from "src/redux/actions/transaction.action";
+import { CircleArrowLeft, CircleArrowRight } from "lucide-react";
+import { useState } from "react";
 
 export default function TableauDeBord() {
 
@@ -51,15 +52,62 @@ export default function TableauDeBord() {
   const formatData = (data: any) => {
     const newData = Math.abs(parseFloat(data));
 
-    // Formater le montant total sans le symbole €
     return `${newData.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}`;
   }
+
+  console.log(currentDate)
+
+  const [month, setMonth] = useState(currentDate)
+
+  const clickLastMonth = () => {
+    // Extraire l'année et le mois
+    let yearNum = parseInt(month.slice(0, 4), 10);
+    let monthNum = parseInt(month.slice(4), 10);
+
+    // Décrémenter le mois
+    monthNum -= 1;
+
+    // Si le mois est 0, le remettre à 12 et décrémenter l'année
+    if (monthNum === 0) {
+      monthNum = 12;
+      yearNum -= 1;
+    }
+
+    // Formater le mois avec deux chiffres
+    const newMonth = monthNum.toString().padStart(2, '0');
+
+    // Formater la nouvelle date et mettre à jour l'état
+    const newDate = `${yearNum}${newMonth}`;
+    setMonth(newDate);
+  };
+
+  const clickNextMonth = () => {
+    // Extraire l'année et le mois
+    let yearNum = parseInt(month.slice(0, 4), 10);
+    let monthNum = parseInt(month.slice(4), 10);
+
+    // Incrémenter le mois
+    monthNum += 1;
+
+    // Si le mois est 13, le remettre à 1 et incrémenter l'année
+    if (monthNum === 13) {
+      monthNum = 1;
+      yearNum += 1;
+    }
+
+    // Formater le mois avec deux chiffres
+    const newMonth = monthNum.toString().padStart(2, '0');
+
+    // Formater la nouvelle date et mettre à jour l'état
+    const newDate = `${yearNum}${newMonth}`;
+    setMonth(newDate);
+  };
 
   const categoriesDf = ["Abonnement", "Carburant"];
   const categoriesLoisir = ["Bar/Boite", "Resto", "Sport", "Activité", "Vêtements"];
 
-  const dataDf = calculTotalByMonth("Dépense", previousDate, userInfo.id, categoriesDf);
-  const dataLoisir = calculTotalByMonth("Dépense", previousDate, userInfo.id, categoriesLoisir);
+  const dataDf = calculTotalByMonth("Dépense", month, userInfo.id, categoriesDf);
+  const dataLoisir = calculTotalByMonth("Dépense", month, userInfo.id, categoriesLoisir);
 
   const montantTotalLoisirDf = formatData(parseFloat(dataDf)) + formatData(parseFloat(dataLoisir));
 
@@ -129,25 +177,30 @@ export default function TableauDeBord() {
         <div className="flex flex-row gap-4 h-full">
           <div className="w-1/3 bg-zinc-900 rounded-xl p-4">
             <h2 className="text-3xl font-extralight italic">Répartitions</h2>
+            <div className="flex flex-row justify-between w-full py-3 px-10">
+              <CircleArrowLeft size={20} onClick={clickLastMonth} className="cursor-pointer hover:scale-95 transition-all" />
+              <p className="font-thin">{convertDate(month)}</p>
+              <CircleArrowRight size={20} onClick={clickNextMonth} className={`cursor-pointer hover:scale-95 transition-all ${month >= currentDate ? "invisible" : ""}`} />
+            </div>
             <Camembert dataDf={formatData(dataDf)} dataLoisir={formatData(dataLoisir)} dataEpargne={montantEpargne} />
-            <div className="flex flex-col justify-center w-full">
+            <div className="flex flex-col justify-center w-full mt-2">
               <div className="flex flex-row justify-center items-center">
                 <div className="w-3 h-3 rounded bg-colorChart1">
 
                 </div>
-                <p className="w-2/5 font-thin">Dépenses loisirs</p>
+                <p className="w-2/5 font-thin text-sm">Dépenses loisirs</p>
               </div>
               <div className="flex flex-row justify-center items-center">
                 <div className="w-3 h-3 rounded bg-colorChart2">
 
                 </div>
-                <p className="w-2/5 font-thin">Dépenses fixes</p>
+                <p className="w-2/5 font-thin text-sm">Dépenses fixes</p>
               </div>
               <div className="flex flex-row justify-center items-center">
                 <div className="w-3 h-3 rounded bg-colorChart3">
 
                 </div>
-                <p className="w-2/5 font-thin">Épargne</p>
+                <p className="w-2/5 font-thin text-sm">Épargne</p>
               </div>
 
             </div>
