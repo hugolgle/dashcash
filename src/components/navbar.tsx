@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../redux/actions/user.action';
 import { isConnected } from '../utils/users';
+import { BtnTheme } from './button/btnTheme';
 
 export default function Navbar(props: any) {
     const navigate = useNavigate()
@@ -58,7 +59,7 @@ export default function Navbar(props: any) {
     return (
         <>
             <section className='flex h-screen w-screen'>
-                <div className='sidebar flex flex-col justify-between items-center  w-1/5 h-screen py-10 px-4 bg-zinc-900 fixed transition-all'>
+                <div className='sidebar flex flex-col justify-between items-center  w-1/5 h-screen py-10 px-4 bg-zinc-900 dark:bg-zinc-100 fixed transition-all'>
                     <Link to="/" className='font-logo text-2xl w-fit group text-center'>
                         <div className='flex justify-center items-center tracking-tight'>
                             <p className='p-2 bg-white text-zinc-900 group-hover:bg-transparent group-hover:text-white transition-all'>D A $ H</p>
@@ -114,6 +115,7 @@ export default function Navbar(props: any) {
                     </div>
 
                     <p className='text-xs text-gray-400 absolute bottom-2'>© Hugo Le Galle - DashBoard v2.0.0</p>
+                    <BtnTheme />
                 </div>
                 <div className='relative content w-4/5 ml-auto p-4'>
                     <Outlet />

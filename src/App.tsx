@@ -17,7 +17,7 @@ import PageInvestment from './pages/PageOperations/pageInvestment';
 import Investment from './pages/Operation/investment';
 import Refund from './pages/Operation/refund';
 import LayoutRefund from './layout/layoutRefund';
-
+import { ThemeProvider } from "./components/Theme/theme.provider"
 
 function App() {
 
@@ -126,7 +126,11 @@ function App() {
     }
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
 
 

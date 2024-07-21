@@ -108,7 +108,6 @@ export default function TableauDeBord() {
   const montantTotalLoisirDf = formatData(dataDf) + formatData(dataLoisir);
 
   const total = calculTotalByMonth("Recette", month, userInfo.id, null)
-  console.log(total)
 
   const montantEpargne = parseFloat(montantRecettesLastMonth) - parseFloat(montantTotalLoisirDf);
 
@@ -116,8 +115,8 @@ export default function TableauDeBord() {
     <>
       <h2 className="text-5xl font-thin mb-9">Tableau de bord</h2>
       <section className="flex flex-col gap-4">
-        <div className="flex flex-row gap-4">
-          <div className="w-2/3 bg-zinc-900 rounded-xl h-fit p-4 flex flex-col gap-4">
+        <div className="flex flex-row gap-4 h-full">
+          <div className="w-2/3 bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
             <h2 className="text-3xl font-extralight italic">Mois en cours</h2>
             <div className="flex flex-col gap-4">
               <div className="flex flex-row gap-4">
@@ -136,7 +135,24 @@ export default function TableauDeBord() {
               </div>
             </div>
           </div>
-          <div className="w-2/3 bg-zinc-900 rounded-xl h-fit p-4 flex flex-col gap-4">
+          <div className="w-full bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
+            <h2 className="text-3xl font-extralight italic">Dernières transactions</h2>
+            <table className="h-max">
+              <tbody className="w-full flex flex-col gap-2">
+                {lastTransactions.map((transaction: any) => (
+                  <tr
+                    key={transaction._id}
+                    className={`bg-opacity-15 rounded h-full flex flex-row items-center py-1 text-sm ${transaction.type === "Recette" ? "bg-green-600" : transaction.type === "Dépense" ? "bg-red-600" : ""}`}>
+                    <td className="w-full">{convertirFormatDate(transaction.date)}</td>
+                    <td className="w-full">{transaction.titre}</td>
+                    <td className="w-full">{transaction.categorie === "Autre" ? transaction.autreCategorie : transaction.categorie}</td>
+                    <td className="w-full"><b>{addSpace(transaction.montant)} €</b></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="w-2/3 bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
             <h2 className="text-3xl font-extralight italic">Mois dernier</h2>
             <div className="flex flex-col gap-4">
               <div className="flex flex-row gap-4">
@@ -154,23 +170,6 @@ export default function TableauDeBord() {
                 <p className="font-bold">{economieLastMonth} €</p>
               </div>
             </div>
-          </div>
-          <div className="w-full bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
-            <h2 className="text-3xl font-extralight italic">Dernières transactions</h2>
-            <table className="h-full">
-              <tbody className="w-full">
-                {lastTransactions.map((transaction: any) => (
-                  <tr
-                    key={transaction._id}
-                    className={`bg-opacity-15 rounded flex my-1 flex-row items-center py-1 ${transaction.type === "Recette" ? "bg-green-600" : transaction.type === "Dépense" ? "bg-red-600" : ""}`}>
-                    <td className="w-full ">{convertirFormatDate(transaction.date)}</td>
-                    <td className="w-full ">{transaction.titre}</td>
-                    <td className="w-full ">{transaction.categorie === "Autre" ? transaction.autreCategorie : transaction.categorie}</td>
-                    <td className="w-full"><b>{addSpace(transaction.montant)} €</b></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </div>
         <div className="flex flex-row gap-4 h-full">
@@ -206,7 +205,7 @@ export default function TableauDeBord() {
           </div>
           <div className="w-3/5 bg-zinc-900 rounded-xl h-80 p-4">
             <h2 className="text-3xl font-extralight italic">Graphique</h2>
-            <Graphique />
+            {/* <Graphique /> */}
           </div>
         </div>
       </section>

@@ -1,14 +1,16 @@
 "use client"
 
-import { Pie, PieChart, ResponsiveContainer } from "recharts"
+import * as React from "react"
+
+import { Pie, PieChart, ResponsiveContainer, Label } from "recharts"
 import {
     ChartConfig,
     ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
 } from "../../../@/components/ui/chart"
+import { addSpace } from "../../utils/fonctionnel";
 
 export function Camembert(props: any) {
+
 
     const depensesFixes = parseFloat(props.dataDf);
     const loisir = parseFloat(props.dataLoisir);
@@ -26,8 +28,10 @@ export function Camembert(props: any) {
         { categorie: "Épargne", objectif: 20, montant: epargne, pourcentage: (epargne / total) * 100, fill: "var(--color-epargne)" },
     ];
 
-
     const chartConfig = {
+        visitors: {
+            label: "Visitors",
+        },
         depensesFixes: {
             label: "Dépenses fixes",
             color: "hsl(var(--chart-1))",
@@ -53,10 +57,33 @@ export function Camembert(props: any) {
                         data={chartData}
                         dataKey="pourcentage"
                         nameKey="categorie"
-                        innerRadius={20}
-                        outerRadius={40}
-                        label={({ pourcentage, montant, objectif }) => `${pourcentage.toFixed(2)} %, ${objectif} % (${montant.toFixed(2)} €)`}
-                    />
+                        innerRadius={40}
+                        outerRadius={50}
+                        label={({ pourcentage, montant, objectif }) => `${pourcentage.toFixed(2)}%, ${objectif}% (${montant.toFixed(2)} €)`}
+                    >
+                        <Label
+                            content={({ viewBox }) => {
+                                if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                                    return (
+                                        <text
+                                            x={viewBox.cx}
+                                            y={viewBox.cy}
+                                            textAnchor="middle"
+                                            dominantBaseline="middle"
+                                            className="text-red-100"
+                                        >
+                                            <tspan
+                                                x={viewBox.cx}
+                                                y={viewBox.cy}
+                                                className="text-xs italic font-thin fill-foreground"
+                                            >
+                                                {`${addSpace(total)} €`}
+                                            </tspan>
+                                        </text>
+                                    )
+                                }
+                            }}
+                        /></Pie>
                 </PieChart>
             </ChartContainer>
         </ResponsiveContainer>
