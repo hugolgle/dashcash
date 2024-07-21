@@ -16,9 +16,9 @@ export default function Home() {
             </div>
             {isAuthenticated ?
                 (
-                    <Link to="/tdb" className='p-4 bg-zinc-700 rounded-xl transition-all hover:bg-slate-600'>C'est parti !</Link>
+                    <Link to="/tdb" className='p-4 bg-zinc-300 dark:bg-zinc-700 rounded-xl transition-all hover:bg-slate-600'>C'est parti !</Link>
                 ) : (
-                    <Link to="/connexion" className='p-4 bg-zinc-700 rounded-xl transition-all hover:bg-slate-600'>Connectez-vous !</Link>
+                    <Link to="/connexion" className='p-4 bg-zinc-300 dark:bg-zinc-700 rounded-xl transition-all hover:bg-slate-600'>Connectez-vous !</Link>
                 )
             }
         </div>

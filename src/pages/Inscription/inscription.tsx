@@ -118,7 +118,7 @@ export default function Inscription() {
       </form>
       <div className='flex flex-col justify-center items-center gap-2 px-36'>
         <p className='text-xs'>Vous possédez déjà un compte ?</p>
-        <Link to="/connexion" className="rounded-xl bg-transparent border-2 border-zinc-700  py-2 text-sm px-4 transition-all hover:bg-zinc-700" type="submit">
+        <Link to="/connexion" className="rounded-xl bg-transparent border-2 border-zinc-700  py-2 text-sm px-4 transition-all hover:bg-zinc-300 hover:dark:bg-zinc-700" type="submit">
           Identifiez-vous !
         </Link>
       </div>

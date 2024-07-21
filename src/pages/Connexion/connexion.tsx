@@ -61,7 +61,7 @@ export default function Connexion() {
       </form>
       <div className='flex flex-col justify-center items-center gap-2 px-36'>
         <p className='text-xs'>Nouveau sur DashBoard ?</p>
-        <Link to="/inscription" className="rounded-xl bg-transparent border-2 border-zinc-700  py-2 text-sm px-4 transition-all hover:bg-zinc-700" type="submit">
+        <Link to="/inscription" className="rounded-xl bg-transparent border-2 border-zinc-700  py-2 text-sm px-4 transition-all hover:bg-zinc-300 hover:dark:bg-zinc-700" type="submit">
           Créer un compte DashBoard !
         </Link>
       </div>

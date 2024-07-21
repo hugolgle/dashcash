@@ -27,9 +27,9 @@ export default function LayoutTransac(props: any) {
         <section className="flex flex-col gap-4">
             <div className="flex flex-row w-full h-64 gap-4">
 
-                <Link to={currentMonth} className="flex flex-col hover:scale-95 justify-between w-3/5 bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
+                <Link to={currentMonth} className="flex flex-col hover:scale-95 justify-between w-3/5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                     <div className="flex flex-col w-full gap-4">
-                        <p className="text-4xl">{calculTotalByMonth(props.type, currentMonth, userInfo.id)}</p>
+                        <p className="text-4xl">{calculTotalByMonth(props.type, currentMonth, userInfo.id, null)}</p>
 
                         {lastTransactions && lastTransactions.length > 0 ? (
                             <table>
@@ -54,9 +54,9 @@ export default function LayoutTransac(props: any) {
                 </Link>
                 <div className="flex flex-col-reverse gap-4 w-2/5 text-left">
                     {lastMonths.map((month: any) => (
-                        <Link key={month.code} to={month.code} className="flex flex-col-reverse hover:scale-95 justify-between w-full h-full bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
+                        <Link key={month.code} to={month.code} className="flex flex-col-reverse hover:scale-95 justify-between w-full h-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                             <p className="text-right italic">{month.month}</p>
-                            <p className="text-4xl">{calculTotalByMonth(props.type, month.code, userInfo.id)}</p>
+                            <p className="text-4xl">{calculTotalByMonth(props.type, month.code, userInfo.id, null)}</p>
                         </Link>
                     ))}
                 </div>
@@ -64,16 +64,16 @@ export default function LayoutTransac(props: any) {
 
             <div className="flex flex-row gap-4 w-full">
                 {lastYears.map((year: any) => (
-                    <Link key={year} to={`${year}`} className="w-1/2 h-32 bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
+                    <Link key={year} to={`${year}`} className="w-1/2 h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
                         <p className="italic">{year}</p>
-                        <p className="text-4xl">{calculTotalByYear(props.type, `${year}`, userInfo.id)}</p>
+                        <p className="text-4xl">{calculTotalByYear(props.type, `${year}`, userInfo.id, null)}</p>
                     </Link>
                 ))}
             </div>
 
-            <Link to="all" className="w-full  h-32 bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
+            <Link to="all" className="w-full  h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
                 <p className="italic">Depuis le début</p>
-                <p className="text-4xl">{calculTotal(props.type, userInfo.id)}</p>
+                <p className="text-4xl">{calculTotal(props.type, userInfo.id, null)}</p>
             </Link>
         </section >
     </>

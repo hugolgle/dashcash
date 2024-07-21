@@ -86,7 +86,7 @@ export default function Tableau(props: any) {
                                 )}
                                 <Link to={transaction._id} className="w-full">
                                     <TableRow
-                                        className={`rounded flex my-1 flex-row items-center bg-zinc-900 cursor-pointer hover:bg-zinc-700 transition-all ${selectedRows[transaction._id] ? "ring-1 ring-zinc-400" : ""}`}
+                                        className={`rounded flex my-1 flex-row items-center bg-zinc-100 dark:bg-zinc-900 cursor-pointer hover:bg-zinc-300 hover:dark:bg-zinc-700 transition-all ${selectedRows[transaction._id] ? "ring-1 ring-zinc-400" : ""}`}
                                     >
                                         <TableCell className="w-full">{transaction._id.substring(4, 8)}</TableCell>
                                         <TableCell className="w-full">{transaction.titre}</TableCell>
@@ -107,7 +107,7 @@ export default function Tableau(props: any) {
                 <p>Aucune transaction n'a été trouvée ...</p>
             )}
             {props.selectOpe ? <>
-                <div className="fixed w-44 bottom-10 right-0 rounded-l-xl z-50 bg-zinc-800 py-3 transition-all">
+                <div className="fixed w-44 bottom-10 right-0 rounded-l-xl z-50 bg-zinc-200 dark:bg-zinc-800 py-3 transition-all">
                     Total sélectionnés : <br />
                     <b>{addSpace(separateMillier(montantSelect)) + " €"}</b>
                     <br />

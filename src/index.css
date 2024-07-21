@@ -3,18 +3,37 @@
 @tailwind utilities;
 
 :root {
+  --color-light: rgb(0, 0, 0);
+  --background-color-light: rgb(255, 255, 255);
+
+  --color-dark: rgb(255, 255, 255);
+  --background-color-dark: #202020;
+
+  --button-color-light: #f4f4f5;
+  --button-color-dark: #1A1A1A;
+
   font-family: 'GeistSans', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgb(255, 255, 255);
-  background-color: #202020;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  color: var(--color-light);
+  background-color: var(--background-color-light);
+  transition: .1s;
+}
+
+.dark body {
+  color: var(--color-dark);
+  background-color: var(--background-color-dark);
+  transition: .1s;
 }
 
 body {
@@ -35,9 +54,14 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--button-color-light);
   cursor: pointer;
   transition: border-color 0.25s;
+}
+
+.dark button {
+  background-color: var(--button-color-dark);
+
 }
 
 @media (prefers-color-scheme: light) {
@@ -74,7 +98,7 @@ button {
 
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -119,10 +143,10 @@ button {
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
+    /* --chart-1: 220 70% 50%;
     --chart-5: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-2: 340 75% 55%;
+    --chart-2: 340 75% 55%; */
   }
 }

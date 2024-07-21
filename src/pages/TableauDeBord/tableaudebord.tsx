@@ -116,7 +116,7 @@ export default function TableauDeBord() {
       <h2 className="text-5xl font-thin mb-9">Tableau de bord</h2>
       <section className="flex flex-col gap-4">
         <div className="flex flex-row gap-4 h-full">
-          <div className="w-2/3 bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
+          <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
             <h2 className="text-3xl font-extralight italic">Mois en cours</h2>
             <div className="flex flex-col gap-4">
               <div className="flex flex-row gap-4">
@@ -135,7 +135,7 @@ export default function TableauDeBord() {
               </div>
             </div>
           </div>
-          <div className="w-full bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
+          <div className="w-full bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
             <h2 className="text-3xl font-extralight italic">Dernières transactions</h2>
             <table className="h-max">
               <tbody className="w-full flex flex-col gap-2">
@@ -152,7 +152,7 @@ export default function TableauDeBord() {
               </tbody>
             </table>
           </div>
-          <div className="w-2/3 bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
+          <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
             <h2 className="text-3xl font-extralight italic">Mois dernier</h2>
             <div className="flex flex-col gap-4">
               <div className="flex flex-row gap-4">
@@ -173,7 +173,7 @@ export default function TableauDeBord() {
           </div>
         </div>
         <div className="flex flex-row gap-4 h-full">
-          <div className="w-2/5 bg-zinc-900 rounded-xl p-4">
+          <div className="w-2/5 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4">
             <h2 className="text-3xl font-extralight italic">Répartitions</h2>
             <div className="flex flex-row justify-between w-full py-3 px-10">
               <CircleArrowLeft size={20} onClick={clickLastMonth} className="cursor-pointer hover:scale-95 transition-all" />
@@ -203,7 +203,7 @@ export default function TableauDeBord() {
 
             </div>
           </div>
-          <div className="w-3/5 bg-zinc-900 rounded-xl h-80 p-4">
+          <div className="w-3/5 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-80 p-4">
             <h2 className="text-3xl font-extralight italic">Graphique</h2>
             {/* <Graphique /> */}
           </div>

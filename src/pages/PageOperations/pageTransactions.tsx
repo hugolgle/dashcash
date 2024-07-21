@@ -157,7 +157,7 @@ export default function PageTransactions(props: any) {
 
             <TableauTransac transactions={searchTerm ? searchResults : transactions} selectOpe={selectOpe} />
 
-            <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-800 py-3 transition-all">
+            <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-200 dark:bg-zinc-800 py-3 transition-all">
                 Total : <b>{
                     date === "all" ? calculTotal(props.type, userInfo.id, selectedCategories) :
                         date && date.length === 4 ? calculTotalByYear(props.type, date, userInfo.id, selectedCategories) :

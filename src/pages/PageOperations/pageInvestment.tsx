@@ -23,7 +23,7 @@ export default function PageInvestment(props: any) {
             </div>
 
             <TableauInvest investments={getAllInvestments(userInfo.id, props.sold)} sold={props.sold} />
-            <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-800 py-3 transition-all">
+            <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-200 dark:bg-zinc-800 py-3 transition-all">
                 Total : <b>{calculTotalInvestment(userInfo.id, props.sold)}</b>
                 <br />
                 Transaction(s) : <b>{getAllInvestments(userInfo.id, props.sold).length}</b>

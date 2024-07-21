@@ -36,7 +36,7 @@ export default function LayoutRefund() {
 
         <section className="grid grid-cols-5 gap-4">
             {refunds.map((refund: any) => (
-                <Link to={`./${refund._id}`} className="min-h-40 w-full flex-col bg-zinc-900 flex items-center rounded-2xl py-8 transition-all hover:bg-opacity-80 hover:scale-95">
+                <Link to={`./${refund._id}`} className="min-h-40 w-full flex-col bg-zinc-100 dark:bg-zinc-900 flex items-center rounded-2xl py-8 transition-all hover:bg-opacity-80 hover:scale-95">
                     <p>{refund.titre}</p>
                     <p>{formatDate(refund.date)}</p>
                     <p>{refund.detail}</p>

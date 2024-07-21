@@ -63,7 +63,7 @@ export default function Profil() {
     </div>
 
     <section className=" flex flex-row gap-4">
-      <div className=" flex-col w-3/4 py-12 bg-zinc-900 flex justify-start items-center rounded-2xl gap-6">
+      <div className=" flex-col w-3/4 py-12 bg-zinc-100 dark:bg-zinc-900 flex justify-start items-center rounded-2xl gap-6">
         <div className="rounded-full bg-slate-500 w-32 h-32">
           <p>PP</p>
         </div>
@@ -103,32 +103,32 @@ export default function Profil() {
           <div className="flex flex-col gap-4 h-40 justify-center items-center">
             <p className="text-sm">Êtes-vous sûr ?</p>
             <div className="flex gap-4">
-              <div className="p-8 border-2 border-red-900 bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95" onClick={handleDeleteConfirmation}>Oui</div>
-              <div className="p-8 border-2 border-zinc-900 bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95 hover:border-green-900" onClick={() => setSelectedDelete(false)}>Non</div>
+              <div className="p-8 border-2 border-red-900 bg-zinc-100 dark:bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95" onClick={handleDeleteConfirmation}>Oui</div>
+              <div className="p-8 border-2 border-zinc-900 bg-zinc-100 dark:bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95 hover:border-green-900" onClick={() => setSelectedDelete(false)}>Non</div>
             </div>
           </div>
         ) : (
-          <div className={`h-full w-full cursor-pointer bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95`} onClick={() => setSelectedDelete(true)}>Supprimer mon compte</div>
+          <div className={`h-full w-full cursor-pointer bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95`} onClick={() => setSelectedDelete(true)}>Supprimer mon compte</div>
         )}
 
         {selectedUpdate && update === true ? (
           <div className="flex flex-col gap-4 justify-center items-center">
             <p className="text-sm">Êtes-vous sûr de vouloir modifier ?</p>
             <div className="flex gap-4">
-              <div className="p-8 border-2 border-red-900 bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95" onClick={handleUpdateConfirmation}>Oui</div>
-              <div className="p-8 border-2 border-zinc-900 bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95 hover:border-green-900" onClick={() => setSelectedUpdate(false)}>Non</div>
+              <div className="p-8 border-2 border-red-900 bg-zinc-100 dark:bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95" onClick={handleUpdateConfirmation}>Oui</div>
+              <div className="p-8 border-2 border-zinc-900 bg-zinc-100 dark:bg-zinc-900 rounded-2xl cursor-pointer flex justify-center items-center transition-all hover:bg-opacity-80 hover:scale-95 hover:border-green-900" onClick={() => setSelectedUpdate(false)}>Non</div>
             </div>
           </div>
         ) : selectedUpdate ? (
-          <div className="h-full w-full cursor-pointer bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
+          <div className="h-full w-full cursor-pointer bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95" onClick={() => setSelectedUpdate(false)}>Annuler</div>
         ) : (
-          <div className="h-full w-full cursor-pointer bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
+          <div className="h-full w-full cursor-pointer bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl hover:bg-opacity-80 transition-all hover:scale-95" onClick={() => setSelectedUpdate(true)}>Modifier</div>
         )}
 
-        <div className="h-full w-full bg-zinc-900 flex justify-center items-center rounded-2xl">
+        <div className="h-full w-full bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl">
           Exporter les données
         </div>
-        <div className="h-full w-full bg-zinc-900 flex justify-center items-center rounded-2xl">
+        <div className="h-full w-full bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl">
           Supprimer les données
         </div>
       </div>

@@ -11,9 +11,9 @@ export function BtnTheme() {
     }
 
     return (
-        <div onClick={toggleTheme} className="cursor-pointer p-4">
+        <div onClick={toggleTheme} className="cursor-pointer m-4">
             <Sun className={`absolute h-[1.2rem] w-[1.2rem] transition-all dark:text-black ${theme === "dark" ? "scale-0" : "scale-100"}`} />
-            <Moon className={`absolute h-[1.2rem] w-[1.2rem] transition-all dark:text-black ${theme === "dark" ? "scale-100" : "scale-0"}`} />
+            <Moon className={`absolute h-[1.2rem] w-[1.2rem] transition-all dark:text-white ${theme === "dark" ? "scale-100" : "scale-0"}`} />
         </div>
     );
 }
