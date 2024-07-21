@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { convertDate } from '../../utils/fonctionnel';
 import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul';
 import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType } from '../../utils/operations';
@@ -7,7 +7,7 @@ import TableauTransac from '../../components/Tableau/tableauTransac';
 import { infoUser } from '../../utils/users';
 import BtnReturn from '../../components/button/btnReturn';
 import BtnAdd from '../../components/button/btnAdd';
-import { ListCollapse } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ListCollapse } from 'lucide-react';
 import BtnFilter from '../../components/button/btnFilter';
 import { categorieSort } from '../../utils/autre';
 import { categorieDepense } from '../../../public/categories.json'
@@ -110,6 +110,39 @@ export default function PageTransactions(props: any) {
         setShowModal(false);
     };
 
+    const navigate = useNavigate()
+
+    const clickLastMonth = () => {
+        if (date) {
+            let yearNum = parseInt(date.slice(0, 4), 10);
+            let monthNum = parseInt(date.slice(4), 10);
+            monthNum -= 1;
+            if (monthNum === 0) {
+                monthNum = 12;
+                yearNum -= 1;
+            }
+            const newMonth = monthNum.toString().padStart(2, '0');
+            const newDate = `${yearNum}${newMonth}`;
+            navigate(`/${typeProps}/${newDate}`);
+        }
+    };
+
+    const clickNextMonth = () => {
+        if (date) {
+            let yearNum = parseInt(date.slice(0, 4), 10);
+            let monthNum = parseInt(date.slice(4), 10);
+            monthNum += 1;
+            if (monthNum === 13) {
+                monthNum = 1;
+                yearNum += 1;
+            }
+            const newMonth = monthNum.toString().padStart(2, '0');
+            const newDate = `${yearNum}${newMonth}`;
+            navigate(`/${typeProps}/${newDate}`);
+        }
+    };
+
+
 
     return (
         <>
@@ -152,6 +185,10 @@ export default function PageTransactions(props: any) {
                         placeholder='Rechercher'
                         value={searchTerm}
                         onChange={handleSearchChange} />
+                </div>
+                <div className='flex flex-row gap-4 absolute top-0 right-0'>
+                    <ChevronLeft className='cursor-pointer hover:scale-90 transition-all' onClick={clickLastMonth} />
+                    <ChevronRight className='cursor-pointer hover:scale-90 transition-all' onClick={clickNextMonth} />
                 </div>
             </div>
 
