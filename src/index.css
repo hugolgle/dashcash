@@ -27,13 +27,11 @@
 body {
   color: var(--color-light);
   background-color: var(--background-color-light);
-  transition: .1s;
 }
 
 .dark body {
   color: var(--color-dark);
   background-color: var(--background-color-dark);
-  transition: .1s;
 }
 
 body {
@@ -62,6 +60,12 @@ button {
 .dark button {
   background-color: var(--button-color-dark);
 
+}
+
+input,
+textarea,
+select {
+  background-color: transparent;
 }
 
 @media (prefers-color-scheme: light) {

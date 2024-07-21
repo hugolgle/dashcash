@@ -115,6 +115,8 @@ export default function PageTransactions(props: any) {
     const clickLastMonth = () => {
         if (date) {
             let yearNum = parseInt(date.slice(0, 4), 10);
+            if (date.length === 4) { yearNum -= 1 }
+
             let monthNum = parseInt(date.slice(4), 10);
             monthNum -= 1;
             if (monthNum === 0) {
@@ -123,13 +125,20 @@ export default function PageTransactions(props: any) {
             }
             const newMonth = monthNum.toString().padStart(2, '0');
             const newDate = `${yearNum}${newMonth}`;
-            navigate(`/${typeProps}/${newDate}`);
+            if (date.length === 4) {
+                navigate(`/${typeProps}/${yearNum}`);
+            } else if (date.length === 6) {
+                navigate(`/${typeProps}/${newDate}`);
+            } else {
+                return ""
+            }
         }
     };
 
     const clickNextMonth = () => {
         if (date) {
             let yearNum = parseInt(date.slice(0, 4), 10);
+            if (date.length === 4) { yearNum += 1 }
             let monthNum = parseInt(date.slice(4), 10);
             monthNum += 1;
             if (monthNum === 13) {
@@ -138,7 +147,14 @@ export default function PageTransactions(props: any) {
             }
             const newMonth = monthNum.toString().padStart(2, '0');
             const newDate = `${yearNum}${newMonth}`;
-            navigate(`/${typeProps}/${newDate}`);
+            if (date.length === 4) {
+                navigate(`/${typeProps}/${yearNum}`);
+            } else if (date.length === 6) {
+                navigate(`/${typeProps}/${newDate}`);
+            } else {
+                return ""
+            }
+
         }
     };
 
@@ -178,7 +194,7 @@ export default function PageTransactions(props: any) {
                         )}
                     </BtnFilter>
                     <input
-                        className='rounded-xl px-2 w-32 placeholder:text-sm'
+                        className='rounded-xl px-2 w-32 bg-zinc-100 dark:bg-zinc-900 placeholder:text-sm'
                         type="search"
                         name=""
                         id=""
@@ -186,7 +202,7 @@ export default function PageTransactions(props: any) {
                         value={searchTerm}
                         onChange={handleSearchChange} />
                 </div>
-                <div className='flex flex-row gap-4 absolute top-0 right-0'>
+                <div className={`flex flex-row gap-4 absolute top-0 right-0 ${date === "all" ? "invisible" : ""}`}>
                     <ChevronLeft className='cursor-pointer hover:scale-90 transition-all' onClick={clickLastMonth} />
                     <ChevronRight className='cursor-pointer hover:scale-90 transition-all' onClick={clickNextMonth} />
                 </div>

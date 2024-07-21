@@ -175,7 +175,7 @@ export default function TableauDeBord() {
         <div className="flex flex-row gap-4 h-full">
           <div className="w-2/5 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4">
             <h2 className="text-3xl font-extralight italic">Répartitions</h2>
-            <div className="flex flex-row justify-between w-full py-3 px-10">
+            <div className="flex flex-row justify-between w-full py-3 px-32">
               <CircleArrowLeft size={20} onClick={clickLastMonth} className="cursor-pointer hover:scale-95 transition-all" />
               <p className="font-thin italic">{convertDate(month)}</p>
               <CircleArrowRight size={20} onClick={clickNextMonth} className={`cursor-pointer hover:scale-95 transition-all ${month >= currentDate ? "invisible" : ""}`} />

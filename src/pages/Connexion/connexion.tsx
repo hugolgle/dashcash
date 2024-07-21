@@ -34,7 +34,7 @@ export default function Connexion() {
         <div className="flex flex-col">
           <label htmlFor="login" className='mb-2'>Nom d'utilisateur :</label>
           <input
-            className='w-96 h-10 px-2 rounded-xl'
+            className='w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700'
             id="login"
             type="text"
             value={username}
@@ -46,7 +46,7 @@ export default function Connexion() {
         <div className="flex flex-col">
           <label htmlFor="password" className='mb-2'>Mot de passe :</label>
           <input
-            className='w-96 h-10 px-2 rounded-xl'
+            className='w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700'
             id="password"
             type="password"
             value={password}

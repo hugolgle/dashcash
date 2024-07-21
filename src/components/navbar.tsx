@@ -59,13 +59,15 @@ export default function Navbar(props: any) {
     return (
         <>
             <section className='flex h-screen w-screen'>
+
                 <div className='sidebar flex flex-col justify-between items-center  w-1/5 h-screen py-10 px-4  bg-zinc-100 dark:bg-zinc-900 fixed transition-all'>
                     <Link to="/" className='font-logo text-2xl w-fit group text-center'>
                         <div className='flex justify-center items-center tracking-tight'>
-                            <p className='p-2 bg-transparent dark:bg-white text-white dark:text-zinc-900 group-hover:bg-white group-hover:dark:bg-transparent group-hover:text-zinc-900 group-hover:dark:text-white transition-all'>D A $ H</p>
-                            <p className='p-2 bg-white dark:bg-transparent text-zinc-900 dark:text-white group-hover:bg-transparent group-hover:dark:bg-white group-hover:text-white group-hover:dark:text-zinc-900 transition-all'>B O A R D</p>
+                            <p className='p-2 bg-transparent dark:bg-white text-zinc-900 dark:text-zinc-900 group-hover:bg-zinc-900 group-hover:dark:bg-transparent group-hover:text-white group-hover:dark:text-white transition-all'>D A $ H</p>
+                            <p className='p-2 bg-zinc-900 dark:bg-transparent text-white dark:text-white group-hover:bg-transparent group-hover:dark:bg-white group-hover:text-zinc-900 group-hover:dark:text-zinc-900 transition-all'>B O A R D</p>
                         </div>
                     </Link>
+                    <BtnTheme />
 
                     <div className='flex flex-col justify-between gap-4 w-full'>
                         <Link to="/tdb" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 transition-all ${activeLink.startsWith('/tdb') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>Tableau de bord</Link>
@@ -115,8 +117,8 @@ export default function Navbar(props: any) {
                     </div>
 
                     <p className='text-xs text-gray-400 absolute bottom-2'>© Hugo Le Galle - DashBoard v2.0.0</p>
-                    <BtnTheme />
                 </div>
+
                 <div className='relative content w-4/5 ml-auto p-4'>
                     <Outlet />
                     {props.children}

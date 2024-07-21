@@ -72,7 +72,7 @@ export default function LayoutTransac(props: any) {
             </div>
 
             <Link to="all" className="w-full  h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
-                <p className="italic">Depuis le début</p>
+                <p className="italic">Toutes les {props.type}s</p>
                 <p className="text-4xl">{calculTotal(props.type, userInfo.id, null)}</p>
             </Link>
         </section >
