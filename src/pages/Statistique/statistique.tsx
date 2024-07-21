@@ -93,6 +93,7 @@ export default function Statistique() {
   const economieTotale = calculEconomie(`${selectedYear}`, null, userInfo.id);
   const economieTotaleNumber = parseInt(economieTotale);
   const economieMonth = calculEconomie(`${selectedYear}`, selectedMonth, userInfo.id);
+  console.log(selectedYear, selectedMonth)
   const moyenneEconomie = calculMoyenneEconomie(moyenneDepenseMois, moyenneRecetteMois);
 
   return (

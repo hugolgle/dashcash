@@ -21,40 +21,56 @@
     ],
     "categorieDepense": [
         {
-            "name": "Bar/Boite"
+            "name": "Bar/Boite",
+            "categorie": "Loisir"
         },
         {
-            "name": "Resto"
+            "name": "Resto",
+            "categorie": "Loisir"
         },
         {
-            "name": "Santé"
+            "name": "Santé",
+            "categorie": "Fixe"
         },
         {
-            "name": "Sport"
+            "name": "Sport",
+            "categorie": "Loisir"
         },
         {
-            "name": "Activité"
+            "name": "Activité",
+            "categorie": "Loisir"
         },
         {
-            "name": "Carburant"
+            "name": "Carburant",
+            "categorie": "Fixe"
         },
         {
-            "name": "Coiffeur"
+            "name": "Coiffeur",
+            "categorie": "Fixe"
         },
         {
-            "name": "Vêtements"
+            "name": "Vêtements",
+            "categorie": "Loisir"
         },
         {
-            "name": "Courses"
+            "name": "Courses",
+            "categorie": "Fixe"
         },
         {
-            "name": "Abonnement"
+            "name": "Abonnement",
+            "categorie": "Fixe"
         },
         {
-            "name": "Autre"
+            "name": "Autre",
+            "categorie": "Fixe"
         },
         {
-            "name": "Achat"
+            "name": "Achat",
+            "categorie": "Loisir"
+        },
+        {
+            "name": "Voyage",
+            "categorie": "Loisir"
         }
     ],
     "categorieAbonnement": [

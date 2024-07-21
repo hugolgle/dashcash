@@ -15,7 +15,6 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
-
     },
 
     fontFamily: {
@@ -23,9 +22,9 @@ module.exports = {
     },
     extend: {
       colors: {
-        colorChart1: "#e76e50",
-        colorChart2: "#299d90",
-        colorChart3: "#264753",
+        colorChart1: "hsl(var(--chart-1))",
+        colorChart2: "hsl(var(--chart-2))",
+        colorChart3: "hsl(var(--chart-3))",
         fontBg: "#242424",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
