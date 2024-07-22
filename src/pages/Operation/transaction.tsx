@@ -45,8 +45,6 @@ export default function Transaction() {
 
     const [selectedCategorie, setSelectedCategorie] = useState(transaction.categorie);
 
-    const [selectedAutreCategorie, setSelectedAutreCategorie] = useState(transaction.autreCategorie);
-
     const [selectedDate, setSelectedDate] = useState(transaction.date);
 
     const [selectedDetail, setSelectedDetail] = useState(transaction.detail);
@@ -72,10 +70,6 @@ export default function Transaction() {
 
     const handleCategorie = (event: any) => {
         setSelectedCategorie(event.target.value);
-    };
-
-    const handleAutreCategorie = (event: any) => {
-        setSelectedAutreCategorie(event.target.value);
     };
 
     const handleDate = (event: any) => {
@@ -129,7 +123,6 @@ export default function Transaction() {
             type: transaction.type,
             titre: selectedTitre,
             categorie: selectedCategorie,
-            autreCategorie: selectedAutreCategorie,
             date: selectedDate,
             detail: selectedDetail,
             montant: formatMontant(removeTiret(selectedMontant), transaction.type),
@@ -181,14 +174,9 @@ export default function Transaction() {
                                 ))}
                             </select>
                         ) : (
-                            <h2 className="text-4xl">{transaction.categorie === "Autre" ? transaction.autreCategorie : transaction.categorie}</h2>
+                            <h2 className="text-4xl">{transaction.categorie}</h2>
                         )}
                     </div>
-                    {selectedCategorie === "Autre" && selectedUpdate && (
-                        <div className={`h-40 w-full p-8 bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
-                            <input className="h-full w-full bg-transparent text-center text-4xl rounded-2xl placeholder:text-xl" type="text" value={selectedAutreCategorie} name="titre" id="autreTitre" onChange={(e) => { handleAutreCategorie(e); handleInputChange(); }} placeholder="Entrez une autre categorie" />
-                        </div>
-                    )}
 
                     <div className={`h-40 w-full bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                         {

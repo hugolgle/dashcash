@@ -90,9 +90,7 @@ export default function Tableau(props: any) {
                                     >
                                         <TableCell className="w-full">{transaction._id.substring(4, 8)}</TableCell>
                                         <TableCell className="w-full">{transaction.titre}</TableCell>
-                                        <TableCell className="w-full">
-                                            {transaction.categorie === "Autre" ? transaction.autreCategorie : transaction.categorie}
-                                        </TableCell>
+                                        <TableCell className="w-full">{transaction.categorie}</TableCell>
                                         <TableCell className="w-full">{formatDate(transaction.date)}</TableCell>
                                         <TableCell className="w-full">
                                             <b>{addSpace(transaction.montant)} €</b>

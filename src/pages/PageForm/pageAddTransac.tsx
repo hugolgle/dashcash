@@ -30,8 +30,6 @@ export default function PageAddTransac(props: any) {
 
   const [selectedCategorie, setSelectedCategorie] = useState('');
 
-  const [selectedAutreCategorie, setSelectedAutreCategorie] = useState('');
-
   const [selectedDate, setSelectedDate] = useState(getCurrentDate);
 
   const [selectedDetail, setSelectedDetail] = useState("");
@@ -55,17 +53,12 @@ export default function PageAddTransac(props: any) {
   const resetForm = () => {
     setSelectedTitre("");
     setSelectedCategorie("");
-    setSelectedAutreCategorie("");
     setSelectedDetail("");
     setSelectedMontant("");
   }
 
   const handleCategorie = (event: any) => {
     setSelectedCategorie(event.target.value);
-  };
-
-  const handleAutreCategorie = (event: any) => {
-    setSelectedAutreCategorie(event.target.value);
   };
 
   const handleDateChange = (event: any) => {
@@ -91,7 +84,6 @@ export default function PageAddTransac(props: any) {
       user: userInfo.id,
       type: props.type,
       categorie: selectedCategorie,
-      autreCategorie: selectedAutreCategorie,
       titre: selectedTitre,
       date: selectedDate,
       detail: selectedDetail,
@@ -142,12 +134,6 @@ export default function PageAddTransac(props: any) {
           })
         }
       </select>
-      {
-        selectedCategorie === "Autre" &&
-
-        <input className="w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700" type="text" value={selectedAutreCategorie} name="titre" maxLength={20} id="autreTitre" onChange={(e) => { handleAutreCategorie(e); handleInputChange(); }} placeholder="Entrez une autre categorie" />
-
-      }
 
       <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700 text-slate-400" type="date" name="" id="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
 

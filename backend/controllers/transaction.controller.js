@@ -10,7 +10,6 @@ module.exports.setTransactions = async (req, res) => {
             user: req.body.user,
             type: req.body.type,
             categorie: req.body.categorie,
-            autreCategorie: req.body.autreCategorie,
             titre: req.body.titre,
             date: req.body.date,
             detail: req.body.detail || '',

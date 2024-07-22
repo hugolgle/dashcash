@@ -41,7 +41,7 @@
             "categorie": "Loisir"
         },
         {
-            "name": "Carburant",
+            "name": "Véhicule",
             "categorie": "Fixe"
         },
         {
@@ -49,11 +49,11 @@
             "categorie": "Fixe"
         },
         {
-            "name": "Vêtements",
+            "name": "Shopping",
             "categorie": "Loisir"
         },
         {
-            "name": "Courses",
+            "name": "Alimentation",
             "categorie": "Fixe"
         },
         {
@@ -61,7 +61,7 @@
             "categorie": "Fixe"
         },
         {
-            "name": "Autre",
+            "name": "Divers",
             "categorie": "Fixe"
         },
         {

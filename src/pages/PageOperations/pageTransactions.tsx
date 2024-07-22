@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { convertDate } from '../../utils/fonctionnel';
 import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul';
 import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType } from '../../utils/operations';
@@ -17,29 +17,13 @@ import { categorieRecette } from '../../../public/categories.json'
 export default function PageTransactions(props: any) {
 
     const userInfo = infoUser();
-
     const [transactionDeleted, setTransactionDeleted] = useState(false);
-
-    useEffect(() => {
-        const isTransactionDeleted = localStorage.getItem('transactionDeleted') === 'true';
-
-        if (isTransactionDeleted) {
-            setTransactionDeleted(true);
-
-            localStorage.removeItem('transactionDeleted');
-            const timeout = setTimeout(() => {
-                setTransactionDeleted(false);
-            }, 7000);
-
-            return () => clearTimeout(timeout);
-        }
-    }, []);
-
     const { date } = useParams();
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const typeProps = props.type === "Dépense" ? "depense" : props.type === "Recette" ? "recette" : undefined;
-
-    const [selectOpe, setSelectOpe] = useState(false)
+    const [selectOpe, setSelectOpe] = useState(false);
 
     const handleSelectOpe = () => {
         setSelectOpe(!selectOpe);
@@ -50,10 +34,21 @@ export default function PageTransactions(props: any) {
         : props.type === "Recette"
             ? categorieSort(categorieRecette)
             : "";
-    const [showModal, setShowModal] = useState(false);
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    ;
 
+    const [showModal, setShowModal] = useState(false);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(searchParams.getAll('categories'));
+
+    useEffect(() => {
+        const isTransactionDeleted = localStorage.getItem('transactionDeleted') === 'true';
+        if (isTransactionDeleted) {
+            setTransactionDeleted(true);
+            localStorage.removeItem('transactionDeleted');
+            const timeout = setTimeout(() => {
+                setTransactionDeleted(false);
+            }, 7000);
+            return () => clearTimeout(timeout);
+        }
+    }, []);
 
     const toggleModal = () => {
         setShowModal(!showModal);
@@ -62,30 +57,24 @@ export default function PageTransactions(props: any) {
     const handleCheckboxChange = (event: any) => {
         const value = event.target.value;
         const isChecked = event.target.checked;
+        const updatedCategories = isChecked
+            ? [...selectedCategories, value]
+            : selectedCategories.filter(cat => cat !== value);
 
-        if (event.target.name === 'categorie') {
-            if (isChecked) {
-                setSelectedCategories([...selectedCategories, value]);
-            } else {
-                setSelectedCategories(selectedCategories.filter(cat => cat !== value));
-            }
-        }
-    }
+        setSelectedCategories(updatedCategories);
+        setSearchParams({ categories: updatedCategories });
+    };
 
     const check = selectedCategories.length;
-
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState<any[]>([]);
 
     const performSearch = (term: string) => {
         const filteredTransactions = transactions.filter((transaction: any) => {
             const titleMatches = transaction.titre.toLowerCase().includes(term.toLowerCase());
-
             const categoryMatches = transaction.categorie.toLowerCase().includes(term.toLowerCase());
-
             return titleMatches || categoryMatches;
         });
-
         setSearchResults(filteredTransactions);
     };
 
@@ -94,10 +83,11 @@ export default function PageTransactions(props: any) {
         performSearch(event.target.value);
     };
 
-    const transactions = date === "all" ? getTransactionsByType(props.type, userInfo.id, selectedCategories) :
-        date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories) :
-            getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories);
-
+    const transactions = date === "all"
+        ? getTransactionsByType(props.type, userInfo.id, selectedCategories)
+        : date?.length === 4
+            ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories)
+            : getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories);
 
     useEffect(() => {
         if (searchTerm === "") {
@@ -107,10 +97,9 @@ export default function PageTransactions(props: any) {
 
     const clearFilters = () => {
         setSelectedCategories([]);
+        setSearchParams({});
         setShowModal(false);
     };
-
-    const navigate = useNavigate()
 
     const clickLastMonth = () => {
         if (date) {
@@ -154,7 +143,6 @@ export default function PageTransactions(props: any) {
             } else {
                 return ""
             }
-
         }
     };
 
@@ -163,7 +151,7 @@ export default function PageTransactions(props: any) {
     return (
         <>
             <div className="w-full relative">
-                <h2 className="text-5xl font-thin mb-9">{props.type}s de {date === "all" ? "tout temps" : date?.length === 4 ? date : convertDate(date)}</h2>
+                <h2 className="text-5xl font-thin mb-9">{date === "all" ? `Toutes les ${props.type.toLowerCase()}s` : date?.length === 4 ? `${props.type}s de ${date}` : `${props.type}s de ${convertDate(date)}`}</h2>
                 <div className='absolute top-0 flex flex-row w-full gap-2'>
                     <BtnReturn />
                     <BtnAdd to={`/${typeProps}`} />

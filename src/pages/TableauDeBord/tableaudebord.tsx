@@ -145,7 +145,7 @@ export default function TableauDeBord() {
                     className={`bg-opacity-15 rounded h-full flex flex-row items-center py-1 text-sm ${transaction.type === "Recette" ? "bg-green-600" : transaction.type === "Dépense" ? "bg-red-600" : ""}`}>
                     <td className="w-full">{convertirFormatDate(transaction.date)}</td>
                     <td className="w-full">{transaction.titre}</td>
-                    <td className="w-full">{transaction.categorie === "Autre" ? transaction.autreCategorie : transaction.categorie}</td>
+                    <td className="w-full">{transaction.categorie}</td>
                     <td className="w-full"><b>{addSpace(transaction.montant)} €</b></td>
                   </tr>
                 ))}

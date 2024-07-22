@@ -35,10 +35,6 @@ const transactionSchema = new Schema(
             type: String,
             required: true,
         },
-        autreCategorie: {
-            type: String,
-            required: false,
-        },
         titre: {
             type: String,
             required: true,
