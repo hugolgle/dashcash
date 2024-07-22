@@ -1,3 +1,4 @@
+import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/home';
@@ -17,10 +18,7 @@ import PageInvestment from './pages/PageOperations/pageInvestment';
 import Investment from './pages/Operation/investment';
 import Refund from './pages/Operation/refund';
 import LayoutRefund from './layout/layoutRefund';
-import { ThemeProvider } from "./components/Theme/theme.provider"
-import PageAddSubscription from './pages/PageForm/pageAddAbonnement';
-import LayoutAbonnement from './layout/layoutAbonnement';
-import Abonnement from './pages/Abonnement/abonnement';
+import { ThemeProvider } from "./components/Theme/theme.provider";
 
 function App() {
 
@@ -29,114 +27,30 @@ function App() {
       element: <Navbar />,
       errorElement: <Navbar><h1>Page introuvable !</h1></Navbar>,
       children: [
-        {
-          path: '/',
-          element: <Home />
-        },
-        {
-          path: '/tdb',
-          element: <TableauDeBord />
-        },
-        {
-          path: '/depense',
-          element: <LayoutTransac type="Dépense" />,
-        },
-        {
-          path: '/depense/add',
-          element: <PageAddTransac type="Dépense" />,
-        },
-        {
-          path: '/depense/:date',
-          element: <PageTransactions type="Dépense" />,
-        },
-        {
-          path: '/depense/:date/:id',
-          element: <Transaction />,
-        },
-        {
-          path: '/depense/:date/:id/refund',
-          element: <LayoutRefund />,
-        },
-        {
-          path: '/depense/:date/:id/refund/:idRefund',
-          element: <Refund />,
-        },
-        {
-          path: '/depense/abonnement',
-          element: <LayoutAbonnement />,
-        },
-        {
-          path: '/depense/abonnement/add',
-          element: <PageAddSubscription />,
-        },
-        {
-          path: '/depense/abonnement/:id',
-          element: <Abonnement />,
-        },
-        {
-          path: '/recette',
-          element: <LayoutTransac type="Recette" />,
-        },
-        {
-          path: '/recette/add',
-          element: <PageAddTransac type="Recette" />,
-        },
-        {
-          path: '/recette/:date',
-          element: <PageTransactions type="Recette" />,
-        },
-        {
-          path: '/recette/:date/:id',
-          element: <Transaction />,
-        },
-        {
-          path: '/invest',
-          element: <LayoutInvest />
-        },
-        {
-          path: '/invest/add',
-          element: <PageAddInvest />
-        },
-        {
-          path: '/invest/operations',
-          element: <PageInvestment sold={null} />
-        },
-        {
-          path: '/invest/operationsVendu',
-          element: <PageInvestment sold={true} />
-        },
-        {
-          path: '/invest/operationsC',
-          element: <PageInvestment sold={false} />
-        },
-        {
-          path: '/invest/operations/:id',
-          element: <Investment />
-        },
-        {
-          path: '/invest/operationsVendu/:id',
-          element: <Investment />
-        },
-        {
-          path: '/invest/operationsC/:id',
-          element: <Investment />
-        },
-        {
-          path: '/stat',
-          element: <Statistique />
-        },
-        {
-          path: '/profil',
-          element: <Profil />
-        },
-        {
-          path: '/connexion',
-          element: <Connexion />
-        },
-        {
-          path: '/inscription',
-          element: <Inscription />
-        },
+        { path: '/', element: <Home /> },
+        { path: '/tdb', element: <TableauDeBord /> },
+        { path: '/depense', element: <LayoutTransac type="Dépense" /> },
+        { path: '/depense/add', element: <PageAddTransac type="Dépense" /> },
+        { path: '/depense/:date', element: <PageTransactions type="Dépense" /> },
+        { path: '/depense/:date/:id', element: <Transaction /> },
+        { path: '/depense/:date/:id/refund', element: <LayoutRefund /> },
+        { path: '/depense/:date/:id/refund/:idRefund', element: <Refund /> },
+        { path: '/recette', element: <LayoutTransac type="Recette" /> },
+        { path: '/recette/add', element: <PageAddTransac type="Recette" /> },
+        { path: '/recette/:date', element: <PageTransactions type="Recette" /> },
+        { path: '/recette/:date/:id', element: <Transaction /> },
+        { path: '/invest', element: <LayoutInvest /> },
+        { path: '/invest/add', element: <PageAddInvest /> },
+        { path: '/invest/operations', element: <PageInvestment sold={null} /> },
+        { path: '/invest/operationsVendu', element: <PageInvestment sold={true} /> },
+        { path: '/invest/operationsC', element: <PageInvestment sold={false} /> },
+        { path: '/invest/operations/:id', element: <Investment /> },
+        { path: '/invest/operationsVendu/:id', element: <Investment /> },
+        { path: '/invest/operationsC/:id', element: <Investment /> },
+        { path: '/stat', element: <Statistique /> },
+        { path: '/profil', element: <Profil /> },
+        { path: '/connexion', element: <Connexion /> },
+        { path: '/inscription', element: <Inscription /> },
       ]
     }
   ]);
@@ -148,5 +62,4 @@ function App() {
   );
 }
 
-
-export default App
+export default App;

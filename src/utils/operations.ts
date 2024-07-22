@@ -209,18 +209,3 @@ export function getRefundByTransactionId(transactionId: any, refundId: any, user
         return null;
     }
 }
-
-// -------------------------------- Abonnement
-
-export function getSubscriptions(idUser: any) {
-    const abonnements = useSelector((state: any) => state.subscriptionReducer || []);
-
-    return abonnements.filter((abonnement: any) => abonnement.user === idUser);
-}
-
-export function getSubscriptionById(subscriptionId: any, userId: any) {
-    const abonnements = useSelector((state: any) => state.subscriptionReducer || []);
-    const userAbonnements = abonnements.filter((subscription: any) => subscription.user === userId);
-
-    return userAbonnements.find((subscription: any) => subscription._id === subscriptionId);
-}

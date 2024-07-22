@@ -25,7 +25,7 @@ export default function LayoutTransac(props: any) {
         </div>
 
         <section className="flex flex-row gap-4">
-            <div className="flex flex-col gap-4 w-4/5">
+            <div className="flex flex-col gap-4 w-full">
 
                 <div className="flex flex-row w-full h-64 gap-4">
 
@@ -78,16 +78,6 @@ export default function LayoutTransac(props: any) {
                     <p className="text-4xl">{calculTotal(props.type, userInfo.id, null)}</p>
                 </Link>
             </div>
-            {props.type === "Dépense" ? (
-                <>
-                    <div className="h-2/3 w-4 bg-zinc-400 dark:bg-zinc-900"></div>
-                    <div className="flex flex-col gap-4 w-1/5 text-center">
-                        <Link to="abonnement" className="w-full h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
-                            <p className="italic">Mes abonnements</p>
-                        </Link>
-                    </div>
-                </>
-            ) : ""}
 
         </section>
     </>
