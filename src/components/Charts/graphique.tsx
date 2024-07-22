@@ -1,102 +1,153 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
+import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from "recharts";
+import { CardContent } from "../../../@/components/ui/card";
+import { ChartConfig } from "../../../@/components/ui/chart";
+import { addSpace, separateMillier } from "../../utils/fonctionnel";
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "../../../@/components/ui/card"
-import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-} from "../../../@/components/ui/chart"
-const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-]
+// Composant personnalisé pour le Tooltip
+export function Graphique({ data }: { data: { month: string, montantDepense: number, montantRecette: number, year: number }[] }) {
+    const CustomTooltip = (props: TooltipProps<any, any>) => {
+        const { active, payload, label } = props;
 
-const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "hsl(var(--chart-1))",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "hsl(var(--chart-2))",
-    },
-} satisfies ChartConfig
+        if (active && payload && payload.length) {
+            const year = data.find(d => d.month === label)?.year;
+            const economieMonth = payload[0].value - payload[1].value
+            return (
+                <div className="bg-white dark:bg-black text-xs p-2 rounded-xl shadow-2xl " >
+                    <div className="text-left mb-1">
+                        <p style={{ color: 'hsl(var(--primary))' }}>{label} {year}</p>
+                    </div>
+                    <div className="flex flex-col">
+                        <div className="flex flex-row justify-between gap-4">
+                            <div className="flex flex-row justify-center items-center gap-1">
+                                <div className="w-2 h-2 rounded bg-colorRecette">
 
-export function Graphique() {
+                                </div>
+                                <p className=" opacity-75">Recette</p>
+                            </div>
+                            <p className="italic font-black">{addSpace(payload[0].value)} €</p>
+                        </div>
+                        <div className="flex flex-row justify-between gap-4">
+                            <div className="flex flex-row justify-center items-center gap-1">
+                                <div className="w-2 h-2 rounded bg-colorDepense">
+
+                                </div>
+                                <p className=" opacity-75">Dépense</p>
+                            </div>
+                            <p className="italic font-black">{addSpace(payload[1].value)} €</p>
+                        </div>
+                        <div className="flex flex-row justify-between gap-4">
+                            <div className="flex flex-row justify-center items-center gap-1">
+                                <div className="w-2 h-2 rounded">
+
+                                </div>
+                                <p className=" opacity-75">Économie</p>
+                            </div>
+                            <p className="italic font-black">{addSpace(economieMonth.toFixed(2))} €</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            );
+        }
+
+        return null;
+    };
+
+    // Trouver la valeur maximale parmi les données pour ajuster l'axe Y
+    const maxValue = Math.max(
+        ...data.map((item) => Math.max(item.montantDepense, item.montantRecette))
+    );
+
+    // Déterminer une valeur maximale légèrement supérieure à la valeur maximale des données pour l'axe Y
+    const yAxisDomain = [0, maxValue * 1.1]; // Ajuste le domaine pour éviter le débordement
+    const ticks = Array.from({ length: 4 }, (_, i) => Math.ceil(maxValue * 1.1 * i / 3));
+
+    // Configuration des courbes
+    const chartConfig: ChartConfig = {
+        montantRecette: {
+            label: "Recette",
+            color: "hsl(var(--graph-recette))", // Couleur de la ligne pour montantRecette
+        },
+        montantDepense: {
+            label: "Dépense",
+            color: "hsl(var(--graph-depense))", // Couleur de la ligne pour montantDepense
+        },
+        text: {
+            color: "hsl(var(--foreground))", // Couleur du texte pour les labels
+        },
+    };
+
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Line Chart - Label</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <ChartContainer config={chartConfig}>
-                    <LineChart
-                        accessibilityLayer
-                        data={chartData}
-                        margin={{
-                            top: 20,
-                            left: 12,
-                            right: 12,
-                        }}
+        <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+                <LineChart
+                    data={data}
+                    margin={{ top: 20, left: 0, right: 40, bottom: 10 }}
+                >
+                    <CartesianGrid
+                        strokeDasharray="3" // Style de ligne pointillée
+                        stroke={chartConfig.text.color} // Couleur de la grille
+                        vertical={false} // Pas de lignes verticales
+                    />
+
+                    <XAxis
+                        dataKey="month"
+                        tick={{ fontSize: 12, fill: chartConfig.text.color }}
+                        tickFormatter={(value) => `${value}`}
+                        axisLine={{ stroke: chartConfig.text.color, strokeWidth: 1 }}
+                    />
+
+                    <YAxis
+                        domain={yAxisDomain}
+                        ticks={ticks}
+                        tickFormatter={(value) => `${addSpace(value)} €`}
+                        tick={{ fontSize: 12, fill: chartConfig.text.color }}
+                        axisLine={{ stroke: chartConfig.text.color, strokeWidth: 1 }}
+                        tickLine={{ stroke: chartConfig.text.color }}
+                    />
+
+                    <Tooltip content={<CustomTooltip />} />
+
+                    <Line
+                        dataKey="montantRecette"
+                        type="natural"
+                        stroke={chartConfig.montantRecette.color} // Utiliser la couleur de chartConfig
+                        strokeWidth={2}
+                        dot={{ fill: chartConfig.montantRecette.color, r: 4 }}
+                        activeDot={{ r: 6 }}
                     >
-                        <CartesianGrid vertical={false} />
-                        <XAxis
-                            dataKey="month"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            tickFormatter={(value) => value.slice(0, 3)}
+                        <LabelList
+                            fontWeight={100}
+                            position="top"
+                            stroke={chartConfig.montantRecette.color}
+                            offset={10}
+                            fontSize={12}
+                            formatter={(value: any) => `${addSpace(value)} €`} // Ajouter € derrière les valeurs
                         />
-                        <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent indicator="line" />}
+                    </Line>
+
+                    <Line
+                        dataKey="montantDepense"
+                        type="natural"
+                        stroke={chartConfig.montantDepense.color} // Utiliser la couleur de chartConfig
+                        strokeWidth={2}
+                        dot={{ fill: chartConfig.montantDepense.color, r: 4 }}
+                        activeDot={{ r: 6 }}
+                    >
+                        <LabelList
+                            fontWeight={100}
+                            stroke={chartConfig.montantDepense.color}
+                            position="top"
+                            offset={10}
+                            fontSize={12}
+                            formatter={(value: any) => `${addSpace(value)} €`} // Ajouter € derrière les valeurs
                         />
-                        <Line
-                            dataKey="desktop"
-                            type="natural"
-                            stroke="var(--color-desktop)"
-                            strokeWidth={2}
-                            dot={{
-                                fill: "var(--color-desktop)",
-                            }}
-                            activeDot={{
-                                r: 6,
-                            }}
-                        >
-                            <LabelList
-                                position="top"
-                                offset={12}
-                                className="fill-foreground"
-                                fontSize={12}
-                            />
-                        </Line>
-                    </LineChart>
-                </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-                <div className="flex gap-2 font-medium leading-none">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                </div>
-                <div className="leading-none text-muted-foreground">
-                    Showing total visitors for the last 6 months
-                </div>
-            </CardFooter>
-        </Card>
-    )
+                    </Line>
+                </LineChart>
+            </ResponsiveContainer>
+        </CardContent>
+    );
 }

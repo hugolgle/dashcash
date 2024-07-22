@@ -1,12 +1,13 @@
-import { getLastFiveTransactionsByType } from "../../utils/operations";
+import { getLastTransactionsByType } from "../../utils/operations";
 import { calculEconomie, calculTotalByMonth } from "../../utils/calcul";
 import { infoUser } from "../../utils/users";
 import { addSpace, convertDate, convertirFormatDate } from "../../utils/fonctionnel";
 import { Camembert } from "../../components/Charts/camembert";
-import { CircleArrowLeft, CircleArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Graphique } from "../../components/Charts/graphique";
 import { categorieDepense } from '../../../public/categories.json'
+import { getLastSixMonths } from "../../utils/autre";
 
 export default function TableauDeBord() {
 
@@ -49,7 +50,7 @@ export default function TableauDeBord() {
 
   const economieLastMonth = calculEconomie(`${previousYear}`, newPreviousMonth, userInfo.id);
 
-  const lastTransactions = getLastFiveTransactionsByType(null, userInfo.id)
+  const lastTransactions = getLastTransactionsByType(null, userInfo.id, 6)
 
   const formatData = (data: string) => {
     const cleanedData = data.replace(/[^\d.-]/g, '').replace(/ /g, '');
@@ -111,34 +112,91 @@ export default function TableauDeBord() {
 
   const montantEpargne = parseFloat(montantRecettesLastMonth) - parseFloat(montantTotalLoisirDf);
 
+  const [graphMonth, setGraphMonth] = useState(currentDate)
+
+
+  const clickNextMonthGraph = () => {
+    let yearNum = parseInt(graphMonth.slice(0, 4), 10);
+    let monthNum = parseInt(graphMonth.slice(4), 10);
+    monthNum += 1;
+    if (monthNum === 13) {
+      monthNum = 1;
+      yearNum += 1;
+    }
+    const newMonth = monthNum.toString().padStart(2, '0');
+    const newDate = `${yearNum}${newMonth}`;
+    setGraphMonth(newDate);
+  };
+
+  const clickLastMonthGraph = () => {
+    let yearNum = parseInt(graphMonth.slice(0, 4), 10);
+    let monthNum = parseInt(graphMonth.slice(4), 10);
+    monthNum -= 1;
+    if (monthNum === 0) {
+      monthNum = 12;
+      yearNum -= 1;
+    }
+    const newMonth = monthNum.toString().padStart(2, '0');
+    const newDate = `${yearNum}${newMonth}`;
+    setGraphMonth(newDate);
+  };
+
+  // Obtenir les 6 derniers mois et leurs montants
+  const lastSixMonths = getLastSixMonths(graphMonth);
+
+  const montantDepenseByMonth: any = [];
+  const montantRecetteByMonth: any = [];
+
+  lastSixMonths.forEach(({ code }) => {
+    const montantDepenses = calculTotalByMonth("Dépense", code, userInfo.id, null);
+    const montantRecettes = calculTotalByMonth("Recette", code, userInfo.id, null);
+
+    montantDepenseByMonth.push(formatData(montantDepenses));
+    montantRecetteByMonth.push(formatData(montantRecettes));
+  });
+
+  // Préparer les données pour le graphique
+  const dataGraph = lastSixMonths.map((monthData, index) => ({
+    month: monthData.month,
+    year: monthData.year,
+    montantDepense: montantDepenseByMonth[index],
+    montantRecette: montantRecetteByMonth[index],
+  }));
+
+  const firstMonth = lastSixMonths[0]
+
+  const lastMonth = lastSixMonths[lastSixMonths.length - 1]
+
   return (
     <>
       <h2 className="text-5xl font-thin mb-9">Tableau de bord</h2>
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4 py-4">
         <div className="flex flex-row gap-4 h-full">
-          <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
+          <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
             <h2 className="text-3xl font-extralight italic">Mois en cours</h2>
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-row gap-4">
-                <div className="flex flex-col text-center w-full bg-green-600 py-3 rounded bg-opacity-15">
+            <div className="flex flex-col gap-4 h-full">
+              <div className="flex flex-row gap-4 h-1/2">
+                <div className="flex flex-col w-full h-full bg-green-600 py-3 rounded bg-opacity-15 items-center justify-center">
                   <p>Recettes</p>
                   <p className="font-bold">{montantRecettesMonth}</p>
                 </div>
-                <div className="flex flex-col text-center w-full bg-red-600 py-3 rounded bg-opacity-15">
+                <div className="flex flex-col w-full h-full bg-red-600 py-3 rounded bg-opacity-15 items-center justify-center">
                   <p>Dépenses</p>
                   <p className="font-bold">{montantDepensesMonth}</p>
                 </div>
               </div>
-              <div className="flex flex-col text-center w-full bg-slate-600 py-3 rounded bg-opacity-15">
-                <p>Économie</p>
-                <p className="font-bold">{economiesCurrentMonth} €</p>
+              <div className="flex flex-row gap-4 h-1/2">
+                <div className="flex flex-col  w-full h-full bg-zinc-600 py-3 rounded bg-opacity-15 items-center justify-center">
+                  <p>Économie</p>
+                  <p className="font-bold">{economiesCurrentMonth} €</p>
+                </div>
               </div>
             </div>
           </div>
-          <div className="w-full bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
+          <div className="w-full bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
             <h2 className="text-3xl font-extralight italic">Dernières transactions</h2>
-            <table className="h-max">
-              <tbody className="w-full flex flex-col gap-2">
+            <table className="h-full">
+              <tbody className="w-full h-full flex flex-col gap-2">
                 {lastTransactions.map((transaction: any) => (
                   <tr
                     key={transaction._id}
@@ -152,33 +210,39 @@ export default function TableauDeBord() {
               </tbody>
             </table>
           </div>
-          <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 flex flex-col gap-4">
+          <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
             <h2 className="text-3xl font-extralight italic">Mois dernier</h2>
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-row gap-4">
-                <div className="flex flex-col text-center w-full bg-green-600 py-3 rounded bg-opacity-15">
+            <div className="flex flex-col gap-4 h-full">
+              <div className="flex flex-row gap-4 h-1/2">
+                <div className="flex flex-col w-full h-full bg-green-600 py-3 rounded bg-opacity-15 items-center justify-center">
                   <p>Recettes</p>
                   <p className="font-bold">{montantRecettesLastMonth}</p>
                 </div>
-                <div className="flex flex-col text-center w-full bg-red-600 py-3 rounded bg-opacity-15">
+                <div className="flex flex-col w-full h-full bg-red-600 py-3 rounded bg-opacity-15 items-center justify-center">
                   <p>Dépenses</p>
                   <p className="font-bold">{montantDepensesLastMonth}</p>
                 </div>
               </div>
-              <div className="flex flex-col text-center w-full bg-slate-600 py-3 rounded bg-opacity-15">
-                <p>Économie</p>
-                <p className="font-bold">{economieLastMonth} €</p>
+              <div className="flex flex-row gap-4 h-1/2">
+                <div className="flex flex-col w-full h-full bg-zinc-600 py-3 rounded bg-opacity-15 items-center justify-center">
+                  <p>Économie</p>
+                  <p className="font-bold">{economieLastMonth} €</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className="flex flex-row gap-4 h-full">
-          <div className="w-2/5 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4">
+          <div className="w-5/12 bg-zinc-100  dark:bg-zinc-900 rounded-xl p-4">
             <h2 className="text-3xl font-extralight italic">Répartitions</h2>
             <div className="flex flex-row justify-between w-full py-3 px-32">
-              <CircleArrowLeft size={20} onClick={clickLastMonth} className="cursor-pointer hover:scale-95 transition-all" />
+              <ChevronLeft size={20} onClick={clickLastMonth} className="cursor-pointer hover:scale-95 transition-all" />
               <p className="font-thin italic">{convertDate(month)}</p>
-              <CircleArrowRight size={20} onClick={clickNextMonth} className={`cursor-pointer hover:scale-95 transition-all ${month >= currentDate ? "invisible" : ""}`} />
+              <ChevronRight
+                size={20}
+                onClick={clickNextMonth}
+                className={`cursor-pointer hover:scale-95 transition-all ${month >= currentDate ? "invisible" : ""}`}
+              />
             </div>
             <Camembert dataDf={formatData(dataDf)} dataLoisir={formatData(dataLoisir)} dataEpargne={montantEpargne} total={formatData(total)} />
             <div className="flex flex-row justify-evenly w-full mt-2">
@@ -203,9 +267,14 @@ export default function TableauDeBord() {
 
             </div>
           </div>
-          <div className="w-3/5 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-80 p-4">
+          <div className="w-7/12 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 relative">
             <h2 className="text-3xl font-extralight italic">Graphique</h2>
-            {/* <Graphique /> */}
+            <Graphique data={dataGraph} />
+            <div className={`flex flex-row gap-4 w-full px-40 justify-between bottom-2`}>
+              <ChevronLeft className='cursor-pointer hover:scale-90 transition-all' onClick={clickLastMonthGraph} />
+              <p className="text-sm italic">{firstMonth.month} {firstMonth.year} - {lastMonth.month} {lastMonth.year}</p>
+              <ChevronRight className='cursor-pointer hover:scale-90 transition-all' onClick={clickNextMonthGraph} />
+            </div>
           </div>
         </div>
       </section>

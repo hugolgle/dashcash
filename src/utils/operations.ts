@@ -120,7 +120,7 @@ export function getTransactionsByYear(year: any, type: any, idUser: any, filterC
     return transactionsInYear;
 }
 
-export function getLastFiveTransactionsByType(type: any, idUser: any) {
+export function getLastTransactionsByType(type: any, idUser: any, number: Number) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
     const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
 
@@ -146,7 +146,7 @@ export function getLastFiveTransactionsByType(type: any, idUser: any) {
     filteredTransactionsThisMonth.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     filteredTransactionsThisMonth.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    const lastFiveTransactions = filteredTransactionsThisMonth.slice(0, 5);
+    const lastFiveTransactions = filteredTransactionsThisMonth.slice(0, number);
 
     return lastFiveTransactions;
 }

@@ -14,7 +14,7 @@ export default function PageInvestment(props: any) {
 
     return (
         <>
-            <section className="w-full relative">
+            <section className="w-full relative py-4">
                 <h2 className="text-5xl font-thin mb-9">Investissements</h2>
                 <div className='absolute top-0 flex flex-row w-full gap-2'>
                     <BtnReturn />

@@ -62,7 +62,7 @@ export default function Profil() {
       <h2 className="text-5xl font-thin mb-9">Profil</h2>
     </div>
 
-    <section className=" flex flex-row gap-4">
+    <section className=" flex flex-row gap-4 py-4">
       <div className=" flex-col w-3/4 py-12 bg-zinc-100 dark:bg-zinc-900 flex justify-start items-center rounded-2xl gap-6">
         <div className="rounded-full bg-slate-500 w-32 h-32">
           <p>PP</p>

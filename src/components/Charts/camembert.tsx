@@ -47,7 +47,7 @@ export function Camembert(props: any) {
     } satisfies ChartConfig
 
     return <>
-        <ResponsiveContainer width="100%" height={170}>
+        <ResponsiveContainer width="100%" height={200}>
             <ChartContainer
                 config={chartConfig}
                 className="mx-auto aspect-square max-h-[250px]"
@@ -59,7 +59,7 @@ export function Camembert(props: any) {
                         nameKey="categorie"
                         innerRadius={40}
                         outerRadius={50}
-                        label={({ pourcentage, montant, objectif }) => `${pourcentage.toFixed(2)}%, ${objectif}% (${montant.toFixed(2)} €)`}
+                        label={({ pourcentage, montant, objectif }) => `${pourcentage.toFixed(2)}%, ${objectif}% (${addSpace(montant.toFixed(2))} €)`}
                     >
                         <Label
                             content={({ viewBox }) => {
@@ -70,7 +70,7 @@ export function Camembert(props: any) {
                                             y={viewBox.cy}
                                             textAnchor="middle"
                                             dominantBaseline="middle"
-                                            className="text-red-100"
+                                            className="text-red-100 w- flex-wrap"
                                         >
                                             <tspan
                                                 x={viewBox.cx}

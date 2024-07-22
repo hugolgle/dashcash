@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { calculTotal, calculTotalByMonth, calculTotalByYear } from "../utils/calcul";
 import { addSpace, convertirFormatDate, } from "../utils/fonctionnel";
-import { getCurrentMonth, getLastFiveTransactionsByType } from "../utils/operations";
+import { getCurrentMonth, getLastTransactionsByType } from "../utils/operations";
 import { getLastThreeMonthsOfCurrentYear, getLastTwoYears, premierJourMoisEnCours } from "../utils/autre";
 import { infoUser } from "../utils/users";
 import BtnAdd from "../components/button/btnAdd";
@@ -13,7 +13,7 @@ export default function LayoutTransac(props: any) {
     const lastMonths = getLastThreeMonthsOfCurrentYear()
     const lastYears = getLastTwoYears()
     const currentMonth = getCurrentMonth()
-    const lastTransactions = getLastFiveTransactionsByType(props.type, userInfo.id)
+    const lastTransactions = getLastTransactionsByType(props.type, userInfo.id, 5)
     const firstDayMonth = premierJourMoisEnCours()
 
     return <>
@@ -24,7 +24,7 @@ export default function LayoutTransac(props: any) {
             </div>
         </div>
 
-        <section className="flex flex-row gap-4">
+        <section className="flex flex-row gap-4 py-4">
             <div className="flex flex-col gap-4 w-full">
 
                 <div className="flex flex-row w-full h-64 gap-4">

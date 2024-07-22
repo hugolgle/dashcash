@@ -35,6 +35,31 @@ export function getLastThreeMonthsOfCurrentYear() {
     return lastThreeMonths;
 }
 
+export function getLastSixMonths(currentDate: string) {
+    // Extraire l'année et le mois de currentDate
+    const currentYear = parseInt(currentDate.slice(0, 4), 10);
+    const currentMonth = parseInt(currentDate.slice(4, 6), 10) - 1; // Convertir le mois en index (0-11)
+
+    const lastMonths = [];
+
+    for (let i = 6 - 1; i >= 0; i--) {
+        let month = currentMonth - i;
+        let year = currentYear;
+
+        if (month < 0) {
+            month += 12;
+            year -= 1;
+        }
+
+        const formattedMonth = ("0" + (month + 1)).slice(-2); // Format le mois en deux chiffres
+        const monthInLetter = months[month];
+        lastMonths.push({ code: `${year}${formattedMonth}`, month: monthInLetter, year: year });
+    }
+
+    return lastMonths;
+}
+
+
 export function getLastTwoYears() {
 
     const lastTwoYears = [];

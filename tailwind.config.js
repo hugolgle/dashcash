@@ -25,6 +25,8 @@ module.exports = {
         colorChart1: "hsl(var(--chart-1))",
         colorChart2: "hsl(var(--chart-2))",
         colorChart3: "hsl(var(--chart-3))",
+        colorDepense: "hsl(var(--graph-depense))",
+        colorRecette: "hsl(var(--graph-recette))",
         fontBg: "#242424",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

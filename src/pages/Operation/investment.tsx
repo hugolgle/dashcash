@@ -137,7 +137,7 @@ export default function Investment() {
                 <BtnAdd to="/invest" />
             </div>
         </div >
-        <section className="flex flex-row gap-4">
+        <section className="flex flex-row gap-4 py-4">
             <div className="flex flex-col gap-4 w-3/4">
                 <div className="h-40 p-8 bg-zinc-100 dark:bg-zinc-900 rounded-2xl flex justify-center items-center ">
                     <h2 className="text-4xl">{investment._id}</h2>

@@ -12,7 +12,7 @@ export default function LayoutInvest() {
                 <BtnAdd />
             </div>
         </div>
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col gap-4 py-4">
             <div className="flex flex-row w-full justify-center h-64 gap-4">
                 <Link to="operationsC" className="flex flex-col w-full hover:scale-95 justify-between bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                     <div className="flex flex-col w-full gap-4">
