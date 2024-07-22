@@ -39,10 +39,10 @@ export function Graphique({ data }: { data: { month: string, montantDepense: num
                         </div>
                         <div className="flex flex-row justify-between gap-4">
                             <div className="flex flex-row justify-center items-center gap-1">
-                                <div className="w-2 h-2 rounded">
+                                <div className="w-2 h-2">
 
                                 </div>
-                                <p className=" opacity-75">Économie</p>
+                                <p className=" opacity-75">{economieMonth < 0 ? "Déficit" : "Économie"}</p>
                             </div>
                             <p className="italic font-black">{addSpace(economieMonth.toFixed(2))} €</p>
                         </div>
