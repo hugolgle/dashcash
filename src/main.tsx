@@ -7,8 +7,10 @@ import App from './App.tsx';
 import './index.css';
 import { getTransactions } from './redux/actions/transaction.action.js'
 import { getInvestments } from './redux/actions/investment.action.ts';
+import { getSubscriptions } from './redux/actions/subscription.action.ts';
 store.dispatch(getTransactions())
 store.dispatch(getInvestments())
+store.dispatch(getSubscriptions())
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

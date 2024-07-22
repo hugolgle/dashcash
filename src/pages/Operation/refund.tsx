@@ -101,7 +101,7 @@ export default function Refund() {
 
             <button className="rounded-xl w-1/4 hover:border-blue-500">Modifier le remboursement</button>
         </form >
-        <button className="rounded-xl w-1/4 hover:border-blue-500" onClick={handleDeleteRefund}>Supprimer le remboursement</button>
+        <button className="rounded-xl w-1/4 hover:border-red-500" onClick={handleDeleteRefund}>Supprimer le remboursement</button>
 
         {message ? (
             <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>

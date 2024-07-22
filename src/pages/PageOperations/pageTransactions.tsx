@@ -150,7 +150,7 @@ export default function PageTransactions(props: any) {
 
     return (
         <>
-            <div className="w-full relative">
+            <section className="w-full relative">
                 <h2 className="text-5xl font-thin mb-9">{date === "all" ? `Toutes les ${props.type.toLowerCase()}s` : date?.length === 4 ? `${props.type}s de ${date}` : `${props.type}s de ${convertDate(date)}`}</h2>
                 <div className='absolute top-0 flex flex-row w-full gap-2'>
                     <BtnReturn />
@@ -194,32 +194,33 @@ export default function PageTransactions(props: any) {
                     <ChevronLeft className='cursor-pointer hover:scale-90 transition-all' onClick={clickLastMonth} />
                     <ChevronRight className='cursor-pointer hover:scale-90 transition-all' onClick={clickNextMonth} />
                 </div>
-            </div>
 
-            <TableauTransac transactions={searchTerm ? searchResults : transactions} selectOpe={selectOpe} />
+                <TableauTransac transactions={searchTerm ? searchResults : transactions} selectOpe={selectOpe} />
 
-            <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-200 dark:bg-zinc-800 py-3 transition-all">
-                Total : <b>{
-                    date === "all" ? calculTotal(props.type, userInfo.id, selectedCategories) :
-                        date && date.length === 4 ? calculTotalByYear(props.type, date, userInfo.id, selectedCategories) :
-                            date ? calculTotalByMonth(props.type, date, userInfo.id, selectedCategories) : "Date non définie"
-                }</b>
-                <br />
-                Transaction(s) : <b>{
-                    date === "all" ? getTransactionsByType(props.type, userInfo.id, selectedCategories).length :
-                        date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories).length :
-                            getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories).length
-                }</b>
-            </div>
-            {
-                transactionDeleted ? (
-                    <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
-                        <p className="p-4 bg-red-900 max-w-60 rounded shadow-2xl shadow-black">
-                            Votre transaction a été supprimée avec succès
-                        </p>
-                    </div>
-                ) : null
-            }
+
+                <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-200 dark:bg-zinc-800 py-3 transition-all">
+                    Total : <b>{
+                        date === "all" ? calculTotal(props.type, userInfo.id, selectedCategories) :
+                            date && date.length === 4 ? calculTotalByYear(props.type, date, userInfo.id, selectedCategories) :
+                                date ? calculTotalByMonth(props.type, date, userInfo.id, selectedCategories) : "Date non définie"
+                    }</b>
+                    <br />
+                    Transaction(s) : <b>{
+                        date === "all" ? getTransactionsByType(props.type, userInfo.id, selectedCategories).length :
+                            date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories).length :
+                                getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories).length
+                    }</b>
+                </div>
+                {
+                    transactionDeleted ? (
+                        <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
+                            <p className="p-4 bg-red-900 max-w-60 rounded shadow-2xl shadow-black">
+                                Votre transaction a été supprimée avec succès
+                            </p>
+                        </div>
+                    ) : null
+                }
+            </section>
         </>
     );
 }

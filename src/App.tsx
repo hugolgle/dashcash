@@ -18,6 +18,9 @@ import Investment from './pages/Operation/investment';
 import Refund from './pages/Operation/refund';
 import LayoutRefund from './layout/layoutRefund';
 import { ThemeProvider } from "./components/Theme/theme.provider"
+import PageAddSubscription from './pages/PageForm/pageAddAbonnement';
+import LayoutAbonnement from './layout/layoutAbonnement';
+import Abonnement from './pages/Abonnement/abonnement';
 
 function App() {
 
@@ -57,6 +60,18 @@ function App() {
         {
           path: '/depense/:date/:id/refund/:idRefund',
           element: <Refund />,
+        },
+        {
+          path: '/depense/abonnement',
+          element: <LayoutAbonnement />,
+        },
+        {
+          path: '/depense/abonnement/add',
+          element: <PageAddSubscription />,
+        },
+        {
+          path: '/depense/abonnement/:id',
+          element: <Abonnement />,
         },
         {
           path: '/recette',

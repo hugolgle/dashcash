@@ -108,49 +108,53 @@ export default function PageAddTransac(props: any) {
   };
 
   return <>
-    <h2 className="text-5xl font-thin">Ajouter une {props.type.toLowerCase()}</h2>
-    <div className="absolute top-4 left-4">
-      <BtnReturn />
-    </div>
-    <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
+    <section>
 
-      <input className="w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700" value={selectedTitre} type="text" name="" maxLength={50} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
-      <select id='action' value={selectedCategorie} className="w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
-        <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
-        {props.type === "Dépense"
-          &&
-          categorieD.map(({ name }) => {
-            return (
-              <option key={name} value={name}>{name}</option>
-            );
-          })
-        }
-        {props.type === "Recette"
-          &&
-          categorieR.map(({ name }) => {
-            return (
-              <option key={name} value={name}>{name}</option>
-            );
-          })
-        }
-      </select>
 
-      <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700 text-slate-400" type="date" name="" id="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
+      <h2 className="text-5xl font-thin">Ajouter une {props.type.toLowerCase()}</h2>
+      <div className="absolute top-4 left-4">
+        <BtnReturn />
+      </div>
+      <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
-      <textarea value={selectedDetail} className="w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700" name="" id="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e); handleInputChange(); }} />
+        <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" maxLength={50} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
+        <select id='action' value={selectedCategorie} className="w-96 h-10 px-2 rounded-xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
+          <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
+          {props.type === "Dépense"
+            &&
+            categorieD.map(({ name }) => {
+              return (
+                <option key={name} value={name}>{name}</option>
+              );
+            })
+          }
+          {props.type === "Recette"
+            &&
+            categorieR.map(({ name }) => {
+              return (
+                <option key={name} value={name}>{name}</option>
+              );
+            })
+          }
+        </select>
 
-      <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700" type="number" min="0" step="0.01" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
+        <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl text-slate-400" type="date" name="" id="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
 
-      <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre la {(props.type).toLowerCase()}</Button>
-    </form >
-    {message || messageError ? (
-      <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
-        <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>
-          {message} <Link to={`/${lUrl}/${addedOperationDate}/${addedOperationId}`} className="underline transition-all hover:text-zinc-950">Allez-y !</Link>
-        </p>
-        <p className={`p-4 bg-red-900 w-60 rounded ${messageError ? 'opacity-100' : 'hidden'}`}>{messageError}</p>
-      </div >
-    ) : null
-    }
+        <textarea value={selectedDetail} className="w-96 h-10 px-2 rounded-xl" name="" id="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e); handleInputChange(); }} />
+
+        <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" min="0" step="0.01" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
+
+        <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre la {(props.type).toLowerCase()}</Button>
+      </form >
+      {message || messageError ? (
+        <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
+          <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>
+            {message} <Link to={`/${lUrl}/${addedOperationDate}/${addedOperationId}`} className="underline transition-all hover:text-zinc-950">Allez-y !</Link>
+          </p>
+          <p className={`p-4 bg-red-900 w-60 rounded ${messageError ? 'opacity-100' : 'hidden'}`}>{messageError}</p>
+        </div >
+      ) : null
+      }
+    </section>
   </>
 }

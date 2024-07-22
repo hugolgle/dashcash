@@ -24,57 +24,71 @@ export default function LayoutTransac(props: any) {
             </div>
         </div>
 
-        <section className="flex flex-col gap-4">
-            <div className="flex flex-row w-full h-64 gap-4">
+        <section className="flex flex-row gap-4">
+            <div className="flex flex-col gap-4 w-4/5">
 
-                <Link to={currentMonth} className="flex flex-col hover:scale-95 justify-between w-3/5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
-                    <div className="flex flex-col w-full gap-4">
-                        <p className="text-4xl">{calculTotalByMonth(props.type, currentMonth, userInfo.id, null)}</p>
+                <div className="flex flex-row w-full h-64 gap-4">
 
-                        {lastTransactions && lastTransactions.length > 0 ? (
-                            <table>
-                                <tbody>
-                                    {lastTransactions.map((transaction: any) => (
-                                        <tr key={transaction._id}>
-                                            <td>{convertirFormatDate(transaction.date)}</td>
-                                            <td>{transaction.titre}</td>
-                                            <td>{transaction.categorie}</td>
-                                            <td><b>{addSpace(transaction.montant)} €</b></td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : (
-                            <p className="italic">Aucune {props.type} ce mois-ci !</p>
-                        )}
+                    <Link to={currentMonth} className="flex flex-col hover:scale-95 justify-between w-3/5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
+                        <div className="flex flex-col w-full gap-4">
+                            <p className="text-4xl">{calculTotalByMonth(props.type, currentMonth, userInfo.id, null)}</p>
 
+                            {lastTransactions && lastTransactions.length > 0 ? (
+                                <table>
+                                    <tbody>
+                                        {lastTransactions.map((transaction: any) => (
+                                            <tr key={transaction._id}>
+                                                <td>{convertirFormatDate(transaction.date)}</td>
+                                                <td>{transaction.titre}</td>
+                                                <td>{transaction.categorie}</td>
+                                                <td><b>{addSpace(transaction.montant)} €</b></td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <p className="italic">Aucune {props.type} ce mois-ci !</p>
+                            )}
+
+                        </div>
+
+                        <p className="text-right italic">Depuis le {firstDayMonth}</p>
+                    </Link>
+                    <div className="flex flex-col-reverse gap-4 w-2/5 text-left">
+                        {lastMonths.map((month: any) => (
+                            <Link key={month.code} to={month.code} className="flex flex-col-reverse hover:scale-95 justify-between w-full h-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
+                                <p className="text-right italic">{month.month}</p>
+                                <p className="text-4xl">{calculTotalByMonth(props.type, month.code, userInfo.id, null)}</p>
+                            </Link>
+                        ))}
                     </div>
+                </div>
 
-                    <p className="text-right italic">Depuis le {firstDayMonth}</p>
-                </Link>
-                <div className="flex flex-col-reverse gap-4 w-2/5 text-left">
-                    {lastMonths.map((month: any) => (
-                        <Link key={month.code} to={month.code} className="flex flex-col-reverse hover:scale-95 justify-between w-full h-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
-                            <p className="text-right italic">{month.month}</p>
-                            <p className="text-4xl">{calculTotalByMonth(props.type, month.code, userInfo.id, null)}</p>
+                <div className="flex flex-row gap-4 w-full">
+                    {lastYears.map((year: any) => (
+                        <Link key={year} to={`${year}`} className="w-1/2 h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
+                            <p className="italic">{year}</p>
+                            <p className="text-4xl">{calculTotalByYear(props.type, `${year}`, userInfo.id, null)}</p>
                         </Link>
                     ))}
                 </div>
-            </div>
 
-            <div className="flex flex-row gap-4 w-full">
-                {lastYears.map((year: any) => (
-                    <Link key={year} to={`${year}`} className="w-1/2 h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
-                        <p className="italic">{year}</p>
-                        <p className="text-4xl">{calculTotalByYear(props.type, `${year}`, userInfo.id, null)}</p>
-                    </Link>
-                ))}
+                <Link to="all" className="w-full  h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
+                    <p className="italic">Toutes les {props.type.toLowerCase()}s</p>
+                    <p className="text-4xl">{calculTotal(props.type, userInfo.id, null)}</p>
+                </Link>
             </div>
+            {props.type === "Dépense" ? (
+                <>
+                    <div className="h-2/3 w-4 bg-zinc-400 dark:bg-zinc-900"></div>
+                    <div className="flex flex-col gap-4 w-1/5 text-center">
+                        <Link to="abonnement" className="w-full h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
+                            <p className="italic">Mes abonnements</p>
+                        </Link>
+                    </div>
+                </>
+            ) : ""}
 
-            <Link to="all" className="w-full  h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
-                <p className="italic">Toutes les {props.type.toLowerCase()}s</p>
-                <p className="text-4xl">{calculTotal(props.type, userInfo.id, null)}</p>
-            </Link>
         </section>
     </>
 }

@@ -26,9 +26,8 @@ export function getCurrentMonth() {
 export function getAllTransactions(idUser: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
+    return transactions.filter((transaction: any) => transaction.user === idUser);
 
-    return userTransactions;
 }
 
 export function getTransactionsByType(type: any, idUser: any, filterCategorie: any) {
@@ -209,4 +208,19 @@ export function getRefundByTransactionId(transactionId: any, refundId: any, user
     } else {
         return null;
     }
+}
+
+// -------------------------------- Abonnement
+
+export function getSubscriptions(idUser: any) {
+    const abonnements = useSelector((state: any) => state.subscriptionReducer || []);
+
+    return abonnements.filter((abonnement: any) => abonnement.user === idUser);
+}
+
+export function getSubscriptionById(subscriptionId: any, userId: any) {
+    const abonnements = useSelector((state: any) => state.subscriptionReducer || []);
+    const userAbonnements = abonnements.filter((subscription: any) => subscription.user === userId);
+
+    return userAbonnements.find((subscription: any) => subscription._id === subscriptionId);
 }

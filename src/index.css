@@ -66,6 +66,14 @@ input,
 textarea,
 select {
   background-color: transparent;
+  border: 1px solid var(--button-color-light);
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: transparent;
+  border: 1px solid var(--button-color-dark);
 }
 
 @media (prefers-color-scheme: light) {
