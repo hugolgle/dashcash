@@ -17,7 +17,7 @@ export default function TableauInvest(props: any) {
             {props.investments && props.investments.length > 0 ? (
                 <Table className="w-full flex flex-col px-1 ">
                     <TableHeader>
-                        <TableRow className="w-full flex flex-row my-1">
+                        <TableRow className="w-full flex flex-row h-7">
                             <TableHead className="w-full">ID</TableHead>
                             <TableHead className="w-full">Plateforme</TableHead>
                             <TableHead className="w-full">Type</TableHead>

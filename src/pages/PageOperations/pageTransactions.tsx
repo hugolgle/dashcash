@@ -151,7 +151,7 @@ export default function PageTransactions(props: any) {
     return (
         <>
             <section className="w-full relative">
-                <h2 className="text-5xl font-thin mb-9">{date === "all" ? `Toutes les ${props.type.toLowerCase()}s` : date?.length === 4 ? `${props.type}s de ${date}` : `${props.type}s de ${convertDate(date)}`}</h2>
+                <h2 className="  text-5xl font-thin mb-5">{date === "all" ? `Toutes les ${props.type.toLowerCase()}s` : date?.length === 4 ? `${props.type}s de ${date}` : `${props.type}s de ${convertDate(date)}`}</h2>
                 <div className='absolute top-0 flex flex-row w-full gap-2'>
                     <BtnReturn />
                     <BtnAdd to={`/${typeProps}`} />
@@ -185,7 +185,7 @@ export default function PageTransactions(props: any) {
                         className='rounded-xl px-2 w-32 bg-zinc-100 dark:bg-zinc-900 placeholder:text-sm'
                         type="search"
                         name=""
-                        id=""
+
                         placeholder='Rechercher'
                         value={searchTerm}
                         onChange={handleSearchChange} />

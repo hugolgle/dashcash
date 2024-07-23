@@ -17,14 +17,14 @@ export default function LayoutTransac(props: any) {
     const firstDayMonth = premierJourMoisEnCours()
 
     return <>
-        <div className="w-full relative">
-            <h2 className="text-5xl font-thin mb-9">{props.type}s</h2>
-            <div className="absolute top-0 left-0">
-                <BtnAdd />
-            </div>
-        </div>
 
-        <section className="flex flex-row gap-4 py-4">
+        <section className="flex flex-col gap-4">
+            <div className="w-full relative">
+                <h2 className="  text-5xl font-thin mb-5">{props.type}s</h2>
+                <div className="absolute top-0 left-0">
+                    <BtnAdd />
+                </div>
+            </div>
             <div className="flex flex-col gap-4 w-full">
 
                 <div className="flex flex-row w-full h-64 gap-4">

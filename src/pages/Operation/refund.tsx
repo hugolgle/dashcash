@@ -91,13 +91,13 @@ export default function Refund() {
     return <>
         <form onSubmit={handleEditRefund} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
-            <input className="w-96 h-10 px-2 rounded-xl" value={selectedRefundTitre} type="text" name="" maxLength={50} id="" placeholder="Titre" onChange={(e) => { handleTitre(e) }} required />
+            <input className="w-96 h-10 px-2 rounded-xl" value={selectedRefundTitre} type="text" name="" maxLength={50} placeholder="Titre" onChange={(e) => { handleTitre(e) }} required />
 
-            <input value={selectedRefundDate} className="w-96 h-10 px-2 rounded-xl text-slate-400" type="date" name="" id="" onChange={(e) => { handleDate(e) }} required />
+            <input value={selectedRefundDate} className="w-96 h-10 px-2 rounded-xl" type="date" name="" onChange={(e) => { handleDate(e) }} required />
 
-            <textarea value={selectedRefundDetail} className="w-96 h-10 px-2 rounded-xl" name="" id="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e) }} />
+            <textarea value={selectedRefundDetail} className="w-96 h-10 px-2 rounded-xl" name="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e) }} />
 
-            <input value={selectedRefundMontant} className="w-96 h-10 px-2 rounded-xl" type="number" min="-10" step="0.01" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e) }} required />
+            <input value={selectedRefundMontant} className="w-96 h-10 px-2 rounded-xl" type="number" min="-10" step="0.01" name="" placeholder="Montant" onChange={(e) => { handleMontant(e) }} required />
 
             <button className="rounded-xl w-1/4 hover:border-blue-500">Modifier le remboursement</button>
         </form >

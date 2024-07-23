@@ -3,9 +3,8 @@
 import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from "recharts";
 import { CardContent } from "../../../@/components/ui/card";
 import { ChartConfig } from "../../../@/components/ui/chart";
-import { addSpace, separateMillier } from "../../utils/fonctionnel";
+import { addSpace } from "../../utils/fonctionnel";
 
-// Composant personnalisé pour le Tooltip
 export function Graphique({ data }: { data: { month: string, montantDepense: number, montantRecette: number, year: number }[] }) {
     const CustomTooltip = (props: TooltipProps<any, any>) => {
         const { active, payload, label } = props;

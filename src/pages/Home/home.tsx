@@ -6,7 +6,7 @@ export default function Home() {
     const isAuthenticated = isConnected()
     const userInfo = infoUser()
     return (
-        <div className="flex flex-col justify-center items-center h-full gap-14">
+        <section className="flex flex-col justify-center items-center h-full gap-14">
             <div>
                 <h1 className='font-light'>Bienvenue <span className='font-bold'>{userInfo.pseudo}</span> sur</h1>
                 <div className='flex justify-center items-center tracking-tight mt-6 font-logo group'>
@@ -21,6 +21,6 @@ export default function Home() {
                     <Link to="/connexion" className='p-4 bg-zinc-300 dark:bg-zinc-700 rounded-xl transition-all hover:bg-zinc-400 hover:dark:bg-zinc-600'>Connectez-vous !</Link>
                 )
             }
-        </div>
+        </section>
     )
 }

@@ -169,8 +169,8 @@ export default function TableauDeBord() {
 
   return (
     <>
-      <h2 className="text-5xl font-thin mb-9">Tableau de bord</h2>
-      <section className="flex flex-col gap-4 py-4">
+      <section className="flex flex-col gap-4 p max-h-screen">
+        <h2 className="  text-5xl font-thin mb-5">Tableau de bord</h2>
         <div className="flex flex-row gap-4 h-full">
           <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
             <h2 className="text-3xl font-extralight italic">Mois en cours</h2>

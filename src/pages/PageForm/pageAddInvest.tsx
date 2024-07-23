@@ -112,12 +112,12 @@ export default function PageAddInvest() {
       </div>
       <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
-        <input className="w-96 h-10 px-2 rounded-xl" value={selectedPlateforme} type="text" name="" maxLength={50} id="" placeholder="Plateforme" onChange={(e) => { handlePlateforme(e); handleInputChange(); }} required />
+        <input className="w-96 h-10 px-2 rounded-xl bg-zinc-100 dark:bg-zinc-900" value={selectedPlateforme} type="text" name="" maxLength={50} placeholder="Plateforme" onChange={(e) => { handlePlateforme(e); handleInputChange(); }} required />
 
-        <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl text-slate-400" type="date" name="" id="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
+        <input value={selectedDate} className="w-96 h-10 px-2 rounded-xl  bg-zinc-100 dark:bg-zinc-900" type="date" name="" onChange={(e) => { handleDateChange(e); handleInputChange(); }} required />
 
-        <select id='action' value={selectedType} className="w-96 h-10 px-2 rounded-xl" onChange={(e) => { handleType(e); handleInputChange(); }} required>
-          <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
+        <select id='action' value={selectedType} className="w-96 h-10 px-2 rounded-xl bg-zinc-100 dark:bg-zinc-900" onChange={(e) => { handleType(e); handleInputChange(); }} required>
+          <option disabled selected>Entrez la catégorie</option>
           <option value="Action">Action</option>
           <option value="ETF">ETF</option>
           <option value="Crypto">Crypto</option>
@@ -125,13 +125,13 @@ export default function PageAddInvest() {
           <option value="Dérivé">Dérivé</option>
         </select>
 
-        <input className="w-96 h-10 px-2 rounded-xl" value={selectedTitre} type="text" name="" maxLength={50} id="" placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
+        <input className="w-96 h-10 px-2 rounded-xl bg-zinc-100 dark:bg-zinc-900" value={selectedTitre} type="text" name="" maxLength={50} placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
 
-        <textarea value={selectedDetail} className="w-96 h-10 px-2 rounded-xl" name="" id="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e); handleInputChange(); }} />
+        <textarea value={selectedDetail} className="w-96 h-10 px-2 rounded-xl bg-zinc-100 dark:bg-zinc-900" name="" placeholder="Détails" maxLength={250} onChange={(e) => { handleDetail(e); handleInputChange(); }} />
 
-        <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl" type="number" min="0" step="0.01" name="" id="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
+        <input value={selectedMontant} className="w-96 h-10 px-2 rounded-xl bg-zinc-100 dark:bg-zinc-900" type="number" min="0" step="0.01" name="" placeholder="Montant" onChange={(e) => { handleMontant(e); handleInputChange(); }} required />
 
-        <Button variant="outline" className="rounded-xl w-1/4 hover:border-blue-500">Soumettre</Button>
+        <Button variant="outline" className="rounded-xl w-1/4 bg-zinc-100 dark:bg-zinc-900 hover:border-blue-500">Soumettre</Button>
       </form >
       {message || messageError ? (
         <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>

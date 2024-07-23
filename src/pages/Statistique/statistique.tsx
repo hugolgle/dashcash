@@ -98,8 +98,8 @@ export default function Statistique() {
 
   return (
     <>
-      <h2 className="text-5xl font-thin mb-9">Statistiques</h2>
-      <section className="flex flex-col w-full items-center gap-4 py-4">
+      <section className="flex flex-col w-full items-center gap-4">
+        <h2 className="  text-5xl font-thin mb-5">Statistiques</h2>
         <div className="flex flex-row justify-center gap-2 w-full">
           {generateYears().map((year, index) => (
             <button

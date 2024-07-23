@@ -58,7 +58,7 @@ export default function Tableau(props: any) {
                                 )}
                             </div>
                         )}
-                        <TableRow className="w-full flex flex-row my-1">
+                        <TableRow className="w-full flex flex-row h-7 italic">
                             <TableHead className="w-full">ID</TableHead>
                             <TableHead className="w-full">Titre</TableHead>
                             <TableHead className="w-full">Catégorie</TableHead>
@@ -86,7 +86,7 @@ export default function Tableau(props: any) {
                                 )}
                                 <Link to={transaction._id} className="w-full">
                                     <TableRow
-                                        className={`rounded flex my-1 flex-row items-center bg-zinc-100 dark:bg-zinc-900 cursor-pointer hover:bg-zinc-300 hover:dark:bg-zinc-700 transition-all ${selectedRows[transaction._id] ? "ring-1 ring-zinc-400" : ""}`}
+                                        className={`rounded flex my-1 flex-row items-center bg-zinc-100 dark:bg-zinc-900 cursor-pointer hover:bg-opacity-75 hover:dark:bg-opacity-75 transition-all ${selectedRows[transaction._id] ? "ring-1 ring-zinc-400" : ""}`}
                                     >
                                         <TableCell className="w-full">{transaction._id.substring(4, 8)}</TableCell>
                                         <TableCell className="w-full">{transaction.titre}</TableCell>

@@ -29,7 +29,7 @@ export default function LayoutRefund() {
         <section>
             <div className="w-full h-auto relative">
 
-                <h2 className="text-5xl font-thin mb-9">Remboursement</h2>
+                <h2 className="  text-5xl font-thin mb-5">Remboursement</h2>
                 <div className="absolute top-0 flex flex-row gap-2 w-full">
                     <BtnReturn />
                 </div>

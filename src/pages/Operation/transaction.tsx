@@ -139,9 +139,9 @@ export default function Transaction() {
     return <>
         <div className="w-full h-auto relative">
             {selectedUpdate ? (
-                <input className="text-5xl animate-[pulseEdit_1s_ease-in-out_infinite] rounded-2xl text-center font-thin mb-9 bg-transparent" value={selectedTitre} type="text" name="" id="" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
+                <input className="text-5xl animate-[pulseEdit_1s_ease-in-out_infinite] rounded-2xl text-center font-thin mb-9 bg-transparent" value={selectedTitre} type="text" name="" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
             ) : (
-                <h2 className="text-5xl font-thin mb-9">{transaction.titre}</h2>
+                <h2 className="  text-5xl font-thin mb-5">{transaction.titre}</h2>
             )}
 
             <div className={`${refundVisible ? 'hidden' : 'absolute top-0 flex flex-row gap-2 w-full'}`}>
@@ -165,7 +165,7 @@ export default function Transaction() {
                     <div className={`h-40 w-full  bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                         {selectedUpdate ? (
                             <select id='action' value={selectedCategorie} className="h-full w-full bg-transparent text-center text-4xl rounded-2xl" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
-                                <option className="text-slate-400" value="" disabled selected>Entrez la catégorie</option>
+                                <option disabled selected>Entrez la catégorie</option>
                                 {transaction.type === "Dépense" && categorieD.map(({ name }) => (
                                     <option key={name} value={name}>{name}</option>
                                 ))}
@@ -181,7 +181,7 @@ export default function Transaction() {
                     <div className={`h-40 w-full bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                         {
                             selectedUpdate ? (
-                                <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedDate} type="date" name="" id="" onChange={(e) => { handleDate(e); handleInputChange(); }} />
+                                <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={selectedDate} type="date" name="" onChange={(e) => { handleDate(e); handleInputChange(); }} />
                             ) : (
                                 <h2 className="text-4xl">{formatDate(transaction.date)}</h2>
                             )
@@ -193,7 +193,7 @@ export default function Transaction() {
                     <div className={`min-h-40 w-full  bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'py-8'}`}>
 
                         {selectedUpdate ? (
-                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" id="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
+                            <input className="h-full w-full bg-transparent text-center text-4xl  rounded-2xl" value={removeTiret(selectedMontant)} type="number" step="0.5" min="0" name="" onChange={(e) => { handleMontant(e); handleInputChange(); }} placeholder="Montant" />
                         ) : <div className="flex flex-col">
                             <p>Montant {transaction.remboursements && transaction.remboursements.length > 0 ? 'payé' : ''}</p>
                             <h2 className="text-4xl">
@@ -238,7 +238,7 @@ export default function Transaction() {
                     <div className={`h-40 w-full bg-zinc-100 dark:bg-zinc-900 flex justify-center items-center rounded-2xl ${selectedUpdate ? 'animate-[pulseEdit_1s_ease-in-out_infinite] p-0' : 'p-8'}`}>
                         {
                             selectedUpdate ? (
-                                <textarea className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" value={selectedDetail} name="" id="" onChange={(e) => { handleDetail(e); handleInputChange(); }} placeholder="Détails" />
+                                <textarea className="h-full w-full bg-transparent text-center text-xl p-4 rounded-2xl" value={selectedDetail} name="" onChange={(e) => { handleDetail(e); handleInputChange(); }} placeholder="Détails" />
                             ) : (
                                 <h2 className="text-xl">{transaction.detail ? transaction.detail : "Aucun détail ajouté"}</h2>
                             )

@@ -60,7 +60,7 @@ export default function Navbar(props: any) {
         <>
             <section className='flex h-screen w-screen'>
 
-                <div className='sidebar flex flex-col justify-between items-center  w-1/5 h-screen py-10 px-4  bg-zinc-100 dark:bg-zinc-900 fixed transition-all'>
+                <div className='sidebar flex flex-col justify-between items-center w-1/5 h-screen py-10 px-4  bg-zinc-100 dark:bg-zinc-900 fixed transition-all'>
                     <Link to="/" className='font-logo text-2xl w-fit group text-center'>
                         <div className='flex justify-center items-center tracking-tight'>
                             <p className='p-2 bg-transparent dark:bg-white text-zinc-900 dark:text-zinc-900 group-hover:bg-zinc-900 group-hover:dark:bg-transparent group-hover:text-white group-hover:dark:text-white transition-all'>D A $ H</p>
