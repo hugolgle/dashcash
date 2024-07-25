@@ -50,7 +50,7 @@ export default function TableauDeBord() {
 
   const economieLastMonth = calculEconomie(`${previousYear}`, newPreviousMonth, userInfo.id);
 
-  const lastTransactions = getLastTransactionsByType(null, userInfo.id, 6)
+  const lastTransactions = getLastTransactionsByType(null, userInfo.id, 5)
 
   const formatData = (data: string) => {
     const cleanedData = data.replace(/[^\d.-]/g, '').replace(/ /g, '');
@@ -169,108 +169,111 @@ export default function TableauDeBord() {
 
   return (
     <>
-      <section className="flex flex-col gap-4 max-h-screen">
-        <h2 className="  text-5xl font-thin mb-5">Tableau de bord</h2>
-        <div className="flex flex-row gap-4 h-full">
-          <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
-            <h2 className="text-3xl font-extralight italic">Mois en cours</h2>
-            <div className="flex flex-col gap-4 h-full">
-              <div className="flex flex-row gap-4 h-1/2">
-                <div className="flex flex-col w-full h-full bg-green-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                  <p>Recettes</p>
-                  <p className="font-bold">{montantRecettesMonth}</p>
+      <section className="w-full h-full">
+        <h2 className="text-5xl font-thin mb-5">Tableau de bord</h2>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-row gap-4 h-full">
+            <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
+              <h2 className="text-3xl font-extralight italic">Mois en cours</h2>
+              <div className="flex flex-col gap-4 h-full">
+                <div className="flex flex-row gap-4 h-1/2">
+                  <div className="flex flex-col w-full h-full bg-green-600 py-3 rounded bg-opacity-15 items-center justify-center">
+                    <p>Recettes</p>
+                    <p className="font-bold">{montantRecettesMonth}</p>
+                  </div>
+                  <div className="flex flex-col w-full h-full bg-red-600 py-3 rounded bg-opacity-15 items-center justify-center">
+                    <p>Dépenses</p>
+                    <p className="font-bold">{montantDepensesMonth}</p>
+                  </div>
                 </div>
-                <div className="flex flex-col w-full h-full bg-red-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                  <p>Dépenses</p>
-                  <p className="font-bold">{montantDepensesMonth}</p>
-                </div>
-              </div>
-              <div className="flex flex-row gap-4 h-1/2">
-                <div className="flex flex-col  w-full h-full bg-zinc-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                  <p>Économie</p>
-                  <p className="font-bold">{economiesCurrentMonth} €</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
-            <h2 className="text-3xl font-extralight italic">Dernières transactions</h2>
-            <table className="h-full">
-              <tbody className="w-full h-full flex flex-col gap-2">
-                {lastTransactions.map((transaction: any) => (
-                  <tr
-                    key={transaction._id}
-                    className={`bg-opacity-15 rounded h-full flex flex-row items-center py-1 text-sm ${transaction.type === "Recette" ? "bg-green-600" : transaction.type === "Dépense" ? "bg-red-600" : ""}`}>
-                    <td className="w-full">{convertirFormatDate(transaction.date)}</td>
-                    <td className="w-full">{transaction.titre}</td>
-                    <td className="w-full">{transaction.categorie}</td>
-                    <td className="w-full"><b>{addSpace(transaction.montant)} €</b></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
-            <h2 className="text-3xl font-extralight italic">Mois dernier</h2>
-            <div className="flex flex-col gap-4 h-full">
-              <div className="flex flex-row gap-4 h-1/2">
-                <div className="flex flex-col w-full h-full bg-green-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                  <p>Recettes</p>
-                  <p className="font-bold">{montantRecettesLastMonth}</p>
-                </div>
-                <div className="flex flex-col w-full h-full bg-red-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                  <p>Dépenses</p>
-                  <p className="font-bold">{montantDepensesLastMonth}</p>
-                </div>
-              </div>
-              <div className="flex flex-row gap-4 h-1/2">
-                <div className="flex flex-col w-full h-full bg-zinc-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                  <p>Économie</p>
-                  <p className="font-bold">{economieLastMonth} €</p>
+                <div className="flex flex-row gap-4 h-1/2">
+                  <div className="flex flex-col  w-full h-full bg-zinc-600 py-3 rounded bg-opacity-15 items-center justify-center">
+                    <p>Économie</p>
+                    <p className="font-bold">{economiesCurrentMonth} €</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="flex flex-row gap-4 h-full">
-          <div className="w-5/12 bg-zinc-100  dark:bg-zinc-900 rounded-xl p-4">
-            <h2 className="text-3xl font-extralight italic">Répartitions</h2>
-            <div className="flex flex-row justify-between w-full py-3 px-32">
-              <ChevronLeft size={20} onClick={clickLastMonth} className="cursor-pointer hover:scale-95 transition-all" />
-              <p className="font-thin italic">{convertDate(month)}</p>
-              <ChevronRight
-                size={20}
-                onClick={clickNextMonth}
-                className={`cursor-pointer hover:scale-95 transition-all ${month >= currentDate ? "invisible" : ""}`}
-              />
+            <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
+              <h2 className="text-3xl font-extralight italic">Mois dernier</h2>
+              <div className="flex flex-col gap-4 h-full">
+                <div className="flex flex-row gap-4 h-1/2">
+                  <div className="flex flex-col w-full h-full bg-green-600 py-3 rounded bg-opacity-15 items-center justify-center">
+                    <p>Recettes</p>
+                    <p className="font-bold">{montantRecettesLastMonth}</p>
+                  </div>
+                  <div className="flex flex-col w-full h-full bg-red-600 py-3 rounded bg-opacity-15 items-center justify-center">
+                    <p>Dépenses</p>
+                    <p className="font-bold">{montantDepensesLastMonth}</p>
+                  </div>
+                </div>
+                <div className="flex flex-row gap-4 h-1/2">
+                  <div className="flex flex-col w-full h-full bg-zinc-600 py-3 rounded bg-opacity-15 items-center justify-center">
+                    <p>Économie</p>
+                    <p className="font-bold">{economieLastMonth} €</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <Camembert dataDf={formatData(dataDf)} dataLoisir={formatData(dataLoisir)} dataEpargne={montantEpargne} total={formatData(total)} />
-            <div className="flex flex-row justify-evenly w-full mt-2">
-              <div className="flex flex-row justify-center items-center">
-                <div className="w-3 h-3 rounded bg-colorChart2"></div>
-                <p className="ml-2 font-thin text-sm">Dépenses fixes</p>
+            <div className="w-full bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
+              <h2 className="text-3xl font-extralight italic">Dernières transactions</h2>
+              <table className="h-full">
+                <tbody className="w-full h-full flex flex-col gap-2">
+                  {lastTransactions.map((transaction: any) => (
+                    <tr
+                      key={transaction._id}
+                      className={`bg-opacity-15 rounded h-full flex flex-row items-center py-1 text-sm ${transaction.type === "Recette" ? "bg-green-600" : transaction.type === "Dépense" ? "bg-red-600" : ""}`}>
+                      <td className="w-full">{convertirFormatDate(transaction.date)}</td>
+                      <td className="w-full">{transaction.titre}</td>
+                      <td className="w-full">{transaction.categorie}</td>
+                      <td className="w-full"><b>{addSpace(transaction.montant)} €</b></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="flex flex-row gap-4 h-full">
+            <div className="w-5/12 bg-zinc-100  dark:bg-zinc-900 rounded-xl p-4">
+              <h2 className="text-3xl font-extralight italic">Répartitions</h2>
+              <div className="flex flex-row justify-between w-full py-3 px-32">
+                <ChevronLeft size={20} onClick={clickLastMonth} className="cursor-pointer hover:scale-95 transition-all" />
+                <p className="font-thin italic">{convertDate(month)}</p>
+                <ChevronRight
+                  size={20}
+                  onClick={clickNextMonth}
+                  className={`cursor-pointer hover:scale-95 transition-all ${month >= currentDate ? "invisible" : ""}`}
+                />
               </div>
-              <div className="flex flex-row justify-center items-center">
-                <div className="w-3 h-3 rounded bg-colorChart1"></div>
-                <p className="ml-2 font-thin text-sm">Dépenses loisirs</p>
-              </div>
-              <div className="flex flex-row justify-center items-center">
-                <div className="w-3 h-3 rounded bg-colorChart3"></div>
-                <p className="ml-2 font-thin text-sm">Épargne</p>
-              </div>
+              <Camembert dataDf={formatData(dataDf)} dataLoisir={formatData(dataLoisir)} dataEpargne={montantEpargne} total={formatData(total)} />
+              <div className="flex flex-row justify-evenly w-full mt-2">
+                <div className="flex flex-row justify-center items-center">
+                  <div className="w-3 h-3 rounded bg-colorChart2"></div>
+                  <p className="ml-2 font-thin text-sm">Dépenses fixes</p>
+                </div>
+                <div className="flex flex-row justify-center items-center">
+                  <div className="w-3 h-3 rounded bg-colorChart1"></div>
+                  <p className="ml-2 font-thin text-sm">Dépenses loisirs</p>
+                </div>
+                <div className="flex flex-row justify-center items-center">
+                  <div className="w-3 h-3 rounded bg-colorChart3"></div>
+                  <p className="ml-2 font-thin text-sm">Épargne</p>
+                </div>
 
+              </div>
             </div>
-          </div>
-          <div className="w-7/12 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 relative">
-            <h2 className="text-3xl font-extralight italic">Graphique</h2>
-            <Graphique data={dataGraph} />
-            <div className={`flex flex-row gap-4 w-full px-40 justify-between bottom-2`}>
-              <ChevronLeft className='cursor-pointer hover:scale-90 transition-all' onClick={clickLastMonthGraph} />
-              <p className="text-sm italic">{firstMonth.month} {firstMonth.year} - {lastMonth.month} {lastMonth.year}</p>
-              <ChevronRight className='cursor-pointer hover:scale-90 transition-all' onClick={clickNextMonthGraph} />
+            <div className="w-7/12 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 relative">
+              <h2 className="text-3xl font-extralight italic">Graphique</h2>
+              <Graphique data={dataGraph} />
+              <div className={`flex flex-row gap-4 w-full px-40 justify-between bottom-2`}>
+                <ChevronLeft className='cursor-pointer hover:scale-90 transition-all' onClick={clickLastMonthGraph} />
+                <p className="text-sm italic">{firstMonth.month} {firstMonth.year} - {lastMonth.month} {lastMonth.year}</p>
+                <ChevronRight className='cursor-pointer hover:scale-90 transition-all' onClick={clickNextMonthGraph} />
+              </div>
             </div>
           </div>
         </div>
+
       </section>
     </>
   );

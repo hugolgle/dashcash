@@ -98,112 +98,126 @@ export default function Statistique() {
 
   return (
     <>
-      <section className="flex flex-col w-full items-center gap-4">
-        <h2 className="  text-5xl font-thin mb-5">Statistiques</h2>
-        <div className="flex flex-row justify-center gap-2 w-full">
-          {generateYears().map((year, index) => (
-            <button
-              className={`text-xs rounded-xl transition-all border-1 hover:border-blue-400 ${selectedYear === year ? 'border-blue-400' : ''}`}
-              key={index}
-              onClick={() => clickYear(year)}
-            >
-              {year}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex flex-row gap-4 w-full text-right">
-
-          <LinkStat
-            link={`/recette/${selectedYear}`}
-            type="Recette totale"
-            months=""
-            selectedYear={selectedYear}
-            montant={recetteYear}
-          />
-
-          <LinkStat
-            link={`/depense/${selectedYear}`}
-            type="Dépense totale"
-            months=""
-            selectedYear={selectedYear}
-            montant={depenseYear}
-          />
-
-          <div className={`flex flex-col-reverse font-thin justify-between w-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ${economieTotaleNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
-            <div className="flex justify-between">
-              <p className="text-xs text-left italic">Économie totale</p>
-              <p className="text-xs text-left italic">En {selectedYear}</p>
-            </div>
-            <p className="text-4xl">{economieTotale} €</p>
+      <section className="w-full h-full">
+        <h2 className="text-5xl font-thin mb-5">Statistiques</h2>
+        <div className="flex flex-col w-full h-full gap-4">
+          <div className="flex flex-row justify-center gap-2 w-full">
+            {generateYears().map((year, index) => (
+              <button
+                className={`text-xs rounded-xl transition-all border-1 hover:border-blue-400 ${selectedYear === year ? 'border-blue-400' : ''}`}
+                key={index}
+                onClick={() => clickYear(year)}
+              >
+                {year}
+              </button>
+            ))}
           </div>
-        </div>
+          <div className="flex flex-row gap-4 w-full">
+            <div className="flex flex-col gap-4 w-3/5">
+              <div className="flex flex-row gap-4 w-full text-right">
+
+                <LinkStat
+                  link={`/recette/${selectedYear}`}
+                  type="Recette totale"
+                  months=""
+                  selectedYear={selectedYear}
+                  montant={recetteYear}
+                />
+
+                <LinkStat
+                  link={`/depense/${selectedYear}`}
+                  type="Dépense totale"
+                  months=""
+                  selectedYear={selectedYear}
+                  montant={depenseYear}
+                />
+
+                <div className={`flex flex-col-reverse font-thin justify-between w-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ${economieTotaleNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
+                  <div className="flex justify-between">
+                    <p className="text-xs text-left italic">Économie totale</p>
+                    <p className="text-xs text-left italic">En {selectedYear}</p>
+                  </div>
+                  <p className="text-3xl">{economieTotale} €</p>
+                </div>
+              </div>
 
 
-        <div className="w-2/3 h-px bg-zinc-400 dark:bg-zinc-600 "></div>
+              <div className="w-2/3 h-px bg-zinc-400 dark:bg-zinc-600 "></div>
 
-        <div className="flex flex-row gap-4 w-full text-right">
+              <div className="flex flex-row gap-4 w-full text-right">
 
-          <BoxStat
-            type="Recette/Mois"
-            selectedYear={selectedYear}
-            montant={moyenneRecetteMois}
-          />
+                <BoxStat
+                  type="Recette/Mois"
+                  selectedYear={selectedYear}
+                  montant={moyenneRecetteMois}
+                />
 
-          <BoxStat
-            type="Dépense/Mois"
-            selectedYear={selectedYear}
-            montant={moyenneDepenseMois}
-          />
+                <BoxStat
+                  type="Dépense/Mois"
+                  selectedYear={selectedYear}
+                  montant={moyenneDepenseMois}
+                />
 
-          <BoxStat
-            type="Économie/Mois"
-            selectedYear={selectedYear}
-            montant={`${moyenneEconomie}`}
-            months=""
-            selectedMonth=""
-          />
-        </div>
+                <BoxStat
+                  type="Économie/Mois"
+                  selectedYear={selectedYear}
+                  montant={`${moyenneEconomie}`}
+                  months=""
+                  selectedMonth=""
+                />
+              </div>
+            </div>
 
-        <div className="flex flex-row justify-center gap-2 w-full">
-          {generateMonths().map((monthIndex: any, index) => (
-            <button
-              className={`text-xs rounded-xl transition-all border-1 hover:border-blue-400 ${selectedMonth === String(monthIndex).padStart(2, '0') ? 'border-blue-400' : ''}`}
-              key={index}
-              onClick={() => clickMonth(String(monthIndex).padStart(2, '0'))}
-            >
-              {months[monthIndex - 1]} {selectedYear}
-            </button>
-          ))}
-        </div>
+            <div className="h-full w-2/5 rounded-xl bg-zinc-900">
 
-        <div className="flex flex-row gap-4 text-right w-full">
+            </div>
+          </div>
 
-          <LinkStat
-            link={`/recette/${selectedYear}${selectedMonth}`}
-            type="Recette"
-            months={months}
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            montant={recetteMonth}
-          />
+          <div className="flex flex-row justify-center gap-2 w-full">
+            {generateMonths().map((monthIndex: any, index) => (
+              <button
+                className={`text-xs rounded-xl transition-all border-1 hover:border-blue-400 ${selectedMonth === String(monthIndex).padStart(2, '0') ? 'border-blue-400' : ''}`}
+                key={index}
+                onClick={() => clickMonth(String(monthIndex).padStart(2, '0'))}
+              >
+                {months[monthIndex - 1]} {selectedYear}
+              </button>
+            ))}
+          </div>
 
-          <LinkStat
-            link={`/depense/${selectedYear}${selectedMonth}`}
-            type="Dépense"
-            months={months}
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            montant={depenseMonth}
-          />
+          <div className="flex flex-row w-full gap-4">
+            <div className="flex flex-row gap-4 text-right w-3/5">
 
-          <BoxStat
-            type="Économie"
-            selectedYear={selectedYear}
-            montant={economieMonth}
-            months={months}
-            selectedMonth={selectedMonth}
-          />
+              <LinkStat
+                link={`/recette/${selectedYear}${selectedMonth}`}
+                type="Recette"
+                months={months}
+                selectedMonth={selectedMonth}
+                selectedYear={selectedYear}
+                montant={recetteMonth}
+              />
+
+              <LinkStat
+                link={`/depense/${selectedYear}${selectedMonth}`}
+                type="Dépense"
+                months={months}
+                selectedMonth={selectedMonth}
+                selectedYear={selectedYear}
+                montant={depenseMonth}
+              />
+
+              <BoxStat
+                type={parseFloat(economieMonth) < 0 ? "Déficit" : "Économie"}
+                selectedYear={selectedYear}
+                montant={economieMonth}
+                months={months}
+                selectedMonth={selectedMonth}
+              />
+            </div>
+            <div className="h-full w-2/5 rounded-xl bg-zinc-900">
+
+            </div>
+          </div>
         </div>
       </section>
     </>

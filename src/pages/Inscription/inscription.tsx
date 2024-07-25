@@ -18,7 +18,6 @@ export default function Inscription() {
   const handleNewUser = async (e: any) => {
     e.preventDefault();
 
-
     const postData = {
       username: username,
       password: password,
@@ -49,7 +48,7 @@ export default function Inscription() {
             Nom d'utilisateur :
           </label>
           <input
-            className='w-96 h-10 px-2 rounded-xl'
+            className='w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700'
             id="login"
             type="text"
             value={username}
@@ -63,7 +62,7 @@ export default function Inscription() {
             Mot de passe :
           </label>
           <input
-            className='w-96 h-10 px-2 rounded-xl'
+            className='w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700'
             id="password"
             type="password"
             value={password}
@@ -77,7 +76,7 @@ export default function Inscription() {
             Pseudo :
           </label>
           <input
-            className='w-96 h-10 px-2 rounded-xl'
+            className='w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700'
             id="pseudo"
             type="pseudo"
             value={pseudo}
@@ -91,7 +90,7 @@ export default function Inscription() {
             Nom :
           </label>
           <input
-            className='w-96 h-10 px-2 rounded-xl'
+            className='w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700'
             id="nom"
             type="nom"
             value={nom}
@@ -105,7 +104,7 @@ export default function Inscription() {
             Prénom :
           </label>
           <input
-            className='w-96 h-10 px-2 rounded-xl'
+            className='w-96 h-10 px-2 rounded-xl ring-1 ring-zinc-300 dark:ring-zinc-700'
             id="prenom"
             type="prenom"
             value={prenom}

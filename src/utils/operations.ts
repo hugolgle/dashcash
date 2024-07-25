@@ -1,4 +1,6 @@
 import { useSelector } from "react-redux";
+import { subMonths, startOfMonth } from "date-fns";
+
 
 export const months = [
     "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
@@ -27,7 +29,6 @@ export function getAllTransactions(idUser: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     return transactions.filter((transaction: any) => transaction.user === idUser);
-
 }
 
 export function getTransactionsByType(type: any, idUser: any, filterCategorie: any) {
@@ -209,3 +210,62 @@ export function getRefundByTransactionId(transactionId: any, refundId: any, user
         return null;
     }
 }
+
+// -------------------------------- Titres
+
+export function getTitleOfTransactionsByType(type: any, idUser: any) {
+    const transactions = useSelector((state: any) => state.transactionReducer || []);
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
+
+    // Calculer la date de début des deux derniers mois
+    const currentDate = new Date();
+    const startDate = startOfMonth(subMonths(currentDate, 2));
+
+    // Filtrer les transactions par type et par date
+    const filteredTransactions = userTransactions.filter((transaction: any) => {
+        const transactionDate = new Date(transaction.date);
+        return transaction.type === type && transactionDate >= startDate;
+    });
+
+    const titles = filteredTransactions.map((transaction: any) => transaction.titre);
+
+    // Tri des titres par ordre alphabétique
+    const sortedTitles = titles.sort((a: any, b: any) => {
+        if (a.toLowerCase() < b.toLowerCase()) {
+            return -1;
+        }
+        if (a.toLowerCase() > b.toLowerCase()) {
+            return 1;
+        }
+        return 0;
+    });
+
+    // Supprimer les doublons
+    const uniqueTitles = Array.from(new Set(sortedTitles));
+
+    return uniqueTitles;
+}
+
+// -------------------------------- Auto complete form
+
+
+export function getLatestTransactionByTitle(title: string, type: string, userId: string) {
+    const transactions = useSelector((state: any) => state.transactionReducer || []);
+    const userTransactions = transactions.filter((transaction: any) => transaction.user === userId);
+
+    let filteredTransactions = type
+        ? userTransactions.filter((transaction: any) => transaction.type === type)
+        : userTransactions;
+
+    const filteredByTitle = filteredTransactions.filter((transaction: any) => transaction.titre === title);
+
+    if (filteredByTitle.length === 0) return null;
+
+    return filteredByTitle.sort((a: any, b: any) => {
+        const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
+        if (dateSort !== 0) return dateSort;
+
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    })[0];
+}
+

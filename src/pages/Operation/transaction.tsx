@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { addSpace, convertDateHour, convertirFormatDate, formatDate, formatMontant, separateMillier } from "../../utils/fonctionnel";
-import { getTransactionById } from "../../utils/operations";
+import { getTitleOfTransactionsByType, getTransactionById } from "../../utils/operations";
 
 import { categorieRecette, categorieDepense } from '../../../public/categories.json'
 
@@ -32,8 +32,12 @@ export default function Transaction() {
     const categorieD = categorieSort(categorieDepense)
     const categorieR = categorieSort(categorieRecette)
 
+
+
     const { id } = useParams()
     const transaction = getTransactionById(id, userInfo.id)
+
+    const suggestions = getTitleOfTransactionsByType(transaction.type, userInfo.id);
 
     const [selectedDelete, setSelectedDelete] = useState(false);
 
@@ -138,11 +142,28 @@ export default function Transaction() {
 
     return <>
         <div className="w-full h-auto relative">
-            {selectedUpdate ? (
-                <input className="text-5xl animate-[pulseEdit_1s_ease-in-out_infinite] rounded-2xl text-center font-thin mb-9 bg-transparent" value={selectedTitre} type="text" name="" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
-            ) : (
-                <h2 className="  text-5xl font-thin mb-5">{transaction.titre}</h2>
-            )}
+            {selectedUpdate ? <>
+                <input
+                    className="text-5xl animate-[pulseEdit_1s_ease-in-out_infinite] rounded-2xl text-center font-thin mb-9 bg-transparent" list="title-suggestions"
+                    id="title"
+                    name="title"
+                    maxLength={50}
+                    placeholder="Titre"
+                    value={selectedTitre}
+                    onChange={(e) => { handleTitre(e); handleInputChange(); }}
+                    required
+                />
+                <datalist id="title-suggestions">
+                    {suggestions.map((suggestion, index) => (
+                        <option
+                            key={index}
+                            value={suggestion} />
+                    ))}
+                </datalist>
+            </>
+                : (
+                    <h2 className="  text-5xl font-thin mb-5">{transaction.titre}</h2>
+                )}
 
             <div className={`${refundVisible ? 'hidden' : 'absolute top-0 flex flex-row gap-2 w-full'}`}>
                 <BtnReturn />
