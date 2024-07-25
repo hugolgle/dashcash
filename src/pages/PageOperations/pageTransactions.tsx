@@ -158,7 +158,7 @@ export default function PageTransactions(props: any) {
                     <ListCollapse className={`cursor-pointer hover:scale-110 transition-all ${selectOpe ? "text-zinc-500" : ""}`} onClick={handleSelectOpe} />
                     <BtnFilter categories={categories} action={toggleModal} check={check}>
                         {showModal && (
-                            <div className="flex flex-col bg-zinc-500 rounded z-50 text-left p-2 mt-8 absolute">
+                            <div className="flex flex-col bg-zinc-400 dark:bg-zinc-600 rounded z-50 text-left p-2 mt-8 absolute">
                                 <p className='text-center font-semibold'>Filtrer par :</p>
                                 <div className='grid grid-cols-2 gap-x-2'>
                                     {Array.isArray(categories) && categories.map(({ name }: { name: string }) => (
@@ -198,7 +198,7 @@ export default function PageTransactions(props: any) {
                 <TableauTransac transactions={searchTerm ? searchResults : transactions} selectOpe={selectOpe} />
 
 
-                <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-200 dark:bg-zinc-800 py-3 transition-all">
+                <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-200 hover:opacity-0  dark:bg-zinc-800 py-3 transition-all">
                     Total : <b>{
                         date === "all" ? calculTotal(props.type, userInfo.id, selectedCategories) :
                             date && date.length === 4 ? calculTotalByYear(props.type, date, userInfo.id, selectedCategories) :
@@ -213,7 +213,7 @@ export default function PageTransactions(props: any) {
                 </div>
                 {
                     transactionDeleted ? (
-                        <div className={`absolute bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
+                        <div className={`fixed bottom-4 right-4 flex justify-center transition-all items-center animate-[fadeIn_7s_ease-in-out_forwards]`}>
                             <p className="p-4 bg-red-900 max-w-60 rounded shadow-2xl shadow-black">
                                 Votre transaction a été supprimée avec succès
                             </p>

@@ -103,7 +103,7 @@ export default function PageAddInvest() {
   };
 
   return <>
-    <section>
+    <section className="h-full">
 
       <h2 className="text-5xl font-thin">Ajouter un investissement</h2>
 
@@ -134,7 +134,7 @@ export default function PageAddInvest() {
         <Button variant="outline" className="rounded-xl w-1/4 bg-zinc-100 dark:bg-zinc-900 hover:border-blue-500">Soumettre</Button>
       </form >
       {message || messageError ? (
-        <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
+        <div className={`fixed animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
           <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>
             {message} <Link to={`/invest/operations/${addedOperationId}`} className="underline transition-all hover:text-zinc-950">Allez-y !</Link>
           </p>

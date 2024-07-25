@@ -64,17 +64,17 @@ export default function LayoutTransac(props: any) {
                     </div>
                 </div>
 
-                <div className="flex flex-row gap-4 w-full">
+                <div className="flex flex-row gap-4 w-full ">
                     {lastYears.map((year: any) => (
-                        <Link key={year} to={`${year}`} className="w-1/2 h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
-                            <p className="italic">{year}</p>
+                        <Link key={year} to={`${year}`} className="w-1/2 relative flex flex-col items-center justify-center h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
+                            <p className="italic absolute top-2">{year}</p>
                             <p className="text-4xl">{calculTotalByYear(props.type, `${year}`, userInfo.id, null)}</p>
                         </Link>
                     ))}
                 </div>
 
-                <Link to="all" className="w-full  h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
-                    <p className="italic">Toutes les {props.type.toLowerCase()}s</p>
+                <Link to="all" className="w-full relative flex flex-col items-center justify-center h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
+                    <p className="italic absolute top-2">Toutes les {props.type.toLowerCase()}s</p>
                     <p className="text-4xl">{calculTotal(props.type, userInfo.id, null)}</p>
                 </Link>
             </div>

@@ -29,16 +29,13 @@ export function Camembert(props: any) {
     ];
 
     const chartConfig = {
-        visitors: {
-            label: "Visitors",
-        },
         depensesFixes: {
             label: "Dépenses fixes",
-            color: "hsl(var(--chart-1))",
+            color: "hsl(var(--chart-2))",
         },
         loisir: {
             label: "Loisir",
-            color: "hsl(var(--chart-2))",
+            color: "hsl(var(--chart-1))",
         },
         epargne: {
             label: "Épargne",

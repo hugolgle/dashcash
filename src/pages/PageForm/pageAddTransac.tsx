@@ -100,7 +100,7 @@ export default function PageAddTransac(props: any) {
       const transactionDate = new Date(selectedDate);
       const formattedDate = `${transactionDate.getFullYear()}${(transactionDate.getMonth() + 1).toString().padStart(2, '0')}`;
       setAddedOperationDate(formattedDate)
-      setMessage(`Votre ${props.type} a été ajouté ! `);
+      setMessage(`Votre ${props.type.toLowerCase()} a été ajouté ! `);
 
     } catch {
       setMessageError("Une erreur s'est produite lors de l'ajout de l'opération");
@@ -108,8 +108,7 @@ export default function PageAddTransac(props: any) {
   };
 
   return <>
-    <section>
-
+    <section className="h-full">
 
       <h2 className="text-5xl font-thin">Ajouter une {props.type.toLowerCase()}</h2>
       <div className="absolute top-4 left-4">
@@ -119,7 +118,7 @@ export default function PageAddTransac(props: any) {
 
         <input className="w-96 h-10 px-2 rounded-xl bg-zinc-100 dark:bg-zinc-900" value={selectedTitre} type="text" name="" maxLength={50} placeholder="Titre" onChange={(e) => { handleTitre(e); handleInputChange(); }} required />
         <select id='action' value={selectedCategorie} className="w-96 h-10 px-2 rounded-xl bg-zinc-100 dark:bg-zinc-900" onChange={(e) => { handleCategorie(e); handleInputChange(); }} required>
-          <option disabled selected>Entrez la catégorie</option>
+          <option disabled selected value="">Entrez la catégorie</option>
           {props.type === "Dépense"
             &&
             categorieD.map(({ name }) => {
@@ -147,9 +146,9 @@ export default function PageAddTransac(props: any) {
         <Button variant="outline" className="rounded-xl w-1/4 bg-zinc-100 dark:bg-zinc-900 hover:border-blue-500">Soumettre la {(props.type).toLowerCase()}</Button>
       </form >
       {message || messageError ? (
-        <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
+        <div className={`fixed animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
           <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>
-            {message} <Link to={`/${lUrl}/${addedOperationDate}/${addedOperationId}`} className="underline transition-all hover:text-zinc-950">Allez-y !</Link>
+            {message} <Link to={`/${lUrl}/${addedOperationDate}/${addedOperationId}`} className="underline transition-all hover:text-zinc-50 hover:dark:text-zinc-950">Allez-y</Link> <span>!</span>
           </p>
           <p className={`p-4 bg-red-900 w-60 rounded ${messageError ? 'opacity-100' : 'hidden'}`}>{messageError}</p>
         </div >

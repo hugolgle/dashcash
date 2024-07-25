@@ -90,7 +90,7 @@ export default function PageAddRefund(props: any) {
   };
 
   return <>
-    <section>
+    <section className="h-full">
 
       <form onSubmit={handleAddRefund} className='flex flex-col justify-center items-center gap-5 px-36 py-10'>
 
@@ -106,7 +106,7 @@ export default function PageAddRefund(props: any) {
       </form >
 
       {message || messageError ? (
-        <div className={`absolute animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
+        <div className={`fixed animate-[fadeIn2_0.3s_ease-in-out_forwards] bottom-4 right-4 flex justify-center items-center`}>
           <p className={`p-4 bg-lime-900 w-60 rounded ${message ? 'opacity-100' : 'hidden'}`}>
             {message}
           </p>

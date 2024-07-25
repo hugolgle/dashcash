@@ -130,7 +130,7 @@ export default function Statistique() {
             montant={depenseYear}
           />
 
-          <div className={`flex flex-col-reverse justify-between w-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ${economieTotaleNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
+          <div className={`flex flex-col-reverse font-thin justify-between w-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ${economieTotaleNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
             <div className="flex justify-between">
               <p className="text-xs text-left italic">Économie totale</p>
               <p className="text-xs text-left italic">En {selectedYear}</p>

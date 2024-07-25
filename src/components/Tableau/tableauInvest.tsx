@@ -36,7 +36,7 @@ export default function TableauInvest(props: any) {
                     <TableBody className="flex flex-col justify-center items-center w-full">
                         {props.investments.map((investment: any) => (
                             <Link to={investment._id} className="w-full" key={investment._id}>
-                                <TableRow className="rounded w-full flex my-1 flex-row items-center bg-zinc-100 dark:bg-zinc-900 cursor-pointer hover:bg-zinc-300 hover:dark:bg-zinc-700 transition-all">
+                                <TableRow className="rounded flex my-1 flex-row items-center bg-zinc-100 dark:bg-zinc-900 cursor-pointer hover:bg-opacity-75 hover:dark:bg-opacity-75 transition-all">
                                     <TableCell className="w-full">{investment._id.substring(4, 8)}</TableCell>
                                     <TableCell className="w-full">{investment.plateforme}</TableCell>
                                     <TableCell className="w-full">{investment.type}</TableCell>

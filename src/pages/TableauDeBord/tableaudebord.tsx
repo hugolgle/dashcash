@@ -169,7 +169,7 @@ export default function TableauDeBord() {
 
   return (
     <>
-      <section className="flex flex-col gap-4 p max-h-screen">
+      <section className="flex flex-col gap-4 max-h-screen">
         <h2 className="  text-5xl font-thin mb-5">Tableau de bord</h2>
         <div className="flex flex-row gap-4 h-full">
           <div className="w-2/3 bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 flex flex-col gap-4">
@@ -247,21 +247,15 @@ export default function TableauDeBord() {
             <Camembert dataDf={formatData(dataDf)} dataLoisir={formatData(dataLoisir)} dataEpargne={montantEpargne} total={formatData(total)} />
             <div className="flex flex-row justify-evenly w-full mt-2">
               <div className="flex flex-row justify-center items-center">
-                <div className="w-3 h-3 rounded bg-colorChart1">
-
-                </div>
-                <p className="ml-2 font-thin text-sm">Dépenses loisirs</p>
-              </div>
-              <div className="flex flex-row justify-center items-center">
-                <div className="w-3 h-3 rounded bg-colorChart2">
-
-                </div>
+                <div className="w-3 h-3 rounded bg-colorChart2"></div>
                 <p className="ml-2 font-thin text-sm">Dépenses fixes</p>
               </div>
               <div className="flex flex-row justify-center items-center">
-                <div className="w-3 h-3 rounded bg-colorChart3">
-
-                </div>
+                <div className="w-3 h-3 rounded bg-colorChart1"></div>
+                <p className="ml-2 font-thin text-sm">Dépenses loisirs</p>
+              </div>
+              <div className="flex flex-row justify-center items-center">
+                <div className="w-3 h-3 rounded bg-colorChart3"></div>
                 <p className="ml-2 font-thin text-sm">Épargne</p>
               </div>
 
