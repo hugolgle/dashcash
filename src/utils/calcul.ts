@@ -1,11 +1,9 @@
 import { useSelector } from "react-redux";
 
-export function calculTotal(type: any, idUser: any, filterCategorie: any) {
+export function calculTotal(type: any, filterCategorie: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
-
-    const filteredOperationsByType = userOperations.filter((transaction: any) => transaction.type === type);
+    const filteredOperationsByType = transactions.filter((transaction: any) => transaction.type === type);
 
     const filteredOperationsByCategory = filterCategorie && filterCategorie.length > 0
         ? filteredOperationsByType.filter((transaction: any) => filterCategorie.includes(transaction.categorie))
@@ -18,16 +16,13 @@ export function calculTotal(type: any, idUser: any, filterCategorie: any) {
     return formattedTotal;
 }
 
-
-export function calculTotalByMonth(type: any, month: string, idUser: any, filterCategorie: any | null) {
+export function calculTotalByMonth(type: any, month: string, filterCategorie: any | null) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
 
     const year = month.slice(0, 4);
     const monthNumber = month.slice(4);
 
-    const filteredOperations = userOperations.filter((transaction: any) => {
+    const filteredOperations = transactions.filter((transaction: any) => {
         const transactionYear = transaction.date.slice(0, 4);
         const transactionMonth = transaction.date.slice(5, 7);
         return transaction.type === type && transactionYear === year && transactionMonth === monthNumber;
@@ -44,12 +39,10 @@ export function calculTotalByMonth(type: any, month: string, idUser: any, filter
     return formattedTotal;
 }
 
-export function calculTotalByYear(type: any, year: any, idUser: any, filterCategorie: any | null) {
+export function calculTotalByYear(type: any, year: any, filterCategorie: any | null) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
-
-    const filteredOperations = userOperations.filter((transaction: any) => {
+    const filteredOperations = transactions.filter((transaction: any) => {
         const transactionYear = transaction.date.slice(0, 4);
         return transaction.type === type && transactionYear === year;
     });
@@ -65,12 +58,10 @@ export function calculTotalByYear(type: any, year: any, idUser: any, filterCateg
     return formattedTotal;
 }
 
-export function calculMoyenne(type: any, year: any, nbMonth: any, idUser: any) {
+export function calculMoyenne(type: any, year: any, nbMonth: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
-
-    let filteredOperations = userOperations.filter((transaction: any) => {
+    let filteredOperations = transactions.filter((transaction: any) => {
         const transactionYear = transaction.date.slice(0, 4);
         return transactionYear === year;
     });
@@ -95,12 +86,10 @@ export function calculMoyenne(type: any, year: any, nbMonth: any, idUser: any) {
 }
 
 
-export function calculEconomie(year: any, month: any, idUser: any) {
+export function calculEconomie(year: any, month: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    const userOperations = transactions.filter((transaction: any) => transaction.user === idUser);
-
-    let filteredOperations = userOperations.filter((transaction: any) => {
+    let filteredOperations = transactions.filter((transaction: any) => {
         const transactionYear = transaction.date.slice(0, 4);
         return transactionYear === year;
     });

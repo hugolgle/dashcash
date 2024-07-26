@@ -21,7 +21,7 @@ export default function PageAddTransac(props: any) {
   const categorieD = categorieSort(categorieDepense);
   const categorieR = categorieSort(categorieRecette);
 
-  const suggestions = getTitleOfTransactionsByType(props.type, userInfo.id);
+  const suggestions = getTitleOfTransactionsByType(props.type);
 
   const [selectedTitre, setSelectedTitre] = useState('');
   const [selectedCategorie, setSelectedCategorie] = useState('');
@@ -35,7 +35,7 @@ export default function PageAddTransac(props: any) {
 
   const dispatch = useDispatch();
 
-  const lastTransacByTitle = getLatestTransactionByTitle(selectedTitre, props.type, userInfo.id);
+  const lastTransacByTitle = getLatestTransactionByTitle(selectedTitre, props.type);
 
   useEffect(() => {
     if (selectedTitre && lastTransacByTitle) {

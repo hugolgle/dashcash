@@ -25,19 +25,18 @@ export function getCurrentMonth() {
 
 // -------------------------------- Transactions
 
-export function getAllTransactions(idUser: any) {
+export function getAllTransactions() {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
-    return transactions.filter((transaction: any) => transaction.user === idUser);
+    return transactions
 }
 
-export function getTransactionsByType(type: any, idUser: any, filterCategorie: any) {
+export function getTransactionsByType(type: any, filterCategorie: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
 
     let filteredTransactions = type
-        ? userTransactions.filter((transaction: any) => transaction.type === type)
-        : userTransactions;
+        ? transactions.filter((transaction: any) => transaction.type === type)
+        : transactions;
 
     if (filterCategorie && filterCategorie.length > 0) {
         filteredTransactions = filteredTransactions.filter((transaction: any) => filterCategorie.includes(transaction.categorie));
@@ -52,23 +51,21 @@ export function getTransactionsByType(type: any, idUser: any, filterCategorie: a
 }
 
 
-export function getTransactionById(id: any, idUser: any) {
+export function getTransactionById(id: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
     if (id) {
-        return userTransactions.find((transaction: any) => transaction._id === id);
+        return transactions.find((transaction: any) => transaction._id === id);
     } else {
         return null;
     }
 }
 
-export function getTransactionsByMonth(month: any, type: any, idUser: any, filterCategorie: any) {
+export function getTransactionsByMonth(month: any, type: any, filterCategorie: any) {
     const targetMonth = `${month.slice(0, 4)}-${month.slice(4)}`;
 
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
 
-    let transactionsInMonth = userTransactions.filter((transaction: any) => {
+    let transactionsInMonth = transactions.filter((transaction: any) => {
         const transactionDate = transaction.date.split('T')[0];
         const transactionMonth = transactionDate.slice(0, 7);
 
@@ -94,11 +91,10 @@ export function getTransactionsByMonth(month: any, type: any, idUser: any, filte
 }
 
 
-export function getTransactionsByYear(year: any, type: any, idUser: any, filterCategorie: any) {
+export function getTransactionsByYear(year: any, type: any, filterCategorie: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
 
-    let transactionsInYear = userTransactions.filter((transaction: any) => {
+    let transactionsInYear = transactions.filter((transaction: any) => {
         const transactionYear = transaction.date.slice(0, 4);
         return transactionYear === year;
     });
@@ -121,13 +117,12 @@ export function getTransactionsByYear(year: any, type: any, idUser: any, filterC
     return transactionsInYear;
 }
 
-export function getLastTransactionsByType(type: any, idUser: any, number: Number) {
+export function getLastTransactionsByType(type: any, number: Number) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
 
-    let filteredTransactions = userTransactions;
+    let filteredTransactions = transactions;
     if (type !== null) {
-        filteredTransactions = userTransactions.filter((transaction: any) => transaction.type === type);
+        filteredTransactions = transactions.filter((transaction: any) => transaction.type === type);
     }
 
     const getCurrentMonthAndYear = () => {
@@ -185,11 +180,10 @@ export function getInvestmentById(id: any, idUser: any) {
 
 // -------------------------------- Remboursements
 
-export function getRefundsByTransactionId(transactionId: any, userId: any) {
+export function getRefundsByTransactionId(transactionId: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === userId);
 
-    const transaction = userTransactions.find((transaction: any) => transaction._id === transactionId);
+    const transaction = transactions.find((transaction: any) => transaction._id === transactionId);
 
     if (transaction) {
         return transaction.remboursements || [];
@@ -198,11 +192,10 @@ export function getRefundsByTransactionId(transactionId: any, userId: any) {
     }
 }
 
-export function getRefundByTransactionId(transactionId: any, refundId: any, userId: any) {
+export function getRefundByTransactionId(transactionId: any, refundId: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === userId);
 
-    const transaction = userTransactions.find((transaction: any) => transaction._id === transactionId);
+    const transaction = transactions.find((transaction: any) => transaction._id === transactionId);
 
     if (transaction && transaction.remboursements) {
         return transaction.remboursements.find((refund: any) => refund._id === refundId) || null;
@@ -213,16 +206,15 @@ export function getRefundByTransactionId(transactionId: any, refundId: any, user
 
 // -------------------------------- Titres
 
-export function getTitleOfTransactionsByType(type: any, idUser: any) {
+export function getTitleOfTransactionsByType(type: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === idUser);
 
     // Calculer la date de début des deux derniers mois
     const currentDate = new Date();
     const startDate = startOfMonth(subMonths(currentDate, 2));
 
     // Filtrer les transactions par type et par date
-    const filteredTransactions = userTransactions.filter((transaction: any) => {
+    const filteredTransactions = transactions.filter((transaction: any) => {
         const transactionDate = new Date(transaction.date);
         return transaction.type === type && transactionDate >= startDate;
     });
@@ -249,13 +241,12 @@ export function getTitleOfTransactionsByType(type: any, idUser: any) {
 // -------------------------------- Auto complete form
 
 
-export function getLatestTransactionByTitle(title: string, type: string, userId: string) {
+export function getLatestTransactionByTitle(title: string, type: string) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
-    const userTransactions = transactions.filter((transaction: any) => transaction.user === userId);
 
     let filteredTransactions = type
-        ? userTransactions.filter((transaction: any) => transaction.type === type)
-        : userTransactions;
+        ? transactions.filter((transaction: any) => transaction.type === type)
+        : transactions;
 
     const filteredByTitle = filteredTransactions.filter((transaction: any) => transaction.titre === title);
 

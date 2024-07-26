@@ -27,8 +27,9 @@ interface deleteTransactionsAction {
 }
 
 export const getTransactions = () => {
+    const idUser = localStorage.getItem('idUser')
     return (dispatch: Dispatch<getTransactionsAction>) => {
-        return axios.get("http://localhost:5001/transactions").then((res) => {
+        return axios.get(`http://localhost:5001/transactions/user/${idUser}`).then((res) => { // Change this line to match the new route
             dispatch({ type: GET_TRANSACTIONS, payload: res.data });
         });
     };

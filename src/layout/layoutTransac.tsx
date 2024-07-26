@@ -13,7 +13,7 @@ export default function LayoutTransac(props: any) {
     const lastMonths = getLastThreeMonthsOfCurrentYear()
     const lastYears = getLastTwoYears()
     const currentMonth = getCurrentMonth()
-    const lastTransactions = getLastTransactionsByType(props.type, userInfo.id, 5)
+    const lastTransactions = getLastTransactionsByType(props.type, 5)
     const firstDayMonth = premierJourMoisEnCours()
 
     return <>
@@ -32,7 +32,7 @@ export default function LayoutTransac(props: any) {
 
                         <Link to={currentMonth} className="flex flex-col hover:scale-95 justify-between w-3/5 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                             <div className="flex flex-col w-full gap-4">
-                                <p className="text-4xl font-thin">{calculTotalByMonth(props.type, currentMonth, userInfo.id, null)}</p>
+                                <p className="text-4xl font-thin">{calculTotalByMonth(props.type, currentMonth, null)}</p>
 
                                 {lastTransactions && lastTransactions.length > 0 ? (
                                     <table>
@@ -59,7 +59,7 @@ export default function LayoutTransac(props: any) {
                             {lastMonths.map((month: any) => (
                                 <Link key={month.code} to={month.code} className="flex flex-col-reverse hover:scale-95 justify-between w-full h-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                                     <p className="text-right italic">{month.month}</p>
-                                    <p className="text-4xl font-thin">{calculTotalByMonth(props.type, month.code, userInfo.id, null)}</p>
+                                    <p className="text-4xl font-thin">{calculTotalByMonth(props.type, month.code, null)}</p>
                                 </Link>
                             ))}
                         </div>
@@ -69,14 +69,14 @@ export default function LayoutTransac(props: any) {
                         {lastYears.map((year: any) => (
                             <Link key={year} to={`${year}`} className="w-1/2 relative flex flex-col items-center justify-center h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95 transition-all p-2">
                                 <p className="italic absolute top-2">{year}</p>
-                                <p className="text-4xl font-thin">{calculTotalByYear(props.type, `${year}`, userInfo.id, null)}</p>
+                                <p className="text-4xl font-thin">{calculTotalByYear(props.type, `${year}`, null)}</p>
                             </Link>
                         ))}
                     </div>
 
                     <Link to="all" className="w-full relative flex flex-col items-center justify-center h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 hover:scale-95  transition-all p-2">
                         <p className="italic absolute top-2">Toutes les {props.type.toLowerCase()}s</p>
-                        <p className="text-4xl font-thin">{calculTotal(props.type, userInfo.id, null)}</p>
+                        <p className="text-4xl font-thin">{calculTotal(props.type, null)}</p>
                     </Link>
                 </div>
             </div>

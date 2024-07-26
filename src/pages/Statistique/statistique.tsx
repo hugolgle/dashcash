@@ -79,20 +79,20 @@ export default function Statistique() {
 
   const selectedDate = `${selectedYear}${selectedMonth}`;
 
-  const depenseYear = calculTotalByYear("Dépense", `${selectedYear}`, userInfo.id, null);
-  const recetteYear = calculTotalByYear("Recette", `${selectedYear}`, userInfo.id, null);
+  const depenseYear = calculTotalByYear("Dépense", `${selectedYear}`, null);
+  const recetteYear = calculTotalByYear("Recette", `${selectedYear}`, null);
 
-  const depenseMonth = calculTotalByMonth("Dépense", selectedDate, userInfo.id, null);
-  const recetteMonth = calculTotalByMonth("Recette", selectedDate, userInfo.id, null);
+  const depenseMonth = calculTotalByMonth("Dépense", selectedDate, null);
+  const recetteMonth = calculTotalByMonth("Recette", selectedDate, null);
 
   const nbMonth = generateMonths().length;
 
-  const moyenneDepenseMois = calculMoyenne("Dépense", `${selectedYear}`, nbMonth, userInfo.id);
-  const moyenneRecetteMois = calculMoyenne("Recette", `${selectedYear}`, nbMonth, userInfo.id);
+  const moyenneDepenseMois = calculMoyenne("Dépense", `${selectedYear}`, nbMonth);
+  const moyenneRecetteMois = calculMoyenne("Recette", `${selectedYear}`, nbMonth);
 
-  const economieTotale = calculEconomie(`${selectedYear}`, null, userInfo.id);
+  const economieTotale = calculEconomie(`${selectedYear}`, null);
   const economieTotaleNumber = parseInt(economieTotale);
-  const economieMonth = calculEconomie(`${selectedYear}`, selectedMonth, userInfo.id);
+  const economieMonth = calculEconomie(`${selectedYear}`, selectedMonth);
   console.log(selectedYear, selectedMonth)
   const moyenneEconomie = calculMoyenneEconomie(moyenneDepenseMois, moyenneRecetteMois);
 

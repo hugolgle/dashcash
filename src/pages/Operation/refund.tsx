@@ -27,8 +27,8 @@ export default function Refund() {
     }, [message]);
 
     const { id, idRefund } = useParams()
-    const refund = getRefundByTransactionId(id, idRefund, userInfo.id)
-    const transaction = getTransactionById(id, userInfo.id)
+    const refund = getRefundByTransactionId(id, idRefund)
+    const transaction = getTransactionById(id)
 
     const [selectedRefundTitre, setSelectedTitre] = useState(refund.titre);
 

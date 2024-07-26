@@ -25,8 +25,8 @@ export default function TableauDeBord() {
   const newCurrentMonth = String(currentMonth).padStart(2, '0');
   const currentDate = `${currentYear}${newCurrentMonth}`;
 
-  const montantRecettesMonth = calculTotalByMonth("Recette", currentDate, userInfo.id, null);
-  const montantDepensesMonth = calculTotalByMonth("Dépense", currentDate, userInfo.id, null);
+  const montantRecettesMonth = calculTotalByMonth("Recette", currentDate, null);
+  const montantDepensesMonth = calculTotalByMonth("Dépense", currentDate, null);
 
   const getPreviousMonthAndYear = (month: number, year: number) => {
     let prevMonth = month - 1;
@@ -43,14 +43,14 @@ export default function TableauDeBord() {
   const newPreviousMonth = String(previousMonth).padStart(2, '0');
   const previousDate = `${previousYear}${newPreviousMonth}`;
 
-  const montantRecettesLastMonth = calculTotalByMonth("Recette", previousDate, userInfo.id, null);
-  const montantDepensesLastMonth = calculTotalByMonth("Dépense", previousDate, userInfo.id, null);
+  const montantRecettesLastMonth = calculTotalByMonth("Recette", previousDate, null);
+  const montantDepensesLastMonth = calculTotalByMonth("Dépense", previousDate, null);
 
-  const economiesCurrentMonth = calculEconomie(`${currentYear}`, newCurrentMonth, userInfo.id);
+  const economiesCurrentMonth = calculEconomie(`${currentYear}`, newCurrentMonth);
 
-  const economieLastMonth = calculEconomie(`${previousYear}`, newPreviousMonth, userInfo.id);
+  const economieLastMonth = calculEconomie(`${previousYear}`, newPreviousMonth);
 
-  const lastTransactions = getLastTransactionsByType(null, userInfo.id, 5)
+  const lastTransactions = getLastTransactionsByType(null, 5)
 
   const formatData = (data: string) => {
     const cleanedData = data.replace(/[^\d.-]/g, '').replace(/ /g, '');
@@ -103,12 +103,12 @@ export default function TableauDeBord() {
     }
   });
 
-  const dataDf = calculTotalByMonth("Dépense", month, userInfo.id, categoriesDf);
-  const dataLoisir = calculTotalByMonth("Dépense", month, userInfo.id, categoriesLoisir);
+  const dataDf = calculTotalByMonth("Dépense", month, categoriesDf);
+  const dataLoisir = calculTotalByMonth("Dépense", month, categoriesLoisir);
 
   const montantTotalLoisirDf = formatData(dataDf) + formatData(dataLoisir);
 
-  const total = calculTotalByMonth("Recette", month, userInfo.id, null)
+  const total = calculTotalByMonth("Recette", month, null)
 
   const montantEpargne = parseFloat(montantRecettesLastMonth) - parseFloat(montantTotalLoisirDf);
 
@@ -148,8 +148,8 @@ export default function TableauDeBord() {
   const montantRecetteByMonth: any = [];
 
   lastSixMonths.forEach(({ code }) => {
-    const montantDepenses = calculTotalByMonth("Dépense", code, userInfo.id, null);
-    const montantRecettes = calculTotalByMonth("Recette", code, userInfo.id, null);
+    const montantDepenses = calculTotalByMonth("Dépense", code, null);
+    const montantRecettes = calculTotalByMonth("Recette", code, null);
 
     montantDepenseByMonth.push(formatData(montantDepenses));
     montantRecetteByMonth.push(formatData(montantRecettes));

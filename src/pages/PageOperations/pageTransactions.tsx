@@ -84,10 +84,10 @@ export default function PageTransactions(props: any) {
     };
 
     const transactions = date === "all"
-        ? getTransactionsByType(props.type, userInfo.id, selectedCategories)
+        ? getTransactionsByType(props.type, selectedCategories)
         : date?.length === 4
-            ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories)
-            : getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories);
+            ? getTransactionsByYear(date, props.type, selectedCategories)
+            : getTransactionsByMonth(date, props.type, selectedCategories);
 
     useEffect(() => {
         if (searchTerm === "") {
@@ -200,15 +200,15 @@ export default function PageTransactions(props: any) {
 
                 <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-200 hover:opacity-0  dark:bg-zinc-800 py-3 transition-all">
                     Total : <b>{
-                        date === "all" ? calculTotal(props.type, userInfo.id, selectedCategories) :
-                            date && date.length === 4 ? calculTotalByYear(props.type, date, userInfo.id, selectedCategories) :
-                                date ? calculTotalByMonth(props.type, date, userInfo.id, selectedCategories) : "Date non définie"
+                        date === "all" ? calculTotal(props.type, selectedCategories) :
+                            date && date.length === 4 ? calculTotalByYear(props.type, date, selectedCategories) :
+                                date ? calculTotalByMonth(props.type, date, selectedCategories) : "Date non définie"
                     }</b>
                     <br />
                     Transaction(s) : <b>{
-                        date === "all" ? getTransactionsByType(props.type, userInfo.id, selectedCategories).length :
-                            date?.length === 4 ? getTransactionsByYear(date, props.type, userInfo.id, selectedCategories).length :
-                                getTransactionsByMonth(date, props.type, userInfo.id, selectedCategories).length
+                        date === "all" ? getTransactionsByType(props.type, selectedCategories).length :
+                            date?.length === 4 ? getTransactionsByYear(date, props.type, selectedCategories).length :
+                                getTransactionsByMonth(date, props.type, selectedCategories).length
                     }</b>
                 </div>
                 {

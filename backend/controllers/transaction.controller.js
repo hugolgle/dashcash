@@ -24,7 +24,7 @@ module.exports.setTransactions = async (req, res) => {
 
 module.exports.getTransactions = async (req, res) => {
     try {
-        const transactions = await OperationModel.find();
+        const transactions = await OperationModel.find({ user: req.params.idUser }); // Change this line to filter by user ID
         return res.status(200).json(transactions);
     } catch (error) {
         return res.status(500).json({ message: "Erreur lors de la récupération des opérations", error });

@@ -2,7 +2,7 @@ const express = require("express");
 const { getTransactions, getTransaction, setTransactions, editTransaction, deleteTransaction, addRefund, deleteRefund, editRefund } = require("../controllers/transaction.controller");
 const router = express.Router();
 
-router.get("/", getTransactions);
+router.get("/user/:idUser", getTransactions);
 
 router.get("/:id", getTransaction);
 

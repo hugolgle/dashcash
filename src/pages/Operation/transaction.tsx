@@ -35,9 +35,9 @@ export default function Transaction() {
 
 
     const { id } = useParams()
-    const transaction = getTransactionById(id, userInfo.id)
+    const transaction = getTransactionById(id)
 
-    const suggestions = getTitleOfTransactionsByType(transaction.type, userInfo.id);
+    const suggestions = getTitleOfTransactionsByType(transaction.type);
 
     const [selectedDelete, setSelectedDelete] = useState(false);
 

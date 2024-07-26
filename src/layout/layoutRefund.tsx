@@ -23,7 +23,7 @@ export default function LayoutRefund() {
     }, [message]);
 
     const { id } = useParams()
-    const refunds = getRefundsByTransactionId(id, userInfo.id)
+    const refunds = getRefundsByTransactionId(id)
 
     return <>
         <section>
