@@ -25,7 +25,7 @@ module.exports.setInvestments = async (req, res) => {
 
 module.exports.getInvestments = async (req, res) => {
     try {
-        const investments = await InvestmentModel.find();
+        const investments = await await InvestmentModel.find({ user: req.params.idUser });
         return res.status(200).json(investments);
     } catch (error) {
         return res.status(500).json({ message: "Erreur lors de la récupération des investissements", error });

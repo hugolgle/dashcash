@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 import { getTransactions } from "./transaction.action";
+import { getInvestments } from "./investment.action";
 
 
 export const loginUser = (username: any, password: any) => {
@@ -25,7 +26,8 @@ export const loginUser = (username: any, password: any) => {
                 const { _id, username, nom, prenom, pseudo, createdAt } = user;
                 localStorage.setItem('idUser', _id)
                 dispatch({ type: 'LOGIN_SUCCESS', payload: { id: _id, username, nom, prenom, pseudo, date: createdAt } });
-                dispatch(getTransactions());
+                await dispatch(getTransactions());
+                await dispatch(getInvestments());
             } else {
                 dispatch({ type: 'LOGIN_FAILURE', payload: { error: 'Nom d\'utilisateur ou mot de passe incorrect' } });
             }
@@ -36,9 +38,11 @@ export const loginUser = (username: any, password: any) => {
 };
 
 export const logoutUser = () => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: any) => {
         localStorage.removeItem('idUser')
         dispatch({ type: 'LOGOUT' });
+        await dispatch(getTransactions());
+        await dispatch(getInvestments());
     };
 };
 

@@ -28,7 +28,7 @@ export default function Investment() {
     }, [message]);
 
     const { id } = useParams()
-    const investment = getInvestmentById(id, userInfo.id)
+    const investment = getInvestmentById(id)
 
     const [selectedDelete, setSelectedDelete] = useState(false);
 

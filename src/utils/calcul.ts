@@ -130,14 +130,12 @@ export function calculMoyenneEconomie(depensesMoyennes: any, recettesMoyennes: a
 // Investment
 
 
-export function calculTotalInvestment(idUser: any, isSold: boolean | null) {
+export function calculTotalInvestment(isSold: boolean | null) {
     const investments = useSelector((state: any) => state.investmentReducer || []);
 
-    const userOperations = investments.filter((investment: any) => investment.user === idUser);
-
     const filteredOperations = isSold !== null
-        ? userOperations.filter((investment: any) => investment.isSold === isSold)
-        : userOperations;
+        ? investments.filter((investment: any) => investment.isSold === isSold)
+        : investments;
 
     const totalAmount = filteredOperations.reduce((total: number, investment: any) => {
         if (isSold && investment.montantVendu !== undefined) {

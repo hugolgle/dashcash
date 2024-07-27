@@ -150,14 +150,12 @@ export function getLastTransactionsByType(type: any, number: Number) {
 
 // -------------------------------- Investissements
 
-export function getAllInvestments(idUser: any, isSold: boolean | null) {
+export function getAllInvestments(isSold: boolean | null) {
     const investments = useSelector((state: any) => state.investmentReducer || []);
 
-    const userInvestments = investments.filter((investment: any) => investment.user === idUser);
-
     const filteredInvestments = isSold !== null
-        ? userInvestments.filter((investment: any) => investment.isSold === isSold)
-        : userInvestments;
+        ? investments.filter((investment: any) => investment.isSold === isSold)
+        : investments;
 
     return filteredInvestments.sort((a: any, b: any) => {
         const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -168,11 +166,10 @@ export function getAllInvestments(idUser: any, isSold: boolean | null) {
 }
 
 
-export function getInvestmentById(id: any, idUser: any) {
+export function getInvestmentById(id: any) {
     const investments = useSelector((state: any) => state.investmentReducer || []);
-    const userInvestments = investments.filter((investment: any) => investment.user === idUser);
     if (id) {
-        return userInvestments.find((investment: any) => investment._id === id);
+        return investments.find((investment: any) => investment._id === id);
     } else {
         return null;
     }

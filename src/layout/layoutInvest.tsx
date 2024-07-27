@@ -18,20 +18,20 @@ export default function LayoutInvest() {
                     <Link to="operationsC" className="flex flex-col w-full hover:scale-95 justify-between bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                         <div className="flex flex-col w-full gap-4">
                             <p className="text-4xl">Investissement en cours</p>
-                            <p className="text-4xl font-thin">{calculTotalInvestment(userInfo.id, false)}</p>
+                            <p className="text-4xl font-thin">{calculTotalInvestment(false)}</p>
                         </div>
                     </Link>
                     <Link to="operationsVendu" className="flex flex-col w-full hover:scale-95 justify-between bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                         <div className="flex flex-col w-full gap-4">
                             <p className="text-4xl">Investissement vendu</p>
-                            <p className="text-4xl font-thin">{calculTotalInvestment(userInfo.id, true)}</p>
+                            <p className="text-4xl font-thin">{calculTotalInvestment(true)}</p>
                         </div>
                     </Link>
                 </div>
                 <Link to="operations" className="flex flex-col w-full hover:scale-95 justify-between bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all p-4 gap-4 cursor-pointer">
                     <div className="flex flex-col w-full gap-4">
                         <p className="text-4xl">Investissement</p>
-                        <p className="text-4xl font-thin">{calculTotalInvestment(userInfo.id, null)}</p>
+                        <p className="text-4xl font-thin">{calculTotalInvestment(null)}</p>
                     </div>
                 </Link>
             </div>

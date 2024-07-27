@@ -28,8 +28,9 @@ interface deleteInvestmentsAction {
 }
 
 export const getInvestments = () => {
+    const idUser = localStorage.getItem('idUser')
     return (dispatch: Dispatch<getInvestmentsAction>) => {
-        return axios.get("http://localhost:5001/investments").then((res) => {
+        return axios.get(`http://localhost:5001/investments/user/${idUser}`).then((res) => { // Change this line to match the new route
             dispatch({ type: GET_INVESTMENTS, payload: res.data });
         });
     };
