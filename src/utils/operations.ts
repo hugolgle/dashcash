@@ -31,7 +31,7 @@ export function getAllTransactions() {
     return transactions
 }
 
-export function getTransactionsByType(type: any, filterCategorie: any) {
+export function getTransactionsByType(type: any, filterCategorie: any, filterTitle: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     let filteredTransactions = type
@@ -40,6 +40,10 @@ export function getTransactionsByType(type: any, filterCategorie: any) {
 
     if (filterCategorie && filterCategorie.length > 0) {
         filteredTransactions = filteredTransactions.filter((transaction: any) => filterCategorie.includes(transaction.categorie));
+    }
+
+    if (filterTitle && filterTitle.length > 0) {
+        filteredTransactions = filteredTransactions.filter((transaction: any) => filterTitle.includes(transaction.titre));
     }
 
     return filteredTransactions.sort((a: any, b: any) => {
@@ -51,6 +55,7 @@ export function getTransactionsByType(type: any, filterCategorie: any) {
 }
 
 
+
 export function getTransactionById(id: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
     if (id) {
@@ -60,7 +65,7 @@ export function getTransactionById(id: any) {
     }
 }
 
-export function getTransactionsByMonth(month: any, type: any, filterCategorie: any) {
+export function getTransactionsByMonth(month: any, type: any, filterCategorie: any, filterTitle: any) {
     const targetMonth = `${month.slice(0, 4)}-${month.slice(4)}`;
 
     const transactions = useSelector((state: any) => state.transactionReducer || []);
@@ -80,6 +85,10 @@ export function getTransactionsByMonth(month: any, type: any, filterCategorie: a
         transactionsInMonth = transactionsInMonth.filter((transaction: any) => filterCategorie.includes(transaction.categorie));
     }
 
+    if (filterTitle && filterTitle.length > 0) {
+        transactionsInMonth = transactionsInMonth.filter((transaction: any) => filterTitle.includes(transaction.titre));
+    }
+
     transactionsInMonth.sort((a: any, b: any) => {
         const dateSort = new Date(b.date).getTime() - new Date(a.date).getTime();
         if (dateSort !== 0) return dateSort;
@@ -91,7 +100,7 @@ export function getTransactionsByMonth(month: any, type: any, filterCategorie: a
 }
 
 
-export function getTransactionsByYear(year: any, type: any, filterCategorie: any) {
+export function getTransactionsByYear(year: any, type: any, filterCategorie: any, filterTitle: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     let transactionsInYear = transactions.filter((transaction: any) => {
@@ -105,6 +114,10 @@ export function getTransactionsByYear(year: any, type: any, filterCategorie: any
 
     if (filterCategorie && filterCategorie.length > 0) {
         transactionsInYear = transactionsInYear.filter((transaction: any) => filterCategorie.includes(transaction.categorie));
+    }
+
+    if (filterTitle && filterTitle.length > 0) {
+        transactionsInYear = transactionsInYear.filter((transaction: any) => filterTitle.includes(transaction.titre));
     }
 
     transactionsInYear.sort((a: any, b: any) => {

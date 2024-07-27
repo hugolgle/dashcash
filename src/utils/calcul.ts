@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 
-export function calculTotal(type: any, filterCategorie: any) {
+export function calculTotal(type: any, filterCategorie: any, filterTitle: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     const filteredOperationsByType = transactions.filter((transaction: any) => transaction.type === type);
@@ -9,14 +9,18 @@ export function calculTotal(type: any, filterCategorie: any) {
         ? filteredOperationsByType.filter((transaction: any) => filterCategorie.includes(transaction.categorie))
         : filteredOperationsByType;
 
-    const totalAmount = filteredOperationsByCategory.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
+    const filteredOperationsByTitle = filterTitle && filterTitle.length > 0
+        ? filteredOperationsByCategory.filter((transaction: any) => filterTitle.includes(transaction.titre))
+        : filteredOperationsByCategory;
+
+    const totalAmount = filteredOperationsByTitle.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
 
     const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 
     return formattedTotal;
 }
 
-export function calculTotalByMonth(type: any, month: string, filterCategorie: any | null) {
+export function calculTotalByMonth(type: any, month: string, filterCategorie: any, filterTitle: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     const year = month.slice(0, 4);
@@ -32,14 +36,18 @@ export function calculTotalByMonth(type: any, month: string, filterCategorie: an
         ? filteredOperations.filter((transaction: any) => filterCategorie.includes(transaction.categorie))
         : filteredOperations;
 
-    const totalAmount = filteredOperationsByCategory.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
+    const filteredOperationsByTitle = filterTitle && filterTitle.length > 0
+        ? filteredOperationsByCategory.filter((transaction: any) => filterTitle.includes(transaction.titre))
+        : filteredOperationsByCategory;
+
+    const totalAmount = filteredOperationsByTitle.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
 
     const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 
     return formattedTotal;
 }
 
-export function calculTotalByYear(type: any, year: any, filterCategorie: any | null) {
+export function calculTotalByYear(type: any, year: any, filterCategorie: any, filterTitle: any) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     const filteredOperations = transactions.filter((transaction: any) => {
@@ -51,7 +59,11 @@ export function calculTotalByYear(type: any, year: any, filterCategorie: any | n
         ? filteredOperations.filter((transaction: any) => filterCategorie.includes(transaction.categorie))
         : filteredOperations;
 
-    const totalAmount = filteredOperationsByCategory.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
+    const filteredOperationsByTitle = filterTitle && filterTitle.length > 0
+        ? filteredOperationsByCategory.filter((transaction: any) => filterTitle.includes(transaction.titre))
+        : filteredOperationsByCategory;
+
+    const totalAmount = filteredOperationsByTitle.reduce((total: any, transaction: any) => total + parseFloat(transaction.montant), 0.00);
 
     const formattedTotal = `${totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
 

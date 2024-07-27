@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { convertDate } from '../../utils/fonctionnel';
 import { calculTotalByMonth, calculTotal, calculTotalByYear } from '../../utils/calcul';
-import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType } from '../../utils/operations';
+import { getTransactionsByYear, getTransactionsByMonth, getTransactionsByType, getTitleOfTransactionsByType } from '../../utils/operations';
 import TableauTransac from '../../components/Tableau/tableauTransac';
-import { infoUser } from '../../utils/users';
 import BtnReturn from '../../components/button/btnReturn';
 import BtnAdd from '../../components/button/btnAdd';
 import { ChevronLeft, ChevronRight, ListCollapse } from 'lucide-react';
@@ -13,10 +12,8 @@ import { categorieSort } from '../../utils/autre';
 import { categorieDepense } from '../../../public/categories.json'
 import { categorieRecette } from '../../../public/categories.json'
 
-
 export default function PageTransactions(props: any) {
 
-    const userInfo = infoUser();
     const [transactionDeleted, setTransactionDeleted] = useState(false);
     const { date } = useParams();
     const navigate = useNavigate();
@@ -37,6 +34,9 @@ export default function PageTransactions(props: any) {
 
     const [showModal, setShowModal] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>(searchParams.getAll('categories'));
+    const [selectedTitles, setSelectedTitles] = useState<string[]>(searchParams.getAll('titles'));
+
+    const titles = getTitleOfTransactionsByType(props.type)
 
     useEffect(() => {
         const isTransactionDeleted = localStorage.getItem('transactionDeleted') === 'true';
@@ -54,18 +54,23 @@ export default function PageTransactions(props: any) {
         setShowModal(!showModal);
     };
 
-    const handleCheckboxChange = (event: any) => {
+    const handleCheckboxChange = (event: any, type: string) => {
         const value = event.target.value;
         const isChecked = event.target.checked;
-        const updatedCategories = isChecked
-            ? [...selectedCategories, value]
-            : selectedCategories.filter(cat => cat !== value);
+        const updatedArray = isChecked
+            ? type === "categorie" ? [...selectedCategories, value] : [...selectedTitles, value]
+            : type === "categorie" ? selectedCategories.filter(cat => cat !== value) : selectedTitles.filter(title => title !== value);
 
-        setSelectedCategories(updatedCategories);
-        setSearchParams({ categories: updatedCategories });
+        if (type === "categorie") {
+            setSelectedCategories(updatedArray);
+            setSearchParams({ categories: updatedArray, titles: selectedTitles });
+        } else {
+            setSelectedTitles(updatedArray);
+            setSearchParams({ categories: selectedCategories, titles: updatedArray });
+        }
     };
 
-    const check = selectedCategories.length;
+    const check = selectedCategories.length + selectedTitles.length;
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -84,10 +89,10 @@ export default function PageTransactions(props: any) {
     };
 
     const transactions = date === "all"
-        ? getTransactionsByType(props.type, selectedCategories)
+        ? getTransactionsByType(props.type, selectedCategories, selectedTitles)
         : date?.length === 4
-            ? getTransactionsByYear(date, props.type, selectedCategories)
-            : getTransactionsByMonth(date, props.type, selectedCategories);
+            ? getTransactionsByYear(date, props.type, selectedCategories, selectedTitles)
+            : getTransactionsByMonth(date, props.type, selectedCategories, selectedTitles);
 
     useEffect(() => {
         if (searchTerm === "") {
@@ -97,6 +102,7 @@ export default function PageTransactions(props: any) {
 
     const clearFilters = () => {
         setSelectedCategories([]);
+        setSelectedTitles([]);
         setSearchParams({});
         setShowModal(false);
     };
@@ -146,8 +152,6 @@ export default function PageTransactions(props: any) {
         }
     };
 
-
-
     return (
         <>
             <section className="w-full relative">
@@ -158,9 +162,9 @@ export default function PageTransactions(props: any) {
                     <ListCollapse className={`cursor-pointer hover:scale-110 transition-all ${selectOpe ? "text-zinc-500" : ""}`} onClick={handleSelectOpe} />
                     <BtnFilter categories={categories} action={toggleModal} check={check}>
                         {showModal && (
-                            <div className="flex flex-col bg-zinc-400 dark:bg-zinc-600 rounded z-50 text-left p-2 mt-8 absolute">
-                                <p className='text-center font-semibold'>Filtrer par :</p>
-                                <div className='grid grid-cols-2 gap-x-2'>
+                            <div className="flex flex-col bg-zinc-200 dark:bg-zinc-800 rounded z-50 text-left p-2 mt-8 absolute max-h-60 overflow-scroll">
+                                <p className='text-center font-semibold'>Filtrer par catégorie :</p>
+                                <div className='grid grid-cols-3 gap-x-2 mt-3'>
                                     {Array.isArray(categories) && categories.map(({ name }: { name: string }) => (
                                         <div key={name}>
                                             <input
@@ -169,23 +173,38 @@ export default function PageTransactions(props: any) {
                                                 name="categorie"
                                                 value={name}
                                                 checked={selectedCategories.includes(name)}
-                                                onChange={handleCheckboxChange}
-                                                className='cursor-pointer'
+                                                onChange={(e) => handleCheckboxChange(e, "categorie")}
+                                                className='cursor-pointer opacity-50'
                                             />
                                             <label htmlFor={name} className='cursor-pointer'> {name}</label>
                                         </div>
                                     ))}
                                 </div>
+                                <p className='text-center font-semibold'>Filtrer par titre :</p>
+                                <div className='grid grid-cols-3 gap-x-2 mt-3'>
+                                    {Array.isArray(titles) && titles.map((title: any, index) => (
+                                        <div key={index}>
+                                            <input
+                                                type="checkbox"
+                                                id={title}
+                                                name="title"
+                                                value={title}
+                                                checked={selectedTitles.includes(title)}
+                                                onChange={(e) => handleCheckboxChange(e, "title")}
+                                                className='cursor-pointer opacity-50'
+                                            />
+                                            <label htmlFor={title} className='cursor-pointer'> {title}</label>
+                                        </div>
+                                    ))}
+                                </div>
 
-                                <button className='text-xs hover:bg-red-800 transition-all' onClick={clearFilters}>Annuler</button>
+                                <button className='text-xs hover:bg-red-500 transition-all fixed' onClick={clearFilters}>Annuler</button>
                             </div>
                         )}
                     </BtnFilter>
                     <input
                         className='rounded-xl px-2 w-32 bg-zinc-100 dark:bg-zinc-900 placeholder:text-sm'
                         type="search"
-                        name=""
-
                         placeholder='Rechercher'
                         value={searchTerm}
                         onChange={handleSearchChange} />
@@ -197,18 +216,17 @@ export default function PageTransactions(props: any) {
 
                 <TableauTransac transactions={searchTerm ? searchResults : transactions} selectOpe={selectOpe} />
 
-
-                <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-200 hover:opacity-0  dark:bg-zinc-800 py-3 transition-all">
+                <div className="fixed w-44 bottom-10 right-0 rounded-l-xl shadow-2xl shadow-black bg-zinc-200 hover:opacity-0 dark:bg-zinc-800 py-3 transition-all">
                     Total : <b>{
-                        date === "all" ? calculTotal(props.type, selectedCategories) :
-                            date && date.length === 4 ? calculTotalByYear(props.type, date, selectedCategories) :
-                                date ? calculTotalByMonth(props.type, date, selectedCategories) : "Date non définie"
+                        date === "all" ? calculTotal(props.type, selectedCategories, selectedTitles) :
+                            date && date.length === 4 ? calculTotalByYear(props.type, date, selectedCategories, selectedTitles) :
+                                date ? calculTotalByMonth(props.type, date, selectedCategories, selectedTitles) : "Date non définie"
                     }</b>
                     <br />
                     Transaction(s) : <b>{
-                        date === "all" ? getTransactionsByType(props.type, selectedCategories).length :
-                            date?.length === 4 ? getTransactionsByYear(date, props.type, selectedCategories).length :
-                                getTransactionsByMonth(date, props.type, selectedCategories).length
+                        date === "all" ? getTransactionsByType(props.type, selectedCategories, selectedTitles).length :
+                            date?.length === 4 ? getTransactionsByYear(date, props.type, selectedCategories, selectedTitles).length :
+                                getTransactionsByMonth(date, props.type, selectedCategories, selectedTitles).length
                     }</b>
                 </div>
                 {

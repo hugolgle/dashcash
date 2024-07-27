@@ -2,10 +2,6 @@ import { Filter } from 'lucide-react'
 
 function BtnFilter(props: any) {
 
-
-
-
-
     return <>
         <div className='flex flex-col'>
             <Filter className="cursor-pointer hover:scale-110 transition-all" onClick={props.action} />

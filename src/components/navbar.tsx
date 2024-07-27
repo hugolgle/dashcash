@@ -77,33 +77,28 @@ export default function Navbar(props: any) {
                     </Link>
                     <BtnTheme />
 
-                    <div
-                        className='bg-zinc-200 dark:bg-zinc-800 flex items-center w-10 h-10 justify-center cursor-pointer rounded-full hover:bg-opacity-50 hover:scale-105 hover:dark:bg-opacity-50 overflow-hidden transition-all'
-                        onClick={handleWrap}
-                    >
-                        <ChevronLeft className={`ease-linear duration-300 ${wrapMenu ? "rotate-180" : ""}`} />
-                    </div>
+                    <ChevronLeft size={40} onClick={handleWrap} className={`bg-zinc-200 p-2 dark:bg-zinc-800 hover:bg-opacity-50 hover:scale-105 hover:dark:bg-opacity-50 rounded-full cursor-pointer ease-linear duration-300 ${wrapMenu ? "rotate-180" : ""}`} />
 
                     <div className={`flex flex-col justify-between ${wrapMenu ? " items-center" : ""} gap-4 w-full`}>
-                        <Link to="/tdb" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "flex justify-center bg-transparent w-10 h-10" : ""} ${activeLink.startsWith('/tdb') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><LayoutDashboard /></> : "Tableau de bord"}</Link>
+                        <Link to="/tdb" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/tdb') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><LayoutDashboard /></> : "Tableau de bord"}</Link>
                         <div className='flex flex-col'>
-                            <Link to="/depense" className={`my-1 py-2 rounded hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "flex justify-center bg-transparent w-10 h-10" : ""} ${activeLink.startsWith('/depense') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><WalletCards /></> : "Dépenses"}</Link>
-                            <Link to="/recette" className={`my-1 py-2 rounded hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "flex justify-center bg-transparent w-10 h-10" : ""} ${activeLink.startsWith('/recette') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><Euro /></> : "Recettes"}</Link>
+                            <Link to="/depense" className={`my-1 py-2 rounded hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/depense') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><WalletCards /></> : "Dépenses"}</Link>
+                            <Link to="/recette" className={`my-1 py-2 rounded hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/recette') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><Euro /></> : "Recettes"}</Link>
                         </div>
                         <div className='flex flex-col'>
-                            <Link to="/invest" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "flex justify-center bg-transparent w-10 h-10" : ""} ${activeLink.startsWith('/invest') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><HandCoins /></> : "Investissement"}</Link>
+                            <Link to="/invest" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/invest') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><HandCoins /></> : "Investissement"}</Link>
                         </div>
-                        <Link to="/stat" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "flex justify-center bg-transparent w-10 h-10" : ""} ${activeLink.startsWith('/stat') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><BarChart /></> : "Statistique"}</Link>
+                        <Link to="/stat" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/stat') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><BarChart /></> : "Statistique"}</Link>
                     </div>
 
                     <div className={`flex flex-col justify-end ${wrapMenu ? " items-center" : ""} h-32 w-full`}>
                         {isAuthenticated === true && (
-                            <Link to="/profil" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "flex justify-center bg-transparent w-10 h-10" : ""} ${activeLink.startsWith('/profil') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><UserRound /></> : "Profil"}</Link>
+                            <Link to="/profil" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/profil') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><UserRound /></> : "Profil"}</Link>
                         )}
                         {isAuthenticated === false ? (
                             <Link
                                 to="/connexion"
-                                className={`my-1 py-2 rounded text-nowrap bg-green-500 dark:bg-green-500 hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "flex justify-center bg-transparent w-10 h-10" : ""} ${activeLink.startsWith('/connexion') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}
+                                className={`my-1 py-2 rounded text-nowrap bg-green-500 dark:bg-green-500 hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/connexion') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}
                             >
                                 {wrapMenu ? <><Power /></> : "Connexion"}
                             </Link>
@@ -127,7 +122,7 @@ export default function Navbar(props: any) {
                                     </div>
                                 </div>
                             ) : (
-                                <div onClick={() => setSelectedLogout(true)} className={`my-1 py-2 rounded bg-red-500 dark:bg-red-500 cursor-pointer text-nowrap dark:text-slate-50 hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "flex justify-center w-10 h-10" : ""}`}>{wrapMenu ? <><PowerOff /></> : "Déconnexion"}</div>
+                                <div onClick={() => setSelectedLogout(true)} className={`my-1 py-2 rounded bg-red-500 dark:bg-red-500 cursor-pointer text-nowrap dark:text-slate-50 hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""}`}>{wrapMenu ? <><PowerOff /></> : "Déconnexion"}</div>
                             )
                         )}
                     </div>

@@ -11,8 +11,6 @@ import { getLastSixMonths } from "../../utils/autre";
 
 export default function TableauDeBord() {
 
-  const userInfo = infoUser();
-
   const getCurrentMonthAndYear = () => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
@@ -237,12 +235,14 @@ export default function TableauDeBord() {
             <div className="w-5/12 bg-zinc-100  dark:bg-zinc-900 rounded-xl p-4">
               <h2 className="text-3xl font-extralight italic">Répartitions</h2>
               <div className="flex flex-row justify-between w-full py-3 px-32">
-                <ChevronLeft size={20} onClick={clickLastMonth} className="cursor-pointer hover:scale-95 transition-all" />
+                <ChevronLeft size={30}
+                  onClick={clickLastMonth}
+                  className="hover:bg-zinc-200 hover:dark:bg-zinc-800 rounded-full p-2 cursor-pointer duration-300 transition-all" />
                 <p className="font-thin italic">{convertDate(month)}</p>
                 <ChevronRight
-                  size={20}
+                  size={30}
                   onClick={clickNextMonth}
-                  className={`cursor-pointer hover:scale-95 transition-all ${month >= currentDate ? "invisible" : ""}`}
+                  className={`hover:bg-zinc-200 hover:dark:bg-zinc-800 rounded-full p-2 cursor-pointer duration-300 transition-all ${month >= currentDate ? "invisible" : ""}`}
                 />
               </div>
               <Camembert dataDf={formatData(dataDf)} dataLoisir={formatData(dataLoisir)} dataEpargne={montantEpargne} total={formatData(total)} />
@@ -266,9 +266,9 @@ export default function TableauDeBord() {
               <h2 className="text-3xl font-extralight italic">Graphique</h2>
               <Graphique data={dataGraph} />
               <div className={`flex flex-row gap-4 w-full px-40 justify-between bottom-2`}>
-                <ChevronLeft className='cursor-pointer hover:scale-90 transition-all' onClick={clickLastMonthGraph} />
+                <ChevronLeft size={30} className='hover:bg-zinc-200 hover:dark:bg-zinc-800 rounded-full p-2 cursor-pointer duration-300 transition-all' onClick={clickLastMonthGraph} />
                 <p className="text-sm italic">{firstMonth.month} {firstMonth.year} - {lastMonth.month} {lastMonth.year}</p>
-                <ChevronRight className='cursor-pointer hover:scale-90 transition-all' onClick={clickNextMonthGraph} />
+                <ChevronRight size={30} className='hover:bg-zinc-200 hover:dark:bg-zinc-800 rounded-full p-2 cursor-pointer duration-300 transition-all' onClick={clickNextMonthGraph} />
               </div>
             </div>
           </div>
