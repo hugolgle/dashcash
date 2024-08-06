@@ -5,7 +5,7 @@ import { CardContent } from "../../../@/components/ui/card";
 import { ChartConfig } from "../../../@/components/ui/chart";
 import { addSpace } from "../../utils/fonctionnel";
 
-export function Graphique({ data }: { data: { month: string, montantDepense: number, montantRecette: number, year: number }[] }) {
+export function GraphiqueTdb({ data }: { data: { month: string, montantDepense: number, montantRecette: number, year: number }[] }) {
     const CustomTooltip = (props: TooltipProps<any, any>) => {
         const { active, payload, label } = props;
 
@@ -43,7 +43,7 @@ export function Graphique({ data }: { data: { month: string, montantDepense: num
                                 </div>
                                 <p className=" opacity-75">{economieMonth < 0 ? "Déficit" : "Économie"}</p>
                             </div>
-                            <p className="italic font-black">{addSpace(economieMonth.toFixed(2))} €</p>
+                            <p className={`italic font-black ${economieMonth < 0 ? "text-red-500" : "text-green-500"}`}>{economieMonth > 0 ? "+" : ""}{addSpace(economieMonth.toFixed(2))} €</p>
                         </div>
 
                     </div>

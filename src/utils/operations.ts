@@ -130,35 +130,42 @@ export function getTransactionsByYear(year: any, type: any, filterCategorie: any
     return transactionsInYear;
 }
 
-export function getLastTransactionsByType(type: any, number: Number) {
+export function getLastTransactionsByType(type: any, number: Number, month: boolean) {
     const transactions = useSelector((state: any) => state.transactionReducer || []);
 
     let filteredTransactions = transactions;
+
+    // Filter by type if type is not null
     if (type !== null) {
         filteredTransactions = transactions.filter((transaction: any) => transaction.type === type);
     }
 
-    const getCurrentMonthAndYear = () => {
-        const currentDate = new Date();
-        const currentMonth = currentDate.getMonth();
-        const currentYear = currentDate.getFullYear();
-        return { month: currentMonth, year: currentYear };
-    };
+    // Filter by current month if month is true
+    if (month) {
+        const getCurrentMonthAndYear = () => {
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+            return { month: currentMonth, year: currentYear };
+        };
 
-    const { month: currentMonth, year: currentYear } = getCurrentMonthAndYear();
+        const { month: currentMonth, year: currentYear } = getCurrentMonthAndYear();
+        filteredTransactions = filteredTransactions.filter((transaction: any) => {
+            const transactionDate = new Date(transaction.date);
+            return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
+        });
+    }
 
-    const filteredTransactionsThisMonth = filteredTransactions.filter((transaction: any) => {
-        const transactionDate = new Date(transaction.date);
-        return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
-    });
+    // Sort by createdAt date first, then by date
+    filteredTransactions.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    filteredTransactions.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    filteredTransactionsThisMonth.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    filteredTransactionsThisMonth.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // Slice the sorted transactions to get the required number of last transactions
+    const lastTransactions = filteredTransactions.slice(0, number);
 
-    const lastFiveTransactions = filteredTransactionsThisMonth.slice(0, number);
-
-    return lastFiveTransactions;
+    return lastTransactions;
 }
+
 
 
 // -------------------------------- Investissements
@@ -270,3 +277,67 @@ export function getLatestTransactionByTitle(title: string, type: string) {
     })[0];
 }
 
+// -------------------------------- Chart
+interface CategorieMontant {
+    nomCate: string;
+    montant: string;
+    pourcentage: string;
+}
+
+interface Transaction {
+    _id: string;
+    user: string;
+    type: string;
+    categorie: string;
+    titre: string;
+    date: string;
+    detail: string;
+    montant: string; // Remarquez que le montant est une chaîne
+    remboursements: any[];
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
+
+export function aggregateTransactions(transactions: any) {
+    const totalMontant = transactions.reduce((sum: any, transaction: any) => sum + Math.abs(transaction.montant), 0);
+
+    const montantParCategorie: { [key: string]: number } = transactions.reduce((acc: any, transaction: any) => {
+        const categorie = transaction.categorie;
+        const montant = Math.abs(transaction.montant); // Assurer que le montant est positif
+        if (!acc[categorie]) {
+            acc[categorie] = 0;
+        }
+        acc[categorie] += montant;
+        return acc;
+    }, {} as { [key: string]: number });
+
+    return Object.entries(montantParCategorie).map(([categorie, montant]) => ({
+        nomCate: categorie,
+        montant: montant.toFixed(2), // Convertir le montant en chaîne de caractères avec deux décimales
+        pourcentage: ((montant / totalMontant) * 100).toFixed(2) // Calculer le pourcentage et le formater
+    }));
+}
+
+
+
+interface ChartConfigItem {
+    label: string;
+    color: string;
+}
+
+interface ChartConfig {
+    [key: string]: ChartConfigItem;
+}
+
+export function generateChartConfig(data: CategorieMontant[]): ChartConfig {
+    const config: ChartConfig = {};
+    data.forEach((item, index) => {
+        const key = item.nomCate.replace(/\s+/g, '').toLowerCase();
+        config[key] = {
+            label: item.nomCate,
+            color: `hsl(var(--chart-${(index % 20) + 1}))`, // Utiliser modulo pour boucler sur les 20 couleurs
+        };
+    });
+    return config;
+}

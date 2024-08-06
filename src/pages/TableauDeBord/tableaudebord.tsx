@@ -1,11 +1,10 @@
 import { getLastTransactionsByType } from "../../utils/operations";
 import { calculEconomie, calculTotalByMonth } from "../../utils/calcul";
-import { infoUser } from "../../utils/users";
 import { addSpace, convertDate, convertirFormatDate } from "../../utils/fonctionnel";
-import { Camembert } from "../../components/Charts/camembert";
+import { CamembertTdb } from "../../components/Charts/camembertTdb";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
-import { Graphique } from "../../components/Charts/graphique";
+import { GraphiqueTdb } from "../../components/Charts/graphiqueTdb";
 import { categorieDepense } from '../../../public/categories.json'
 import { getLastSixMonths } from "../../utils/autre";
 
@@ -23,8 +22,8 @@ export default function TableauDeBord() {
   const newCurrentMonth = String(currentMonth).padStart(2, '0');
   const currentDate = `${currentYear}${newCurrentMonth}`;
 
-  const montantRecettesMonth = calculTotalByMonth("Recette", currentDate, null);
-  const montantDepensesMonth = calculTotalByMonth("Dépense", currentDate, null);
+  const montantRecettesMonth = calculTotalByMonth("Recette", currentDate, null, null);
+  const montantDepensesMonth = calculTotalByMonth("Dépense", currentDate, null, null);
 
   const getPreviousMonthAndYear = (month: number, year: number) => {
     let prevMonth = month - 1;
@@ -41,14 +40,14 @@ export default function TableauDeBord() {
   const newPreviousMonth = String(previousMonth).padStart(2, '0');
   const previousDate = `${previousYear}${newPreviousMonth}`;
 
-  const montantRecettesLastMonth = calculTotalByMonth("Recette", previousDate, null);
-  const montantDepensesLastMonth = calculTotalByMonth("Dépense", previousDate, null);
+  const montantRecettesLastMonth = calculTotalByMonth("Recette", previousDate, null, null);
+  const montantDepensesLastMonth = calculTotalByMonth("Dépense", previousDate, null, null);
 
   const economiesCurrentMonth = calculEconomie(`${currentYear}`, newCurrentMonth);
 
   const economieLastMonth = calculEconomie(`${previousYear}`, newPreviousMonth);
 
-  const lastTransactions = getLastTransactionsByType(null, 5)
+  const lastTransactions = getLastTransactionsByType(null, 5, false)
 
   const formatData = (data: string) => {
     const cleanedData = data.replace(/[^\d.-]/g, '').replace(/ /g, '');
@@ -101,12 +100,12 @@ export default function TableauDeBord() {
     }
   });
 
-  const dataDf = calculTotalByMonth("Dépense", month, categoriesDf);
-  const dataLoisir = calculTotalByMonth("Dépense", month, categoriesLoisir);
+  const dataDf = calculTotalByMonth("Dépense", month, categoriesDf, null);
+  const dataLoisir = calculTotalByMonth("Dépense", month, categoriesLoisir, null);
 
   const montantTotalLoisirDf = formatData(dataDf) + formatData(dataLoisir);
 
-  const total = calculTotalByMonth("Recette", month, null)
+  const total = calculTotalByMonth("Recette", month, null, null)
 
   const montantEpargne = parseFloat(montantRecettesLastMonth) - parseFloat(montantTotalLoisirDf);
 
@@ -146,8 +145,8 @@ export default function TableauDeBord() {
   const montantRecetteByMonth: any = [];
 
   lastSixMonths.forEach(({ code }) => {
-    const montantDepenses = calculTotalByMonth("Dépense", code, null);
-    const montantRecettes = calculTotalByMonth("Recette", code, null);
+    const montantDepenses = calculTotalByMonth("Dépense", code, null, null);
+    const montantRecettes = calculTotalByMonth("Recette", code, null, null);
 
     montantDepenseByMonth.push(formatData(montantDepenses));
     montantRecetteByMonth.push(formatData(montantRecettes));
@@ -167,7 +166,7 @@ export default function TableauDeBord() {
 
   return (
     <>
-      <section className="w-full h-full">
+      <section className="w-full">
         <h2 className="text-5xl font-thin mb-5">Tableau de bord</h2>
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-4 h-full">
@@ -245,26 +244,11 @@ export default function TableauDeBord() {
                   className={`hover:bg-zinc-200 hover:dark:bg-zinc-800 rounded-full p-2 cursor-pointer duration-300 transition-all ${month >= currentDate ? "invisible" : ""}`}
                 />
               </div>
-              <Camembert dataDf={formatData(dataDf)} dataLoisir={formatData(dataLoisir)} dataEpargne={montantEpargne} total={formatData(total)} />
-              <div className="flex flex-row justify-evenly w-full mt-2">
-                <div className="flex flex-row justify-center items-center">
-                  <div className="w-3 h-3 rounded bg-colorChart2"></div>
-                  <p className="ml-2 font-thin text-sm">Dépenses fixes</p>
-                </div>
-                <div className="flex flex-row justify-center items-center">
-                  <div className="w-3 h-3 rounded bg-colorChart1"></div>
-                  <p className="ml-2 font-thin text-sm">Dépenses loisirs</p>
-                </div>
-                <div className="flex flex-row justify-center items-center">
-                  <div className="w-3 h-3 rounded bg-colorChart3"></div>
-                  <p className="ml-2 font-thin text-sm">Épargne</p>
-                </div>
-
-              </div>
+              <CamembertTdb dataDf={formatData(dataDf)} dataLoisir={formatData(dataLoisir)} dataEpargne={montantEpargne} total={formatData(total)} />
             </div>
             <div className="w-7/12 bg-zinc-100 dark:bg-zinc-900 rounded-xl h-full p-4 relative">
               <h2 className="text-3xl font-extralight italic">Graphique</h2>
-              <Graphique data={dataGraph} />
+              <GraphiqueTdb data={dataGraph} />
               <div className={`flex flex-row gap-4 w-full px-40 justify-between bottom-2`}>
                 <ChevronLeft size={30} className='hover:bg-zinc-200 hover:dark:bg-zinc-800 rounded-full p-2 cursor-pointer duration-300 transition-all' onClick={clickLastMonthGraph} />
                 <p className="text-sm italic">{firstMonth.month} {firstMonth.year} - {lastMonth.month} {lastMonth.year}</p>

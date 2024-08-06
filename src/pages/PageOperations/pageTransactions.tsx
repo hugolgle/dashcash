@@ -210,8 +210,8 @@ export default function PageTransactions(props: any) {
                         onChange={handleSearchChange} />
                 </div>
                 <div className={`flex flex-row gap-4 absolute top-0 right-0 ${date === "all" ? "invisible" : ""}`}>
-                    <ChevronLeft className='cursor-pointer hover:scale-90 transition-all' onClick={clickLastMonth} />
-                    <ChevronRight className='cursor-pointer hover:scale-90 transition-all' onClick={clickNextMonth} />
+                    <ChevronLeft className="hover:bg-zinc-200 hover:dark:bg-zinc-800 rounded-full p-2 cursor-pointer duration-300 transition-all" size={37.5} onClick={clickLastMonth} />
+                    <ChevronRight className="hover:bg-zinc-200 hover:dark:bg-zinc-800 rounded-full p-2 cursor-pointer duration-300 transition-all" size={37.5} onClick={clickNextMonth} />
                 </div>
 
                 <TableauTransac transactions={searchTerm ? searchResults : transactions} selectOpe={selectOpe} />

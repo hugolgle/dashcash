@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
-import { calculEconomie, calculMoyenne, calculMoyenneEconomie, calculTotalByMonth, calculTotalByYear } from "../../utils/calcul";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { calculEconomie, calculMoyenne, calculMoyenneEconomie, calculTotalByMonth, calculTotalByYear } from "../../utils/calcul";
 import { months } from "../../utils/fonctionnel";
 import { infoUser } from "../../utils/users";
 import LinkStat from "../../components/Stats/linkStat";
 import BoxStat from "../../components/Stats/boxStat";
+import { CamembertStat } from "../../components/Charts/camembertStat";
+import { getTransactionsByMonth } from "../../utils/operations";
+import { categorieDepense, categorieRecette } from "../../../public/categories.json";
 
 export default function Statistique() {
-
   const getCurrentMonthAndYear = () => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
@@ -17,12 +19,9 @@ export default function Statistique() {
 
   const userInfo = infoUser();
   const { month: currentMonth, year: currentYear } = getCurrentMonthAndYear();
-
   const [selectedMonth, setSelectedMonth] = useState(String(currentMonth).padStart(2, '0'));
   const [selectedYear, setSelectedYear] = useState(currentYear);
-
   const [firstYear, setFirstYear] = useState(currentYear);
-
   const [filteredOperation, setFilteredOperation] = useState([]);
 
   const transactionReducer = useSelector((state: any) => state.transactionReducer);
@@ -37,7 +36,6 @@ export default function Statistique() {
 
     filteredOperation?.forEach((transaction: any) => {
       const year = new Date(transaction.date).getFullYear();
-
       if (transaction.user === userInfo.id) {
         yearsSet?.add(year);
         if (year < minYear) {
@@ -76,14 +74,13 @@ export default function Statistique() {
     }
     return Array.from({ length: 12 }, (_, i) => i + 1);
   };
-
   const selectedDate = `${selectedYear}${selectedMonth}`;
 
-  const depenseYear = calculTotalByYear("Dépense", `${selectedYear}`, null);
-  const recetteYear = calculTotalByYear("Recette", `${selectedYear}`, null);
+  const depenseYear = calculTotalByYear("Dépense", `${selectedYear}`, null, null);
+  const recetteYear = calculTotalByYear("Recette", `${selectedYear}`, null, null);
 
-  const depenseMonth = calculTotalByMonth("Dépense", selectedDate, null);
-  const recetteMonth = calculTotalByMonth("Recette", selectedDate, null);
+  const depenseMonth = calculTotalByMonth("Dépense", selectedDate, null, null);
+  const recetteMonth = calculTotalByMonth("Recette", selectedDate, null, null);
 
   const nbMonth = generateMonths().length;
 
@@ -93,133 +90,74 @@ export default function Statistique() {
   const economieTotale = calculEconomie(`${selectedYear}`, null);
   const economieTotaleNumber = parseInt(economieTotale);
   const economieMonth = calculEconomie(`${selectedYear}`, selectedMonth);
-  console.log(selectedYear, selectedMonth)
   const moyenneEconomie = calculMoyenneEconomie(moyenneDepenseMois, moyenneRecetteMois);
 
   return (
-    <>
-      <section className="w-full h-full">
-        <h2 className="text-5xl font-thin mb-5">Statistiques</h2>
-        <div className="flex flex-col w-full h-full gap-4">
-          <div className="flex flex-row justify-center gap-2 w-full">
-            {generateYears().map((year, index) => (
-              <button
-                className={`text-xs rounded-xl transition-all border-1 hover:border-blue-400 ${selectedYear === year ? 'border-blue-400' : ''}`}
-                key={index}
-                onClick={() => clickYear(year)}
-              >
-                {year}
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-row gap-4 w-full">
-            <div className="flex flex-col gap-4 w-3/5">
-              <div className="flex flex-row gap-4 w-full text-right">
-
-                <LinkStat
-                  link={`/recette/${selectedYear}`}
-                  type="Recette totale"
-                  months=""
-                  selectedYear={selectedYear}
-                  montant={recetteYear}
-                />
-
-                <LinkStat
-                  link={`/depense/${selectedYear}`}
-                  type="Dépense totale"
-                  months=""
-                  selectedYear={selectedYear}
-                  montant={depenseYear}
-                />
-
-                <div className={`flex flex-col-reverse font-thin justify-between w-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ${economieTotaleNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
-                  <div className="flex justify-between">
-                    <p className="text-xs text-left italic">Économie totale</p>
-                    <p className="text-xs text-left italic">En {selectedYear}</p>
-                  </div>
-                  <p className="text-3xl">{economieTotale} €</p>
+    <section className="w-full">
+      <h2 className="text-5xl font-thin mb-5">Statistiques</h2>
+      <div className="flex flex-col w-full gap-4">
+        <div className="flex flex-row gap-2">
+          {generateYears().map((year, index) => (
+            <button
+              className={`text-xs rounded-xl transition-all border-1  hover:border-blue-400 ${selectedYear === year ? 'border-blue-400' : ''}`}
+              key={index}
+              onClick={() => clickYear(year)}
+            >
+              {year}
+            </button>
+          ))}
+          <div className="w-px bg-zinc-400 dark:bg-zinc-600" />
+          {generateMonths().map((monthIndex: any, index) => (
+            <button
+              className={`text-xs rounded-xl transition-all border-1 w-28 hover:border-blue-400 ${selectedMonth === String(monthIndex).padStart(2, '0') ? 'border-blue-400' : ''}`}
+              key={index}
+              onClick={() => clickMonth(String(monthIndex).padStart(2, '0'))}
+            >
+              {months[monthIndex - 1]}<br />{selectedYear}
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-col items-center gap-4 w-2/3">
+            <div className="flex flex-row gap-4 w-full h-full text-right">
+              <LinkStat link={`/recette/${selectedYear}`} type="Recette totale" months="" selectedYear={selectedYear} montant={recetteYear} />
+              <LinkStat link={`/depense/${selectedYear}`} type="Dépense totale" months="" selectedYear={selectedYear} montant={depenseYear} />
+              <div className={`flex flex-col-reverse font-thin justify-between w-full bg-zinc-100 dark:bg-zinc-900 rounded-2xl hover:bg-opacity-80 transition-all px-4 py-2 gap-4 ring-2 ${economieTotaleNumber < 0 ? 'ring-red-800' : 'ring-green-800'}`}>
+                <div className="flex justify-between">
+                  <p className="text-xs text-left italic">Économie totale</p>
+                  <p className="text-xs text-left italic">En {selectedYear}</p>
                 </div>
-              </div>
-
-
-              <div className="w-2/3 h-px bg-zinc-400 dark:bg-zinc-600 "></div>
-
-              <div className="flex flex-row gap-4 w-full text-right">
-
-                <BoxStat
-                  type="Recette/Mois"
-                  selectedYear={selectedYear}
-                  montant={moyenneRecetteMois}
-                />
-
-                <BoxStat
-                  type="Dépense/Mois"
-                  selectedYear={selectedYear}
-                  montant={moyenneDepenseMois}
-                />
-
-                <BoxStat
-                  type="Économie/Mois"
-                  selectedYear={selectedYear}
-                  montant={`${moyenneEconomie}`}
-                  months=""
-                  selectedMonth=""
-                />
+                <p className="text-3xl">{economieTotale} €</p>
               </div>
             </div>
-
-            <div className="h-full w-2/5 rounded-xl bg-zinc-900">
-
+            <div className="flex flex-row gap-4 w-full h-full text-right">
+              <BoxStat type="Recette/Mois" selectedYear={selectedYear} montant={moyenneRecetteMois} />
+              <BoxStat type="Dépense/Mois" selectedYear={selectedYear} montant={moyenneDepenseMois} />
+              <BoxStat type="Économie/Mois" selectedYear={selectedYear} montant={`${moyenneEconomie}`} months="" selectedMonth="" />
+            </div>
+            <div className="w-4/5 h-px bg-zinc-400 dark:bg-zinc-600" />
+            <div className="flex flex-row gap-4 text-right w-full h-full">
+              <LinkStat link={`/recette/${selectedYear}${selectedMonth}`} type="Recette" months={months} selectedMonth={selectedMonth} selectedYear={selectedYear} montant={recetteMonth} />
+              <LinkStat link={`/depense/${selectedYear}${selectedMonth}`} type="Dépense" months={months} selectedMonth={selectedMonth} selectedYear={selectedYear} montant={depenseMonth} />
+              <BoxStat type={parseFloat(economieMonth) < 0 ? "Déficit" : "Économie"} selectedYear={selectedYear} montant={economieMonth} months={months} selectedMonth={selectedMonth} />
             </div>
           </div>
 
-          <div className="flex flex-row justify-center gap-2 w-full">
-            {generateMonths().map((monthIndex: any, index) => (
-              <button
-                className={`text-xs rounded-xl transition-all border-1 hover:border-blue-400 ${selectedMonth === String(monthIndex).padStart(2, '0') ? 'border-blue-400' : ''}`}
-                key={index}
-                onClick={() => clickMonth(String(monthIndex).padStart(2, '0'))}
-              >
-                {months[monthIndex - 1]} {selectedYear}
-              </button>
-            ))}
-          </div>
 
-          <div className="flex flex-row w-full gap-4">
-            <div className="flex flex-row gap-4 text-right w-3/5">
 
-              <LinkStat
-                link={`/recette/${selectedYear}${selectedMonth}`}
-                type="Recette"
-                months={months}
-                selectedMonth={selectedMonth}
-                selectedYear={selectedYear}
-                montant={recetteMonth}
-              />
-
-              <LinkStat
-                link={`/depense/${selectedYear}${selectedMonth}`}
-                type="Dépense"
-                months={months}
-                selectedMonth={selectedMonth}
-                selectedYear={selectedYear}
-                montant={depenseMonth}
-              />
-
-              <BoxStat
-                type={parseFloat(economieMonth) < 0 ? "Déficit" : "Économie"}
-                selectedYear={selectedYear}
-                montant={economieMonth}
-                months={months}
-                selectedMonth={selectedMonth}
-              />
+          <div className="flex flex-col gap-4 w-1/3 text-right rounded-2xl h-full">
+            <div className="flex flex-col w-full rounded-2xl  h-full items-center p-4 bg-zinc-100 dark:bg-zinc-900">
+              <p className="italic font-thin">Répartition des recettes de {months[parseInt(selectedMonth, 10) - 1].toLowerCase()} {selectedYear}</p>
+              <CamembertStat transactions={getTransactionsByMonth(selectedDate, "Recette", null, null)} categorie={categorieRecette} />
             </div>
-            <div className="h-full w-2/5 rounded-xl bg-zinc-900">
-
+            <div className="flex flex-col w-full rounded-2xl  h-full items-center p-4 bg-zinc-100 dark:bg-zinc-900">
+              <p className="italic font-thin">Répartition des dépenses de {months[parseInt(selectedMonth, 10) - 1].toLowerCase()} {selectedYear}</p>
+              <CamembertStat className="bg-slate-400" transactions={getTransactionsByMonth(selectedDate, "Dépense", null, null)} categorie={categorieDepense} />
             </div>
           </div>
         </div>
-      </section>
-    </>
+
+      </div>
+    </section>
   );
 }

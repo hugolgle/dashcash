@@ -68,7 +68,7 @@ export default function Navbar(props: any) {
         <>
             <section className='flex h-screen w-screen'>
 
-                <div className={`sidebar flex flex-col justify-between overflow-auto rounded-r-[18px] items-center  h-screen py-10 px-4 bg-zinc-100 dark:bg-zinc-900 fixed ease-linear duration-300 ${wrapMenu ? "w-1/12" : "w-1/5"}`}>
+                <div className={`sidebar flex flex-col justify-between overflow-hidden rounded-r-[18px] items-center  h-screen py-10 px-4 bg-zinc-100 dark:bg-zinc-900 fixed ease-linear duration-300 ${wrapMenu ? "w-1/12" : "w-1/5"}`}>
                     <Link to="/" className='font-logo cursor-pointer text-2xl group text-center w-auto overflow-hidden'>
                         <div className='flex justify-center items-center cursor-pointer tracking-tight'>
                             <p className='p-2 bg-transparent dark:bg-white cursor-pointer text-zinc-900 dark:text-zinc-900 group-hover:bg-zinc-900 text-nowrap group-hover:dark:bg-transparent group-hover:text-white group-hover:dark:text-white transition-all'>{wrapMenu ? "D" : "D A S H"}</p>
@@ -85,10 +85,10 @@ export default function Navbar(props: any) {
                             <Link to="/depense" className={`my-1 py-2 rounded hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/depense') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><WalletCards /></> : "Dépenses"}</Link>
                             <Link to="/recette" className={`my-1 py-2 rounded hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/recette') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><Euro /></> : "Recettes"}</Link>
                         </div>
-                        <div className='flex flex-col'>
+                        {/* <div className='flex flex-col'>
                             <Link to="/invest" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/invest') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><HandCoins /></> : "Investissement"}</Link>
-                        </div>
-                        <Link to="/stat" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/stat') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><BarChart /></> : "Statistique"}</Link>
+                        </div> */}
+                        <Link to="/stat" className={`my-1 py-2 rounded text-nowrap hover:bg-opacity-50 hover:dark:bg-opacity-50 overflow-hidden transition-all ${wrapMenu ? "p-2" : ""} ${activeLink.startsWith('/stat') ? 'bg-zinc-300 dark:bg-zinc-700' : 'bg-zinc-200 dark:bg-zinc-800'}`}>{wrapMenu ? <><BarChart /></> : "Statistiques"}</Link>
                     </div>
 
                     <div className={`flex flex-col justify-end ${wrapMenu ? " items-center" : ""} h-32 w-full`}>
@@ -128,7 +128,7 @@ export default function Navbar(props: any) {
                     </div>
 
 
-                    <p className='text-xs text-gray-400 absolute bottom-2'>{wrapMenu ? "© HLG - DB v2.0.0" : "© Hugo Le Galle - DashBoard v2.0.0"}</p>
+                    <p className='text-xs text-gray-400 text-nowrap absolute bottom-2'>{wrapMenu ? "© HLG - DB v2.0.0" : "© Hugo Le Galle - DashBoard v2.0.0"}</p>
                 </div>
 
                 <div className={`relative content ml-auto ease-linear duration-300 p-4 ${wrapMenu ? "w-11/12" : "w-4/5"}`}>

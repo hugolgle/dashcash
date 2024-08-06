@@ -219,8 +219,8 @@ export default function Transaction() {
                             <p>Montant {transaction.remboursements && transaction.remboursements.length > 0 ? 'payé' : ''}</p>
                             <h2 className="text-4xl">
                                 {transaction.type === "Dépense"
-                                    ? `${separateMillier(montantPaye)} €`
-                                    : `${separateMillier(transaction.montant)} €`}
+                                    ? `${addSpace(parseFloat(montantPaye).toFixed(2))} €`
+                                    : `${addSpace(parseFloat(transaction.montant).toFixed(2))} €`}
                             </h2>
                         </div>}
                     </div>

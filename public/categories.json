@@ -1,76 +1,90 @@
 {
     "categorieRecette": [
         {
-            "name": "Salaire"
+            "name": "Salaire",
+            "color": "hsl(var(--chart-1))"
         },
         {
-            "name": "Remboursement"
+            "name": "Remboursement",
+            "color": "hsl(var(--chart-2))"
         },
         {
-            "name": "Virement reçu"
+            "name": "Virement reçu",
+            "color": "hsl(var(--chart-3))"
         },
         {
-            "name": "Chèque reçu"
+            "name": "Chèque reçu",
+            "color": "hsl(var(--chart-4))"
         },
         {
-            "name": "Dépôt d'argent"
+            "name": "Dépôt d'argent",
+            "color": "hsl(var(--chart-5))"
         },
         {
-            "name": "Autre"
+            "name": "Autre",
+            "color": "hsl(var(--chart-6))"
         }
     ],
     "categorieDepense": [
         {
             "name": "Bar/Boite",
-            "categorie": "Loisir"
+            "categorie": "Loisir",
+            "color": "hsl(var(--chart-1))"
         },
         {
             "name": "Resto",
-            "categorie": "Loisir"
+            "categorie": "Loisir",
+            "color": "hsl(var(--chart-2))"
         },
         {
             "name": "Santé",
-            "categorie": "Fixe"
-        },
-        {
-            "name": "Sport",
-            "categorie": "Loisir"
+            "categorie": "Fixe",
+            "color": "hsl(var(--chart-3))"
         },
         {
             "name": "Activité",
-            "categorie": "Loisir"
+            "categorie": "Loisir",
+            "color": "hsl(var(--chart-4))"
         },
         {
             "name": "Véhicule",
-            "categorie": "Fixe"
+            "categorie": "Fixe",
+            "color": "hsl(var(--chart-5))"
         },
         {
             "name": "Coiffeur",
-            "categorie": "Fixe"
+            "categorie": "Fixe",
+            "color": "hsl(var(--chart-6))"
         },
         {
             "name": "Shopping",
-            "categorie": "Loisir"
+            "categorie": "Loisir",
+            "color": "hsl(var(--chart-7))"
         },
         {
             "name": "Alimentation",
-            "categorie": "Fixe"
+            "categorie": "Fixe",
+            "color": "hsl(var(--chart-8))"
         },
         {
             "name": "Abonnement",
-            "categorie": "Fixe"
+            "categorie": "Fixe",
+            "color": "hsl(var(--chart-9))"
         },
         {
             "name": "Divers",
-            "categorie": "Fixe"
+            "categorie": "Fixe",
+            "color": "hsl(var(--chart-10))"
         },
         {
             "name": "Achat",
-            "categorie": "Loisir"
+            "categorie": "Loisir",
+            "color": "hsl(var(--chart-11))"
         },
         {
             "name": "Voyage",
-            "categorie": "Loisir"
+            "categorie": "Loisir",
+            "color": "hsl(var(--chart-12))"
         }
     ],
     "categorieAbonnement": [
