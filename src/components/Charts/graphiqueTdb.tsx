@@ -81,7 +81,7 @@ export function GraphiqueTdb({ data }: { data: { month: string, montantDepense: 
 
     return (
         <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={275}>
                 <LineChart
                     data={data}
                     margin={{ top: 20, left: 0, right: 40, bottom: 10 }}

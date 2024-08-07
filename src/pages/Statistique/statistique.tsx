@@ -6,7 +6,7 @@ import { infoUser } from "../../utils/users";
 import LinkStat from "../../components/Stats/linkStat";
 import BoxStat from "../../components/Stats/boxStat";
 import { CamembertStat } from "../../components/Charts/camembertStat";
-import { getTransactionsByMonth } from "../../utils/operations";
+import { getTransactionsByMonth, getTransactionsByYear } from "../../utils/operations";
 import { categorieDepense, categorieRecette } from "../../../public/categories.json";
 
 export default function Statistique() {
@@ -60,6 +60,12 @@ export default function Statistique() {
     }
   };
 
+  const [selectedByYear, setSelectedByYear] = useState(false)
+
+  const switchMonthYear = () => {
+    setSelectedByYear(!selectedByYear)
+  }
+
   const generateYears = () => {
     const years = [];
     for (let year = firstYear; year <= currentYear; year++) {
@@ -109,11 +115,11 @@ export default function Statistique() {
           <div className="w-px bg-zinc-400 dark:bg-zinc-600" />
           {generateMonths().map((monthIndex: any, index) => (
             <button
-              className={`text-xs rounded-xl transition-all border-1 w-28 hover:border-blue-400 ${selectedMonth === String(monthIndex).padStart(2, '0') ? 'border-blue-400' : ''}`}
+              className={`text-xs rounded-xl transition-all border-1 w-full hover:border-blue-400 ${selectedMonth === String(monthIndex).padStart(2, '0') ? 'border-blue-400' : ''}`}
               key={index}
               onClick={() => clickMonth(String(monthIndex).padStart(2, '0'))}
             >
-              {months[monthIndex - 1]}<br />{selectedYear}
+              {months[monthIndex - 1]}
             </button>
           ))}
         </div>
@@ -145,15 +151,37 @@ export default function Statistique() {
 
 
 
-          <div className="flex flex-col gap-4 w-1/3 text-right rounded-2xl h-full">
-            <div className="flex flex-col w-full rounded-2xl  h-full items-center p-4 bg-zinc-100 dark:bg-zinc-900">
-              <p className="italic font-thin">Répartition des recettes de {months[parseInt(selectedMonth, 10) - 1].toLowerCase()} {selectedYear}</p>
-              <CamembertStat transactions={getTransactionsByMonth(selectedDate, "Recette", null, null)} categorie={categorieRecette} />
-            </div>
-            <div className="flex flex-col w-full rounded-2xl  h-full items-center p-4 bg-zinc-100 dark:bg-zinc-900">
-              <p className="italic font-thin">Répartition des dépenses de {months[parseInt(selectedMonth, 10) - 1].toLowerCase()} {selectedYear}</p>
-              <CamembertStat className="bg-slate-400" transactions={getTransactionsByMonth(selectedDate, "Dépense", null, null)} categorie={categorieDepense} />
-            </div>
+          <div className="flex flex-col gap-4 w-1/3 text-right rounded-2xl items-center h-full">
+            {
+              selectedByYear ?
+                <>
+                  <div className="flex flex-col w-full rounded-2xl  h-auto items-center p-4 bg-zinc-100 dark:bg-zinc-900">
+                    <p className="italic font-thin">Répartition des recettes de {selectedYear}</p>
+                    <CamembertStat transactions={getTransactionsByYear(`${selectedYear}`, "Recette", null, null)} categorie={categorieRecette} />
+                  </div>
+                  <button onClick={switchMonthYear} className="font-thin italic w-3/4 hover:scale-95 transition-all">Voir le mois</button>
+                  <div className="flex flex-col w-full rounded-2xl  h-full items-center p-4 bg-zinc-100 dark:bg-zinc-900">
+                    <p className="italic font-thin">Répartition des dépenses de {selectedYear}</p>
+                    <CamembertStat transactions={getTransactionsByYear(`${selectedYear}`, "Dépense", null, null)} categorie={categorieDepense} />
+                  </div>
+                </>
+                :
+                <>
+                  <div className="flex flex-col w-full rounded-2xl  h-auto items-center p-4 bg-zinc-100 dark:bg-zinc-900">
+                    <p className="italic font-thin">Répartition des recettes de {months[parseInt(selectedMonth, 10) - 1].toLowerCase()} {selectedYear}</p>
+                    <CamembertStat transactions={getTransactionsByMonth(selectedDate, "Recette", null, null)} categorie={categorieRecette} />
+                  </div>
+                  <button onClick={switchMonthYear} className="font-thin italic w-3/4 hover:scale-95 transition-all">Voir l'année</button>
+                  <div className="flex flex-col w-full rounded-2xl  h-full items-center p-4 bg-zinc-100 dark:bg-zinc-900">
+                    <p className="italic font-thin">Répartition des dépenses de {months[parseInt(selectedMonth, 10) - 1].toLowerCase()} {selectedYear}</p>
+                    <CamembertStat transactions={getTransactionsByMonth(selectedDate, "Dépense", null, null)} categorie={categorieDepense} />
+                  </div>
+                </>
+            }
+
+
+
+
           </div>
         </div>
 

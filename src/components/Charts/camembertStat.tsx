@@ -1,7 +1,6 @@
-"use client"
-
-import { TrendingUp } from "lucide-react"
-import { Pie, PieChart, ResponsiveContainer, Cell, Legend } from "recharts"
+import React from "react";
+import { TrendingUp } from "lucide-react";
+import { Pie, PieChart, ResponsiveContainer, Cell, Legend } from "recharts";
 
 import {
     Card,
@@ -10,14 +9,14 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "../../../@/components/ui/card"
+} from "../../../@/components/ui/card";
 import {
     ChartConfig,
     ChartContainer,
     ChartTooltip,
-} from "../../../@/components/ui/chart"
-import { aggregateTransactions } from "../../utils/operations"
-import { addSpace } from "../../utils/fonctionnel"
+} from "../../../@/components/ui/chart";
+import { aggregateTransactions } from "../../utils/operations";
+import { addSpace } from "../../utils/fonctionnel";
 
 // Custom Tooltip Content Component
 const CustomTooltipContent = (props: any) => {
@@ -52,13 +51,16 @@ const CustomTooltipContent = (props: any) => {
 
 // Custom Legend Component
 const renderCustomLegend = (props: any) => {
-    const { payload } = props;
+    const { payload, topN = 5 } = props; // topN from props or default to 5
+    // Tri du payload par pourcentage décroissant
     const payloadSort = payload.sort((a: any, b: any) => b.payload.pourcentage - a.payload.pourcentage);
+    // Tronquer la liste pour n'afficher que les `topN` premiers éléments
+    const payloadTopN = payloadSort.slice(0, topN);
 
     return (
         <ul className="flex flex-col justify-center mt-4">
             {
-                payloadSort.map((entry: any, index: number) => (
+                payloadTopN.map((entry: any, index: number) => (
                     <li key={`item-${index}`} className="flex items-center my-1">
                         <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: entry.color }}></div>
                         <span className="text-xs font-thin italic">{entry.value} ({entry.payload.pourcentage.toFixed(2)}%)</span>
@@ -97,10 +99,10 @@ export function CamembertStat(props: any) {
     };
 
     return (
-        <ResponsiveContainer width="100%" height={260}>
+        <ResponsiveContainer width="100%" height={220}>
             <ChartContainer
                 config={chartConfig}
-                className="mx-auto aspect-square max-h-[250px]"
+                className="mx-auto aspect-square max-h-[250px] w-full"
             >
                 <PieChart>
                     <ChartTooltip
@@ -111,16 +113,16 @@ export function CamembertStat(props: any) {
                         data={transformedData}
                         dataKey="value"
                         nameKey="name"
-                        innerRadius={35}
-                        outerRadius={60}
+                        innerRadius={40}
+                        outerRadius={70}
                     >
                         {transformedData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.fill} />
                         ))}
                     </Pie>
-                    <Legend layout="vertical" verticalAlign="middle" align="right" content={renderCustomLegend} />
+                    <Legend layout="vertical" verticalAlign="middle" align="right" content={(props) => renderCustomLegend({ ...props, topN: 5 })} />
                 </PieChart>
             </ChartContainer>
         </ResponsiveContainer>
-    )
+    );
 }

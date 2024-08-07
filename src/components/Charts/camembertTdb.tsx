@@ -105,8 +105,8 @@ export function CamembertTdb(props: any) {
                         data={chartData}
                         dataKey="montant"
                         nameKey="categorie"
-                        innerRadius={40}
-                        outerRadius={60}
+                        innerRadius={60}
+                        outerRadius={90}
                     >
                         {chartData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.fill} />

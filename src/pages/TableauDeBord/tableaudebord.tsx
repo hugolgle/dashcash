@@ -47,7 +47,7 @@ export default function TableauDeBord() {
 
   const economieLastMonth = calculEconomie(`${previousYear}`, newPreviousMonth);
 
-  const lastTransactions = getLastTransactionsByType(null, 5, false)
+  const lastTransactions = getLastTransactionsByType(null, 6, false)
 
   const formatData = (data: string) => {
     const cleanedData = data.replace(/[^\d.-]/g, '').replace(/ /g, '');
@@ -175,17 +175,17 @@ export default function TableauDeBord() {
               <div className="flex flex-col gap-4 h-full">
                 <div className="flex flex-row gap-4 h-1/2">
                   <div className="flex flex-col w-full h-full bg-green-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                    <p>Recettes</p>
+                    <p className="font-thin">Recettes</p>
                     <p className="font-bold">{montantRecettesMonth}</p>
                   </div>
                   <div className="flex flex-col w-full h-full bg-red-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                    <p>Dépenses</p>
+                    <p className="font-thin">Dépenses</p>
                     <p className="font-bold">{montantDepensesMonth}</p>
                   </div>
                 </div>
                 <div className="flex flex-row gap-4 h-1/2">
                   <div className="flex flex-col  w-full h-full bg-zinc-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                    <p>Économie</p>
+                    <p className="font-thin">Économie</p>
                     <p className="font-bold">{economiesCurrentMonth} €</p>
                   </div>
                 </div>
@@ -196,17 +196,17 @@ export default function TableauDeBord() {
               <div className="flex flex-col gap-4 h-full">
                 <div className="flex flex-row gap-4 h-1/2">
                   <div className="flex flex-col w-full h-full bg-green-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                    <p>Recettes</p>
+                    <p className="font-thin">Recettes</p>
                     <p className="font-bold">{montantRecettesLastMonth}</p>
                   </div>
                   <div className="flex flex-col w-full h-full bg-red-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                    <p>Dépenses</p>
+                    <p className="font-thin">Dépenses</p>
                     <p className="font-bold">{montantDepensesLastMonth}</p>
                   </div>
                 </div>
                 <div className="flex flex-row gap-4 h-1/2">
                   <div className="flex flex-col w-full h-full bg-zinc-600 py-3 rounded bg-opacity-15 items-center justify-center">
-                    <p>Économie</p>
+                    <p className="font-thin">Économie</p>
                     <p className="font-bold">{economieLastMonth} €</p>
                   </div>
                 </div>
