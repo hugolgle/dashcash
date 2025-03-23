@@ -128,7 +128,6 @@ export default function PageAddInvestmentMain() {
       const postData =
         activeTab === "autre"
           ? {
-              user: dataUser?._id,
               name: values.name,
               type: values.type,
               symbol: values.symbol,
@@ -412,8 +411,14 @@ export default function PageAddInvestmentMain() {
         <ButtonLoading
           variant="secondary"
           text="Soumettre"
-          isPending={addInvestmentMutation.isPending}
-          disabled={addInvestmentMutation.isPending}
+          isPending={
+            addInvestmentMutation.isPending ||
+            addTransactionInvestmentMutation.isPending
+          }
+          disabled={
+            addInvestmentMutation.isPending ||
+            addTransactionInvestmentMutation.isPending
+          }
         />
       </form>
     </section>

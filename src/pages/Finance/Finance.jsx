@@ -350,6 +350,7 @@ export default function BoardTransactions() {
               }
               icon={<WalletCards size={15} color="grey" />}
               isAmount
+              type="depense"
             />
             <BoxInfos
               onClick={() =>
@@ -375,6 +376,7 @@ export default function BoardTransactions() {
               }
               icon={<CircleDollarSign size={15} color="grey" />}
               isAmount
+              type="revenue"
             />
             <BoxInfos
               onClick={() =>
@@ -391,6 +393,7 @@ export default function BoardTransactions() {
               yearLast={year - 1}
               icon={<WalletCards size={15} color="grey" />}
               isAmount
+              type="depense"
             />
             <BoxInfos
               onClick={() =>
@@ -407,6 +410,7 @@ export default function BoardTransactions() {
               yearLast={year - 1}
               icon={<CircleDollarSign size={15} color="grey" />}
               isAmount
+              type="revenue"
             />
           </div>
           <div className="flex gap-4">
@@ -570,7 +574,7 @@ export default function BoardTransactions() {
                         key={operation._id}
                         className="justify-between h-full flex flex-row items-center text-xs"
                       >
-                        <td className="flex flex-row space-x-4 w-full">
+                        <td className="flex flex-row space-x-4 w-4/5">
                           <span>{format(operation.date, "dd/MM")}</span>
                           <span className="truncate">{operation.title}</span>
                         </td>
@@ -593,7 +597,7 @@ export default function BoardTransactions() {
                         key={operation._id}
                         className="justify-between h-full flex flex-row items-center text-xs"
                       >
-                        <td className="flex flex-row space-x-4 w-full">
+                        <td className="flex flex-row space-x-4 w-4/5">
                           <span>{format(operation.date, "dd/MM")}</span>
                           <span className="truncate">{operation.title}</span>
                         </td>
